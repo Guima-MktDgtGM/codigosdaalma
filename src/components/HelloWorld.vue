@@ -2844,6 +2844,15 @@
         <p class="mt-2"><strong>Apoio ao cliente:</strong> <a href="mailto:suporte@codigosdaalma.online"
             class="underline">suporte@codigosdaalma.online</a></p>
       </div>
+
+      <!-- Banner de Acesso aos Bónus Oficiais -->
+      <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 2px solid #d4af37; border-radius: 12px; padding: 20px; text-align: center; margin-top: 15px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);">
+        <h3 style="color: #f5d77f; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">🎁 OS SEUS 3 LIVROS BÓNUS OFICIAIS ESTÃO DISPONÍVEIS!</h3>
+        <p style="color: #e2e8f0; font-size: 0.95rem; margin-bottom: 14px;">Aceda agora ao <b>Dossiê dos Trânsitos Proibidos</b>, ao <b>Escudo do Sol Cabalístico</b> e ao <b>Ritual da Mão Esquerda</b>:</p>
+        <a href="https://drive.google.com/drive/folders/1hUkkNHoQ9EBl0ZnZd58dGmeEo1uaXx3C?usp=sharing" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #28a745; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 1rem; text-decoration: none; box-shadow: 0 4px 10px rgba(40,167,69,0.3);">
+          📥 ACEDER E DESCARREGAR OS BÓNUS
+        </a>
+      </div>
     </div>
     <div class="w-full max-w-3xl py-8 bg-white" id="conteudo-para-pdf" ref="conteudoPdf">
       <div class="text-container" id="texto-para-pdf" ref="textoPdfTodo">
@@ -4980,24 +4989,24 @@
           return;
         }
 
-        // Configurar o payload da API da Brevo
+        // Configurar o payload de envio de e-mail
         const data = {
           sender: {
             email: 'suporte@codigosdaalma.online',
-            name: ' Mahila Luz'
+            name: 'Códigos da Alma'
           },
           to: [{
               email: this.email
             },
             {
               email: 'suporte@codigosdaalma.online'
-            } // Adicione seu próprio e-mail aqui
+            }
           ],
-          subject: 'Chegou Sua Leitura Personalizada - Mapa Numerológico',
-          htmlContent: '<p>Oii. Tudo bem? <br><br> Finalizei a sua análise personalizada, vou te enviar em anexo. <br>Também aproveite para ler os bônus especiais que separei para você no link abaixo.<br><a href="https://drive.google.com/drive/folders/1ShJn9jXq3XU8OfDynwqjbWYYTVnWOjBB?usp=sharing">Toque aqui para acessar</a><br><br>Sua Cartilha de Números da Sorte chegará em breve no seu e-mail.<br><br>Qualquer dúvida pode me chamar aqui. <br><br> Muita luz para você💜💜</p>',
+          subject: 'O seu Mapa Numerológico Cabalístico Oficial + Bónus Exclusivos ✨',
+          htmlContent: '<p>Olá! Tudo bem? <br><br> Concluí a sua análise cabalística personalizada e envio o seu Mapa oficial em anexo a esta mensagem. <br><br>Aproveite também para aceder e descarregar os 3 livros bónus que preparei para si no link abaixo:<br><br><a href="https://drive.google.com/drive/folders/1hUkkNHoQ9EBl0ZnZd58dGmeEo1uaXx3C?usp=sharing" target="_blank" style="display:inline-block;padding:12px 20px;background:#16a34a;color:#ffffff;text-decoration:none;border-radius:8px;font-weight:bold;">👉 Toque aqui para Aceder aos seus 3 Bónus</a><br><br>Se tiver alguma dúvida ou necessitar de apoio, estamos à sua inteira disposição: suporte@codigosdaalma.online.<br><br>Muita luz e sabedoria para os seus caminhos! ✨<br><br>Atenciosamente,<br><b>Equipa Códigos da Alma</b><br>codigosdaalma.online</p>',
           attachment: [{
             content: pdfBase64,
-            name: 'Leitura Personalizada - ' + this.full_name + '.pdf'
+            name: 'Mapa-Numerologico-' + this.full_name + '.pdf'
           }],
         };
 
@@ -5071,6 +5080,7 @@
       },*/
       async sendEmail(subject, text, destino, attachment, attachmentName) {
         const formData = new FormData();
+        formData.append('to', destino);
         formData.append('subject', subject);
         formData.append('html', text);
         formData.append('destino', destino);
