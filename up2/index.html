@@ -197,67 +197,159 @@
       margin-bottom: 24px;
     }
 
-    .interactive-box {
-      background: rgba(10, 12, 20, 0.7);
-      border: 1px dashed rgba(236, 72, 153, 0.4);
-      border-radius: 14px;
-      padding: 20px 16px;
-      margin-bottom: 28px;
+    /* QUIZ DA ALMA GÉMEA */
+    .quiz-container {
+      background: rgba(15, 17, 28, 0.85);
+      border: 1px solid rgba(236, 72, 153, 0.35);
+      border-radius: 16px;
+      padding: 24px 18px;
+      margin: 20px 0 24px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     }
-
-    .interactive-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #f472b6;
-      margin-bottom: 12px;
-    }
-
-    .options-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    @media (max-width: 520px) {
-      .options-grid { grid-template-columns: 1fr; }
-    }
-
-    .option-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+    .quiz-progress-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 10px;
-      padding: 12px 10px;
-      color: var(--text);
-      font-size: 13px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ec4899, #f472b6);
+      transition: width 0.4s ease;
+    }
+    .quiz-step-indicator {
+      font-size: 12px;
+      color: #f472b6;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .quiz-question {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+    .quiz-options {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      gap: 10px;
     }
-
-    .option-btn:hover, .option-btn.selected {
-      background: rgba(236, 72, 153, 0.2);
-      border-color: var(--pink);
-      color: #fff;
+    .quiz-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+    }
+    .quiz-btn:hover {
+      background: rgba(236, 72, 153, 0.12);
+      border-color: rgba(236, 72, 153, 0.6);
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.2);
     }
-
-    .option-btn span.emoji { font-size: 20px; }
-
-    .sync-status {
+    .quiz-btn.selected {
+      background: rgba(236, 72, 153, 0.22);
+      border-color: #ec4899;
+      box-shadow: 0 0 15px rgba(236, 72, 153, 0.35);
+    }
+    .quiz-btn-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .quiz-btn-desc {
       font-size: 13px;
-      color: #2ecc71;
-      font-weight: 500;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 10px;
+      color: #cbd5e1;
+      line-height: 1.35;
+    }
+    /* Loading */
+    .quiz-loading {
+      padding: 30px 15px;
+      text-align: center;
+    }
+    .mystic-spinner {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 18px;
+      border: 3px solid rgba(236, 72, 153, 0.2);
+      border-top-color: #ec4899;
+      border-radius: 50%;
+      animation: spin 1s infinite linear;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .mystic-loading-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f472b6;
+      margin-bottom: 6px;
+    }
+    .mystic-loading-desc {
+      font-size: 13.5px;
+      color: #94a3b8;
+    }
+    /* Diagnostic Result */
+    .quiz-result {
+      background: linear-gradient(135deg, rgba(30, 27, 46, 0.95) 0%, rgba(18, 16, 30, 0.98) 100%);
+      border: 2px solid #d4af37;
+      border-radius: 14px;
+      padding: 22px 18px;
+      text-align: left;
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.2);
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .diagnostic-badge {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.2);
+      color: #f5d77f;
+      border: 1px solid #d4af37;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .diag-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      color: #f5d77f;
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+    .diag-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+    }
+    .diag-text b { color: #f472b6; }
+    .diag-seal {
+      background: rgba(212, 175, 55, 0.1);
+      border-left: 3px solid #d4af37;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #fef08a;
+      line-height: 1.45;
     }
 
     .benefits {
@@ -464,56 +556,116 @@
     </div>
 
     <div class="card">
-      <div class="badge-exclusive">Sinastria Cármica Reservada</div>
+      <div class="badge-exclusive">Sintonização de Frequência Amorosa</div>
       <h1 class="title">O Código da <span>Alma Gémea</span></h1>
-      <p class="subtitle">Descubra a <b>ressonância de frequência amorosa</b> guardada no seu nome. Entenda porque certos relacionamentos travaram no passado e como atrair ou harmonizar a sua conexão definitiva.</p>
+      <p class="subtitle">Responda a estas 3 perguntas sagradas para cruzar a sua vibração numerológica com o campo das Almas Gémeas e revelar o seu diagnóstico cármico personalizado:</p>
 
-      <div class="interactive-box">
-        <p class="interactive-title">👇 Qual é a situação atual do seu coração?</p>
-        <div class="options-grid">
-          <button type="button" class="option-btn" onclick="selectLove(this, 'Atrair Alma Gémea')">
-            <span class="emoji">✨</span>
-            <span>À Procura do Amor</span>
-          </button>
-          <button type="button" class="option-btn" onclick="selectLove(this, 'Harmonizar Casal')">
-            <span class="emoji">💍</span>
-            <span>Em Relação / Casada</span>
-          </button>
-          <button type="button" class="option-btn" onclick="selectLove(this, 'Superar Laço Cármico')">
-            <span class="emoji">💔</span>
-            <span>Dúvida / Desapego</span>
-          </button>
+      <!-- Quiz Container -->
+      <div id="quizContainer" class="quiz-container">
+        
+        <!-- Progress Steps -->
+        <div class="quiz-progress-bar">
+          <div id="quizProgressFill" class="quiz-progress-fill" style="width: 33%;"></div>
         </div>
-        <div id="syncStatus" class="sync-status">
-          💖 <span id="syncText">A calcular compatibilidade cármica...</span>
+        <div id="quizStepIndicator" class="quiz-step-indicator">Pergunta 1 de 3</div>
+
+        <!-- Pergunta 1 -->
+        <div id="quizStep1" class="quiz-step">
+          <p class="quiz-question">1. Qual é a situação atual do seu coração?</p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-btn" onclick="answerQuiz(1, 'solteira', this)">
+              <span class="quiz-btn-title">✨ Solteira</span>
+              <span class="quiz-btn-desc">À procura do meu amor verdadeiro e de um reencontro de almas</span>
+            </button>
+            <button type="button" class="quiz-btn" onclick="answerQuiz(1, 'relacao', this)">
+              <span class="quiz-btn-title">💍 Numa Relação / Casada</span>
+              <span class="quiz-btn-desc">Mas sinto desgaste, distância, frieza ou dúvidas no vínculo</span>
+            </button>
+            <button type="button" class="quiz-btn" onclick="answerQuiz(1, 'cura', this)">
+              <span class="quiz-btn-title">💔 A Curar o Coração</span>
+              <span class="quiz-btn-desc">Com marcas de relações passadas e medo de me magoar outra vez</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pergunta 2 -->
+        <div id="quizStep2" class="quiz-step" style="display: none;">
+          <p class="quiz-question">2. O que mais costuma sentir que trava a sua vida amorosa?</p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-btn" onclick="answerQuiz(2, 'reciprocidade', this)">
+              <span class="quiz-btn-title">⚖️ Falta de Reciprocidade</span>
+              <span class="quiz-btn-desc">Entrego-me por inteiro e sinto que a outra pessoa não valoriza</span>
+            </button>
+            <button type="button" class="quiz-btn" onclick="answerQuiz(2, 'afastamento', this)">
+              <span class="quiz-btn-title">❄️ Esfriamento e Distância</span>
+              <span class="quiz-btn-desc">Começa tudo mágico, mas de repente a pessoa afasta-se ou muda</span>
+            </button>
+            <button type="button" class="quiz-btn" onclick="answerQuiz(2, 'padrao', this)">
+              <span class="quiz-btn-title">🔄 Padrões Repetitivos</span>
+              <span class="quiz-btn-desc">Atraio pessoas indecisas, indisponíveis ou que trazem sofrimento</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pergunta 3 -->
+        <div id="quizStep3" class="quiz-step" style="display: none;">
+          <p class="quiz-question">3. O que a sua alma mais precisa desbloquear hoje?</p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-btn" onclick="answerQuiz(3, 'reconhecer', this)">
+              <span class="quiz-btn-title">👁️ Reconhecer a Minha Alma Gémea</span>
+              <span class="quiz-btn-desc">Saber os sinais cósmicos exatos para nunca mais errar na escolha</span>
+            </button>
+            <button type="button" class="quiz-btn" onclick="answerQuiz(3, 'harmonizar', this)">
+              <span class="quiz-btn-title">🛡️ Harmonizar e Proteger a Relação</span>
+              <span class="quiz-btn-desc">Blindar a conexão contra inveja, brigas e energias pesadas</span>
+            </button>
+            <button type="button" class="quiz-btn" onclick="answerQuiz(3, 'cortar', this)">
+              <span class="quiz-btn-title">✂️ Corte de Amarras Cármicas</span>
+              <span class="quiz-btn-desc">Romper laços invisíveis do passado que ainda bloqueiam o meu coração</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="quizLoading" class="quiz-loading" style="display: none;">
+          <div class="mystic-spinner"></div>
+          <p class="mystic-loading-title">A sintonizar os nós cármicos do seu nome...</p>
+          <p class="mystic-loading-desc">A cruzar o seu mapa numerológico com o campo vibracional das Almas Gémeas...</p>
+        </div>
+
+        <!-- Diagnostic Result -->
+        <div id="quizResult" class="quiz-result" style="display: none;">
+          <div class="diagnostic-badge">✦ Diagnóstico Cármico Revelado</div>
+          <h2 id="diagTitle" class="diag-title">Padrão Cármico Detectado</h2>
+          <div id="diagText" class="diag-text"></div>
+          <div class="diag-seal">
+            ✨ <b>Código da Alma Gémea Sintonizado:</b> A chave sagrada de alinhamento está pronta para ser ativada e integrada à sua jornada.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- O que está incluído no Código -->
+      <div id="bloco_beneficios_up2" class="benefits" style="display: none;">
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>A Revelação dos 3 Sinais Sagrados:</b> O que vai acontecer na sua vida 7 dias antes do reencontro ou da virada na relação.</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>O Ritual do Corte de Amarras Cármicas:</b> A limpeza cabalística para libertar ex-parceiros e quebrar votos de solidão passados.</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>A Tabela da Sinastria das Almas:</b> Como calcular a compatibilidade exata de qualquer pessoa através do nome e data de nascimento.</span>
         </div>
       </div>
 
-      <div class="benefits">
-        <div class="benefit-item">
-          <span class="benefit-check">✦</span>
-          <span><b>Mapa da Sinastria Cabalística:</b> O cálculo que revela se a outra pessoa é um laço de alma ou uma prova cármica de crescimento.</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-check">✦</span>
-          <span><b>Desbloqueio de Votos de Solidão:</b> O ritual de limpeza para quebrar pactos inconscientes de vidas passadas.</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-check">✦</span>
-          <span><b>Ativação com 1 Clique:</b> O manual em PDF é anexado imediatamente ao seu acesso oficial.</span>
-        </div>
-      </div>
-
-      <!-- Botão de Compra KashPay 1-Click -->
-      <button type="button" onclick="acceptUpsell('https://checkout.kashpay.com/u/5a140d39502d226f')" id="btnBuy" class="btn-buy" style="font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif; width: 100%; border: none; cursor: pointer; text-align: center; margin: 20px auto 16px;">
-        SIM! QUERO DESBLOQUEAR O CÓDIGO DA MINHA ALMA GÉMEA
-        <span class="btn-buy-sub">✦ Ativar a minha frequência amorosa e cármica em 1-clique seguro</span>
-      </button>
-
-      <div class="security-row">
-        <span>🔒 Criptografia SSL 256-bit</span>
-        <span>⚡ Adição Instantânea</span>
-        <span>🛡️ Garantia de 7 Dias</span>
+      <!-- Botão KashPay 1-Click (Liberado apenas após responder o quiz) -->
+      <div id="bloco_cta_up2" style="display: none;">
+        <button type="button" onclick="acceptUpsell('https://checkout.kashpay.com/u/5a140d39502d226f')" id="btnBuy" class="btn-buy" style="font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif; width: 100%; border: none; cursor: pointer; text-align: center; margin: 15px auto;">
+          SIM! DESBLOQUEAR O MEU CÓDIGO DA ALMA GÉMEA
+        </button>
       </div>
 
     </div>
@@ -521,16 +673,73 @@
   </div>
 
   <script>
-    function selectLove(btn, statusName) {
-      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    var userQuizAnswers = { state: '', block: '', goal: '' };
+
+    function answerQuiz(step, value, btn) {
+      var parent = btn.parentElement;
+      var allBtns = parent.querySelectorAll('.quiz-btn');
+      for (var i = 0; i < allBtns.length; i++) allBtns[i].classList.remove('selected');
       btn.classList.add('selected');
-      const status = document.getElementById('syncStatus');
-      const text = document.getElementById('syncText');
-      status.style.display = 'flex';
-      text.innerText = 'A sintonizar frequências com foco em: ' + statusName + '...';
-      setTimeout(() => {
-        text.innerText = 'Frequência de ' + statusName + ' alinhada com sucesso!';
-      }, 700);
+
+      if (step === 1) {
+        userQuizAnswers.state = value;
+        setTimeout(function() {
+          document.getElementById('quizStep1').style.display = 'none';
+          document.getElementById('quizStep2').style.display = 'block';
+          document.getElementById('quizProgressFill').style.width = '66%';
+          document.getElementById('quizStepIndicator').innerText = 'Pergunta 2 de 3';
+        }, 220);
+      } else if (step === 2) {
+        userQuizAnswers.block = value;
+        setTimeout(function() {
+          document.getElementById('quizStep2').style.display = 'none';
+          document.getElementById('quizStep3').style.display = 'block';
+          document.getElementById('quizProgressFill').style.width = '100%';
+          document.getElementById('quizStepIndicator').innerText = 'Pergunta 3 de 3';
+        }, 220);
+      } else if (step === 3) {
+        userQuizAnswers.goal = value;
+        setTimeout(function() {
+          document.getElementById('quizStep3').style.display = 'none';
+          document.getElementById('quizProgressFill').parentElement.style.display = 'none';
+          document.getElementById('quizStepIndicator').style.display = 'none';
+          document.getElementById('quizLoading').style.display = 'block';
+
+          setTimeout(function() {
+            document.getElementById('quizLoading').style.display = 'none';
+            showDiagnostic();
+          }, 1600);
+        }, 220);
+      }
+    }
+
+    function showDiagnostic() {
+      var titleEl = document.getElementById('diagTitle');
+      var textEl = document.getElementById('diagText');
+      var s = userQuizAnswers.state;
+
+      if (s === 'solteira') {
+        titleEl.innerText = 'Padrão Cármico: Frequência de Amor Retido & Bloqueio do Fio Vermelho';
+        textEl.innerHTML = '<p>O seu cálculo cabalístico revela que você carrega uma vibração de entrega e generosidade rara, mas o seu campo áurico está a emitir uma frequência de dispersão afetiva. Você tem atraído pessoas que se encantam com a sua luz, mas que não possuem maturidade cármica para retribuir com a mesma intensidade.</p><p style="margin-top:8px;">Não se trata de falta de sorte ou destino: a sua vibração amorosa está desencontrada da frequência de reencontro da sua Alma Gémea. O <b>Código da Alma Gémea</b> foi calculado para romper essa trava invisível, blindar o seu coração e ativar os 3 sinais inconfundíveis para que reconheça a sua alma gémea assim que ela cruzar o seu caminho.</p>';
+      } else if (s === 'relacao') {
+        titleEl.innerText = 'Padrão Cármico: Dissonância Cármica & Interferência Energética no Vínculo';
+        textEl.innerHTML = '<p>A sua leitura indica que existe uma conexão real no seu vínculo, mas o campo energético do casal está a sofrer com nós cármicos não resolvidos e sobrecarga emocional acumulada. Pequenos desentendimentos, distanciamento ou falta de paciência não são falta de amor, mas sim sintomas de desgaste vibracional.</p><p style="margin-top:8px;">O <b>Código da Alma Gémea</b> traz a sinastria cabalística exata para neutralizar essas influências pesadas, restabelecer a cumplicidade profunda e blindar a relação contra afastamentos e inveja externa.</p>';
+      } else {
+        titleEl.innerText = 'Padrão Cármico: Voto de Proteção Inconsciente & Amarra Energética do Passado';
+        textEl.innerHTML = '<p>O seu mapa indica que feridas e desilusões de relações anteriores criaram um escudo involuntário em redor do seu chakra cardíaco. Esse escudo foi criado para protegê-la de novas mágoas, mas, sem que perceba, ele também impede que a sua verdadeira Alma Gémea sinta a sua presença no plano energético.</p><p style="margin-top:8px;">O <b>Código da Alma Gémea</b> realiza o ritual sagrado de corte de amarras cármicas, permitindo curar a sua frequência e viver o amor pleno, seguro e recíproco que foi reservado para a sua alma.</p>';
+      }
+
+      document.getElementById('quizResult').style.display = 'block';
+
+      // Revela os benefícios e o botão de 1-clique
+      var ben = document.getElementById('bloco_beneficios_up2');
+      if (ben) ben.style.display = 'block';
+
+      var cta = document.getElementById('bloco_cta_up2');
+      if (cta) {
+        cta.style.display = 'block';
+        cta.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
   </script>
 
