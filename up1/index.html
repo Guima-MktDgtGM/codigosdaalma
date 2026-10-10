@@ -53,6 +53,12 @@
     if (liberar) {
       document.documentElement.setAttribute('data-gate','real');
       try { sessionStorage.setItem('funnel_ok','1'); } catch(e){}
+      if (qs.get('btn') === '1' || qs.get('preview') === '1') {
+        window.addEventListener('DOMContentLoaded', function(){
+          var el = document.getElementById('bloco_cta');
+          if (el) el.style.display = 'block';
+        });
+      }
     }
   } catch(e){}
 })();
@@ -232,17 +238,19 @@
       </div>
     </div>
 
-    <!-- Botão de Compra Verde (1-Click KashPay) -->
-    <div class="btn-container" id="cta-button-box">
-      <a href="https://pay.kashpay.com.br/SEU_LINK_KASHPAY_UP1" id="btnBuy" class="btn-green">
-        SIM! DESEJO RESGATAR A MINHA BÊNÇÃO E AS PREVISÕES
-        <small>Adicionar em 1-clique seguro por apenas 47,00 €</small>
-      </a>
-
-      <div>
-        <a href="/up2/" class="decline-link">
-          Não, obrigado. Prefiro avançar para o próximo passo sem saber as minhas previsões para 2026/2027...
+    <!-- Bloco de Conteúdo Oculto (O VTurb revela automaticamente aos 02:00) -->
+    <div id="bloco_cta" style="display: none;">
+      <div class="btn-container">
+        <a href="https://pay.kashpay.com.br/SEU_LINK_KASHPAY_UP1" id="btnBuy" class="btn-green">
+          SIM! DESEJO RESGATAR A MINHA BÊNÇÃO E AS PREVISÕES
+          <small>Adicionar em 1-clique seguro por apenas 47,00 €</small>
         </a>
+
+        <div>
+          <a href="/up2/" class="decline-link">
+            Não, obrigado. Prefiro avançar para o próximo passo sem saber as minhas previsões para 2026/2027...
+          </a>
+        </div>
       </div>
     </div>
 
