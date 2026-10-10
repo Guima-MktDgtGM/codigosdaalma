@@ -197,67 +197,326 @@
       margin-bottom: 24px;
     }
 
-    .interactive-box {
-      background: rgba(10, 12, 20, 0.7);
-      border: 1px dashed rgba(6, 182, 212, 0.4);
-      border-radius: 14px;
-      padding: 20px 16px;
-      margin-bottom: 28px;
+    /* CARTAS SAGRADAS INTERATIVAS (3D FLIP) */
+    .oracle-section {
+      background: rgba(12, 15, 26, 0.85);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      border-radius: 18px;
+      padding: 24px 18px;
+      margin: 22px 0 26px;
+      text-align: center;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
     }
 
-    .interactive-title {
-      font-size: 14px;
-      font-weight: 600;
+    .oracle-intro {
+      margin-bottom: 20px;
+    }
+
+    .oracle-eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
       color: #67e8f9;
-      margin-bottom: 12px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
     }
 
-    .options-grid {
+    .oracle-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .oracle-desc {
+      font-size: 13.5px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
+      gap: 12px;
+      margin: 18px 0;
+      perspective: 1000px;
     }
 
     @media (max-width: 520px) {
-      .options-grid { grid-template-columns: 1fr; }
+      .cards-grid {
+        gap: 8px;
+      }
     }
 
-    .option-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      padding: 12px 10px;
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 600;
+    .flip-card {
+      background-color: transparent;
+      height: 195px;
+      perspective: 1000px;
       cursor: pointer;
-      transition: all 0.25s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (max-width: 520px) {
+      .flip-card { height: 180px; }
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+      border-radius: 14px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card.disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      filter: grayscale(40%);
+    }
+
+    .flip-card-back, .flip-card-front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      padding: 12px 6px;
+      box-sizing: border-box;
     }
 
-    .option-btn:hover, .option-btn.selected {
-      background: rgba(6, 182, 212, 0.2);
-      border-color: var(--cyan);
-      color: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
+    /* Face-down card (back side) */
+    .flip-card-back {
+      background: radial-gradient(circle at 50% 40%, #151b2e 0%, #0b0e1a 100%);
+      border: 1.5px solid rgba(6, 182, 212, 0.45);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 0 16px rgba(6, 182, 212, 0.12);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .option-btn span.emoji { font-size: 20px; }
+    .flip-card:not(.disabled):hover .flip-card-back {
+      border-color: #67e8f9;
+      box-shadow: 0 0 22px rgba(6, 182, 212, 0.5), inset 0 0 20px rgba(6, 182, 212, 0.25);
+      transform: translateY(-4px);
+    }
 
-    .sync-status {
-      font-size: 13px;
-      color: #2ecc71;
-      font-weight: 500;
-      display: none;
+    .card-corner-ornament {
+      position: absolute;
+      font-size: 8px;
+      color: rgba(6, 182, 212, 0.6);
+      line-height: 1;
+    }
+    .c-tl { top: 6px; left: 6px; }
+    .c-tr { top: 6px; right: 6px; }
+    .c-bl { bottom: 6px; left: 6px; }
+    .c-br { bottom: 6px; right: 6px; }
+
+    .card-sigil-icon {
+      color: #67e8f9;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.6));
+    }
+
+    .card-roman-numeral {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #f5d77f;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+
+    .card-occult-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #cffafe;
+      text-transform: uppercase;
+    }
+
+    .card-tap-hint {
+      font-size: 9px;
+      color: #94a3b8;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Face-up card (front side) */
+    .flip-card-front {
+      transform: rotateY(180deg);
+      background: radial-gradient(circle at 50% 30%, #1e2638 0%, #0d121f 100%);
+      border: 2px solid #d4af37;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.4), inset 0 0 16px rgba(212, 175, 55, 0.18);
+    }
+
+    .card-revealed-icon {
+      font-size: 32px;
+      margin-bottom: 6px;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.7));
+    }
+
+    .card-revealed-type {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #f5d77f;
+      text-transform: uppercase;
+    }
+
+    .card-revealed-title {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+      margin: 4px 0 2px;
+      text-transform: uppercase;
+    }
+
+    .card-revealed-sub {
+      font-size: 9px;
+      color: #67e8f9;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    /* Mystery Loading State */
+    .mystery-box {
+      padding: 24px 16px;
+      text-align: center;
+      background: rgba(10, 14, 25, 0.9);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      border-radius: 14px;
+      margin: 18px 0;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .mystery-orb-wrapper {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 14px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      margin-top: 10px;
+    }
+
+    .mystery-pulse-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.45) 0%, transparent 70%);
+      animation: orbPulse 1.3s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbPulse {
+      0% { transform: scale(0.85); opacity: 0.4; }
+      100% { transform: scale(1.35); opacity: 1; }
+    }
+
+    .mystery-sigil-core {
+      font-size: 26px;
+      color: #f5d77f;
+      animation: coreRotate 3s infinite linear;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 0 14px #d4af37;
+    }
+
+    @keyframes coreRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .mystery-main-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: #67e8f9;
+      margin-bottom: 6px;
+    }
+
+    .mystery-sub-text {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    /* Seal Diagnostic Reveal Box */
+    .seal-result-box {
+      background: linear-gradient(135deg, rgba(22, 28, 48, 0.95) 0%, rgba(13, 17, 30, 0.98) 100%);
+      border: 2px solid #d4af37;
+      border-radius: 16px;
+      padding: 22px 18px;
+      text-align: left;
+      box-shadow: 0 10px 35px rgba(212, 175, 55, 0.25);
+      margin: 20px 0 24px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .seal-result-badge {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.2);
+      color: #f5d77f;
+      border: 1px solid #d4af37;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .seal-result-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      color: #f5d77f;
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+
+    .seal-result-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+    }
+
+    .seal-result-desc b {
+      color: #67e8f9;
+    }
+
+    .seal-mandala-note {
+      background: rgba(6, 182, 212, 0.1);
+      border-left: 3px solid #06b6d4;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #cffafe;
+      line-height: 1.5;
     }
 
     .benefits {
@@ -468,62 +727,200 @@
       <h1 class="title">O Selamento dos <span>7 Selos Sagrados</span></h1>
       <p class="subtitle">Ao abrir a sua frequência com o Mapa Cabalístico, o seu campo áurico fica mais sensível. Os <b>7 Selos de Salomão + Áudios Solfeggio</b> criam um escudo impenetrável contra inveja, drenagem de energia e olho gordo.</p>
 
-      <div class="interactive-box">
-        <p class="interactive-title">👇 Escolha o selo prioritário para ativar primeiro:</p>
-        <div class="options-grid">
-          <button type="button" class="option-btn" onclick="selectSeal(this, 'Proteção Financeira')">
-            <span class="emoji">💰</span>
-            <span>Escudo Financeiro</span>
-          </button>
-          <button type="button" class="option-btn" onclick="selectSeal(this, 'Corta Inveja & Mau-Olhado')">
-            <span class="emoji">🧿</span>
-            <span>Corta Inveja</span>
-          </button>
-          <button type="button" class="option-btn" onclick="selectSeal(this, 'Abertura de Caminhos')">
-            <span class="emoji">🗝️</span>
-            <span>Abre Caminhos</span>
-          </button>
+      <!-- SINTONIZAÇÃO DOS SELOS: 3 CARTAS SAGRADAS -->
+      <div class="oracle-section">
+        <div class="oracle-intro" id="oracleIntro">
+          <span class="oracle-eyebrow">✦ Sintonização Energética ✦</span>
+          <h2 class="oracle-heading">Segundo as Leis Cósmicas, um destes 3 Selos Sagrados deve ser ativado primeiro para desobstruir o seu campo.</h2>
+          <p class="oracle-desc">Pouse a mão no ecrã e toque na carta que mais atrai a sua intuição. A sua energia cósmica revelará o seu Selo Prioritário:</p>
         </div>
-        <div id="syncStatus" class="sync-status">
-          ⚡ <span id="syncText">A consagrar o selo vibracional...</span>
+
+        <div class="cards-grid" id="cardsGrid">
+          <!-- CARTA 1 -->
+          <div class="flip-card" id="card1" onclick="revealSealCard(1)">
+            <div class="flip-card-inner">
+              <div class="flip-card-back">
+                <span class="card-corner-ornament c-tl">✦</span>
+                <span class="card-corner-ornament c-tr">✦</span>
+                <div class="card-sigil-icon">
+                  <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </div>
+                <div class="card-roman-numeral">I</div>
+                <div class="card-occult-label">Selo Oculto</div>
+                <div class="card-tap-hint"><span>⚡</span> Toque para revelar</div>
+                <span class="card-corner-ornament c-bl">✦</span>
+                <span class="card-corner-ornament c-br">✦</span>
+              </div>
+              <div class="flip-card-front">
+                <div class="card-revealed-icon">💰</div>
+                <div class="card-revealed-type">Selo Sagrado I</div>
+                <div class="card-revealed-title">Escudo Financeiro</div>
+                <div class="card-revealed-sub">Prosperidade & Bloqueio</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARTA 2 -->
+          <div class="flip-card" id="card2" onclick="revealSealCard(2)">
+            <div class="flip-card-inner">
+              <div class="flip-card-back">
+                <span class="card-corner-ornament c-tl">✦</span>
+                <span class="card-corner-ornament c-tr">✦</span>
+                <div class="card-sigil-icon">
+                  <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                  </svg>
+                </div>
+                <div class="card-roman-numeral">II</div>
+                <div class="card-occult-label">Selo Oculto</div>
+                <div class="card-tap-hint"><span>⚡</span> Toque para revelar</div>
+                <span class="card-corner-ornament c-bl">✦</span>
+                <span class="card-corner-ornament c-br">✦</span>
+              </div>
+              <div class="flip-card-front">
+                <div class="card-revealed-icon">🧿</div>
+                <div class="card-revealed-type">Selo Sagrado II</div>
+                <div class="card-revealed-title">Corta Inveja</div>
+                <div class="card-revealed-sub">Escudo & Anti Mau-Olhado</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARTA 3 -->
+          <div class="flip-card" id="card3" onclick="revealSealCard(3)">
+            <div class="flip-card-inner">
+              <div class="flip-card-back">
+                <span class="card-corner-ornament c-tl">✦</span>
+                <span class="card-corner-ornament c-tr">✦</span>
+                <div class="card-sigil-icon">
+                  <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <polygon points="12 2 2 12 12 22 22 12 12 2"></polygon>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </div>
+                <div class="card-roman-numeral">III</div>
+                <div class="card-occult-label">Selo Oculto</div>
+                <div class="card-tap-hint"><span>⚡</span> Toque para revelar</div>
+                <span class="card-corner-ornament c-bl">✦</span>
+                <span class="card-corner-ornament c-br">✦</span>
+              </div>
+              <div class="flip-card-front">
+                <div class="card-revealed-icon">🗝️</div>
+                <div class="card-revealed-type">Selo Sagrado III</div>
+                <div class="card-revealed-title">Abre Caminhos</div>
+                <div class="card-revealed-sub">Destino & Oportunidades</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suspense / Mystery Loader -->
+        <div id="mysteryLoading" class="mystery-box" style="display: none;">
+          <div class="mystery-orb-wrapper">
+            <div class="mystery-pulse-ring"></div>
+            <div class="mystery-sigil-core">✦</div>
+          </div>
+          <div class="mystery-main-text">A consagrar a sua conexão com as Forças Cósmicas...</div>
+          <div class="mystery-sub-text">O Universo está a sintonizar a frequência do seu selo sagrado...</div>
+        </div>
+
+        <!-- Resultado do Selo Revelado -->
+        <div id="sealRevealBox" class="seal-result-box" style="display: none;">
+          <span class="seal-result-badge">✦ SELO PRIORITÁRIO REVELADO PELO UNIVERSO</span>
+          <h3 id="sealResultTitle" class="seal-result-title"></h3>
+          <div id="sealResultDesc" class="seal-result-desc"></div>
+          <div class="seal-mandala-note">
+            ⚠️ <b>Aviso Sagrado:</b> Este selo é a sua porta de entrada prioritária. Contudo, na tradição cabalística de Salomão, a blindagem só se torna impenetrável e duradoura quando os <b>7 Selos Sagrados</b> atuam em conjunto em mandala em redor da sua vida (prosperidade, corte de feitiçaria, saúde, amor, harmonia familiar, sabedoria e luz espiritual).
+          </div>
         </div>
       </div>
 
-      <div class="benefits">
+      <!-- Benefícios dos 7 Selos (Liberados após virar a carta) -->
+      <div class="benefits" id="bloco_beneficios_up3" style="display: none;">
         <div class="benefit-item">
           <span class="benefit-check">✦</span>
-          <span><b>7 Selos Cabalísticos de Alta Resolução:</b> Gravuras sagradas prontas para imprimir ou colocar como proteção no telemóvel.</span>
+          <span><b>7 Selos Cabalísticos de Salomão em Alta Definição:</b> Gravuras sagradas prontas para imprimir, colocar na carteira ou utilizar como fundo de proteção no telemóvel.</span>
         </div>
         <div class="benefit-item">
           <span class="benefit-check">✦</span>
-          <span><b>Kit de Frequências Solfeggio (Áudios Binaurais):</b> Sons curativos para ouvir durante o sono e reprogramar bloqueios mentais.</span>
+          <span><b>Kit de Frequências Sagradas Solfeggio (Áudios Binaurais):</b> Ondas curativas para ouvir antes de dormir e dissolver bloqueios invisíveis no subconsciente.</span>
         </div>
         <div class="benefit-item">
           <span class="benefit-check">✦</span>
-          <span><b>Acesso Imediato:</b> Liberado no mesmo instante junto com o seu Mapa Oficial.</span>
+          <span><b>Guia de Consagração dos Selos:</b> Passo a passo simples de 2 minutos para ativar o escudo energético no seu nome de nascimento.</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>Acesso Imediato:</b> Disponibilizado de imediato junto com o seu Mapa Oficial.</span>
         </div>
       </div>
 
-      <!-- Botão KashPay 1-Click -->
-      <button type="button" onclick="acceptUpsell('https://checkout.kashpay.com/u/4a2dc38f8b64b4f5')" id="btnBuy" class="btn-buy" style="font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif; width: 100%; border: none; cursor: pointer; text-align: center; margin: 20px auto 16px;">
-        SIM! QUERO BLINDAR A MINHA ENERGIA COM OS 7 SELOS SAGRADOS
-      </button>
+      <!-- Botão KashPay 1-Click (Liberado apenas após a revelação da carta) -->
+      <div id="bloco_cta_up3" style="display: none;">
+        <button type="button" onclick="acceptUpsell('https://checkout.kashpay.com/u/4a2dc38f8b64b4f5')" id="btnBuy" class="btn-buy" style="font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif; width: 100%; border: none; cursor: pointer; text-align: center; margin: 18px auto 14px;">
+          SIM! BLINDAR A MINHA ENERGIA COM OS 7 SELOS SAGRADOS
+        </button>
+      </div>
 
     </div>
 
   </div>
 
   <script>
-    function selectSeal(btn, sealName) {
-      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      const status = document.getElementById('syncStatus');
-      const text = document.getElementById('syncText');
-      status.style.display = 'flex';
-      text.innerText = 'A consagrar a frequência do: ' + sealName + '...';
-      setTimeout(() => {
-        text.innerText = sealName + ' ativado com sucesso!';
-      }, 700);
+    var cardRevealed = false;
+
+    function revealSealCard(cardNumber) {
+      if (cardRevealed) return;
+      cardRevealed = true;
+
+      // Desabilita as outras cartas para focar na escolhida
+      for (var i = 1; i <= 3; i++) {
+        var c = document.getElementById('card' + i);
+        if (i !== cardNumber) {
+          c.classList.add('disabled');
+        }
+      }
+
+      // Mostra animação de mistério/suspense
+      var loader = document.getElementById('mysteryLoading');
+      loader.style.display = 'block';
+      loader.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      setTimeout(function() {
+        loader.style.display = 'none';
+
+        // Vira a carta selecionada
+        var selectedCard = document.getElementById('card' + cardNumber);
+        selectedCard.classList.add('flipped');
+
+        // Preenche o diagnóstico sagrado de acordo com o selo
+        var titleEl = document.getElementById('sealResultTitle');
+        var descEl = document.getElementById('sealResultDesc');
+
+        if (cardNumber === 1) {
+          titleEl.innerText = 'Selo de Salomão: Escudo Financeiro & Trava de Drenagem Material';
+          descEl.innerHTML = '<p>O Cosmos identificou que o seu maior ponto de vulnerabilidade neste momento está no <b>plano material e financeiro</b>. Você trabalha, dedica-se e gera recursos, mas existe uma força invisível de drenagem — gerada por invejas silenciosas e bloqueios cármicos — que faz com que o dinheiro escorra pelas mãos ou surjam despesas imprevistas sempre que você começa a prosperar.</p><p style="margin-top:8px;">Este primeiro selo atua como um estancador energético imediato, travando vazamentos da sua conta e ancorando a vibração de multiplicação para 2026/2027.</p>';
+        } else if (cardNumber === 2) {
+          titleEl.innerText = 'Selo de Salomão: Escudo Refletor contra Inveja & Olho Gordo';
+          descEl.innerHTML = '<p>A vibração da sua escolha revelou que o seu campo áurico está sob <b>forte sobrecarga de energias densas e inveja oculta</b>. Por possuir uma luz própria marcante e coração puro, você desperta ciúme e olhares cobiçosos — inclusive de pessoas próximas que fingem torcer por si. Isso causa cansaço repentino, peso nas costas e projetos que empacam sem explicação.</p><p style="margin-top:8px;">Este selo atua como um espelho sagrado de retorno instantâneo: qualquer vibração pesada enviada contra si é dissolvida e neutralizada antes mesmo de alcançar a sua vida.</p>';
+        } else {
+          titleEl.innerText = 'Selo de Salomão: Chave Cósmica de Abertura de Caminhos & Destino';
+          descEl.innerHTML = '<p>O Universo revelou que você tem vivido uma fase desgastante de <b>"portas trancadas" e esforço desproporcional</b>. Sensação de que precisa fazer o triplo do esforço de outros para ter metade dos resultados, ou de que oportunidades excelentes escapam no último instante.</p><p style="margin-top:8px;">Este selo funciona como a chave mestre cabalística: ele desata os nós invisíveis do seu destino, destranca portas profissionais e de negócios e alinha o seu propósito com os caminhos mais prósperos do novo ciclo.</p>';
+        }
+
+        // Mostra o resultado do diagnóstico
+        document.getElementById('sealRevealBox').style.display = 'block';
+
+        // Revela os benefícios e o botão 1-Click KashPay
+        document.getElementById('bloco_beneficios_up3').style.display = 'block';
+        var cta = document.getElementById('bloco_cta_up3');
+        cta.style.display = 'block';
+        cta.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 1300);
     }
   </script>
 
