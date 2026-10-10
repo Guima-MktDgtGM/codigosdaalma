@@ -982,18 +982,18 @@
                                 <div class="quiz-container">
                                 <!-- Título principal -->
                                 <h2 class="main-title" style="font-size: 18px">
-                                    Em apenas 30 segundos, identifique o número que rege sua vibração e veja como alinhar sua energia com a <span class="highlight-text">prosperidade</span>!
+                                    Em apenas 30 segundos, identifique o número que rege a sua vibração e veja como alinhar a sua energia com a <span class="highlight-text">prosperidade</span>!
                                 </h2>
 
 
                                 <!-- Caixa de alerta/atenção -->
                                 <div class="alert-box">
                                     <span class="alert-icon">⚠️</span>
-                                    <p>Atenção: Se tudo começar a fluir depois do teste, você me deve um café!</p>
+                                    <p>Atenção: Se a sua vida começar a fluir depois do teste, fica a dever-me um café! 😊</p>
                                 </div>
 
                                 <!-- Prompt para seleção de gênero -->
-                                <p class="selection-prompt">Selecione seu gênero para iniciar o teste.</p>
+                                <p class="selection-prompt">Selecione o seu género para iniciar o teste.</p>
 
                                 <!-- Cards de seleção de gênero -->
                                 <div class="gender-selection" v-if="parteDoisSexo">
@@ -1209,7 +1209,7 @@
                 <section class="sm1231231100002300000 eh90427" v-if="parte3">
                     <div class="hf-4920">
                         <p class="section-p" style="font-family: 'Sora', serif; margin-top: 40px; text-align: center">
-                            Digite o seu <b>e-mail</b> para receber o restante da sua <b>leitura personalizada...</b>
+                            Insira o seu <b>e-mail</b> para receber o restante da sua <b>leitura personalizada...</b>
                         </p>
                         </div>
                         <div class="rm00301293012000032900 form-content" style="min-height: 145px;">
@@ -1221,7 +1221,7 @@
                             id="email-field" 
                             v-model="emailValue" 
                             class="field-input" 
-                            placeholder="Digite seu Email" 
+                            placeholder="Insira o seu e-mail" 
                             autocomplete="email">
                             <div class="error-field" v-if="emailErrorMessage">{{ emailErrorMessage }}</div>
                         </div>
@@ -1271,13 +1271,13 @@
                     <div class="form-modal" style="width: 100%; height: 100%; max-width: none; background-color: #4682B4; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         <div class="hf-4920">
                             <p class="section-p" style="font-family: 'Sora', serif; margin-top: 40px; text-align: center">
-                                Digite o seu <b>e-mail</b> para receber o restante da sua <b>leitura personalizada...</b>
+                                Insira o seu <b>e-mail</b> para receber o restante da sua <b>leitura personalizada...</b>
                             </p>
                         </div>
                         <div class="form-content" style="min-height: 145px;">
                             <h4 style="font-family: 'Sora', serif; color: white; text-align: center">Qual é o seu Email?</h4>
                             <div class="input-control">
-                                <input type="email" v-model="emailValue" class="field-input" placeholder="Digite seu Email" autocomplete="email">
+                                <input type="email" v-model="emailValue" class="field-input" placeholder="Insira o seu e-mail" autocomplete="email">
                                 <div class="error-field" v-if="emailErrorMessage">{{ emailErrorMessage }}</div>
                             </div>
                         </div>
@@ -1293,9 +1293,9 @@
                     <div class="animation-container">
                         <div class="play-animation modal-warning">
                             <div class="content-warning">
-                                <h3><br><span style="color: #ffdb60"></span>, sua leitura vai sair do ar em breve.</h3>
+                                <h3><br><span style="color: #ffdb60"></span>, a sua leitura vai expirar em breve.</h3>
                                 <img src="../assets/stop.png" style="max-width: 250px;" alt="" />
-                                <p>Essa é a sua última chance de assistir até o final. <br>
+                                <p>Esta é a sua última oportunidade de assistir até ao final. <br>
                                     Clique no botão abaixo…</p>
                             </div>
                             <button class="btn-play" style="background: #19a10b !important" @click="continuarVideo(textoWarning)">{{textoWarning}}</button>
@@ -1326,7 +1326,7 @@
             </div>
         </div>
         <div class="loading-container" v-if="loadingBlock">
-            <h3 style="color: white">Carregando a sua leitura numerológica...</h3>
+            <h3 style="color: white">A carregar a sua leitura numerológica...</h3>
             <div class="progress-bar">
                 <div class="progress-fill"></div>
             </div>

@@ -45,7 +45,7 @@
     <div class="row" v-if="this.parte1 == true" v-show="this.parte2 == false">
       <div class="col-4"></div>
       <div class="col-sm-12 popup-mahila">
-        <p style="font-size: 20px; color: #060606">Por favor, digite abaixo o e-mail EXATAMENTE igual ao e-mail que utilizou no momento da sua compra.</p>
+        <p style="font-size: 20px; color: #060606">Por favor, insira abaixo o e-mail EXATAMENTE igual ao e-mail utilizado no momento da sua compra.</p>
         <hr>
         <form @submit.prevent="checkIfUserInList" class="space-y-4">
           <div>
@@ -57,7 +57,7 @@
         <hr>
         <h3 style="text-align: center; color: red; font-weight: bold">Precisa de suporte?</h3>
         <p style="color: #060606">
-          Não se preocupe, envie um e-mail com o seu Nome Completo e o e-mail utilizado na compra, explicando o que está acontecendo para podermos ajudar.
+          Não se preocupe, envie um e-mail com o seu Nome Completo e o e-mail utilizado na compra, explicando o que está a acontecer para podermos ajudar.
           <br><br>
           O e-mail do meu suporte é: suporte@codigosdaalma.online (note que o nosso e-mail não tem o ".br" no final)
         </p>
@@ -67,7 +67,7 @@
     <div class="row" v-show="this.parte2 == true">
       <div class="col-4"></div>
       <div class="col-sm-12 popup-mahila">
-        <p style="font-size: 20px; color: #060606">Preencha o formulário abaixo e toque em Enviar para receber o seu Mapa Numerológico.</p>
+        <p style="font-size: 20px; color: #060606">Preencha o formulário abaixo e clique em Enviar para aceder ao seu Mapa Numerológico.</p>
         <hr>
         <form @submit.prevent="handleSubmit" class="space-y-4">
           <div>
@@ -77,7 +77,7 @@
           <br>
 
           <div>
-            <label for="birthdate" class="block font-medium" style="color: #060606">Insira sua Data de Nascimento:</label>
+            <label for="birthdate" class="block font-medium" style="color: #060606">Insira a sua Data de Nascimento:</label>
             <div class="date-inputs">
               <input v-model="day" type="number" class="form-control" placeholder="Dia" min="1" max="31">
               <select class="form-control" v-model="month" placeholder="Mês">
@@ -105,7 +105,7 @@
         <hr>
         <h3 style="text-align: center; color: red; font-weight: bold">Precisa de suporte?</h3>
         <p style="color: #060606">
-          Não se preocupe, envie um e-mail com o seu Nome Completo e o e-mail utilizado na compra, explicando o que está acontecendo para podermos ajudar.
+          Não se preocupe, envie um e-mail com o seu Nome Completo e o e-mail utilizado na compra, explicando o que está a acontecer para podermos ajudar.
           <br><br>
           O e-mail do meu suporte é: suporte@codigosdaalma.online (note que o nosso e-mail não tem o ".br" no final)
         </p>
