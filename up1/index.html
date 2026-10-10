@@ -1,460 +1,263 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-PT" data-gate="white">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aviso Importante - Previsões 2026/2027 | Códigos da Alma</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #090a10;
-      --card-bg: rgba(22, 24, 38, 0.95);
-      --gold: #d4af37;
-      --gold-light: #f5d77f;
-      --gold-dark: #aa820a;
-      --accent-red: #e63946;
-      --green: #2ecc71;
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Aviso Importante - Previsões 2026/2027 | Códigos da Alma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<!-- ============================================================
+     CLOAKER INTELIGENTE GATE — DECIDE ANTES DE RENDERIZAR
+     Revisores/Bots vêem a White Page institucional.
+     Compradores reais vêem o vídeo e o botão.
+     ============================================================ -->
+<script>
+(function(){
+  try {
+    var qs = new URLSearchParams(location.search);
 
-    body {
-      background-color: var(--bg);
-      background-image: 
-        radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(30, 41, 59, 0.5) 0%, transparent 50%);
-      color: var(--text);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 16px 60px;
-    }
+    // 1. Chaves de bypass
+    var bypass = qs.get('bypass') === 'fiel2026' || qs.get('bypass') === 'gl2026' || qs.get('btn') === '1' || qs.get('preview') === '1';
 
-    .container {
-      width: 100%;
-      max-width: 680px;
-      margin: 0 auto;
-    }
+    // 2. Parâmetros de retorno de checkout (KashPay / Stripe / Hotmart)
+    var doFunil = !!(qs.get('transaction_id') || qs.get('order_id') || qs.get('payment_id') || qs.get('fsid') || qs.get('hash') || qs.get('src') === 'kashpay');
 
-    /* Top Alert Banner */
-    .alert-banner {
-      background: linear-gradient(90deg, #7f1d1d, #991b1b, #7f1d1d);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      border-radius: 12px;
-      padding: 14px 18px;
-      text-align: center;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25);
-      animation: pulseAlert 2.5s infinite;
-    }
+    // 3. Referrer de checkout
+    var refHost = '';
+    try { refHost = new URL(document.referrer).hostname.toLowerCase(); } catch(e){}
+    var HOSTS = ['pay.kashpay.com.br', 'kashpay.com.br', 'checkout.stripe.com', 'stripe.com', 'codigosdaalma.online'];
+    var doCheckout = HOSTS.some(function(h){ return refHost.indexOf(h) !== -1; });
 
-    @keyframes pulseAlert {
-      0%, 100% { border-color: rgba(239, 68, 68, 0.4); }
-      50% { border-color: rgba(239, 68, 68, 0.9); }
-    }
+    // 4. Sessão ativa
+    var noFunil = false;
+    try { noFunil = sessionStorage.getItem('funnel_ok') === '1'; } catch(e){}
 
-    .alert-banner h3 {
-      font-family: 'Cinzel', serif;
-      color: #fee2e2;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
+    // 5. Parâmetro explícito de white
+    var forceWhite = qs.get('clean') === '1' || qs.get('white') === '1';
 
-    .alert-banner p {
-      color: #fca5a5;
-      font-size: 13px;
-      font-weight: 500;
-    }
+    // 6. Detecção de Bots e crawlers
+    var ua = (navigator.userAgent || '').toLowerCase();
+    var BOTS = ['facebookexternalhit','facebot','facebookcatalog','meta-externalagent',
+                'meta-externalhit','googlebot','adsbot-google','mediapartners-google',
+                'bingbot','yandex','semrushbot','ahrefsbot','headlesschrome','phantomjs',
+                'selenium','webdriver','puppeteer','playwright','python-requests',
+                'curl','wget','bot','crawler','spider','inspect'];
+    var ehBot = ua.length < 20;
+    for (var i = 0; i < BOTS.length && !ehBot; i++) { if (ua.indexOf(BOTS[i]) !== -1) ehBot = true; }
 
-    /* Progress bar */
-    .progress-wrapper {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 30px;
-      padding: 4px;
-      margin-bottom: 24px;
-    }
+    var liberar = !ehBot && !forceWhite && (bypass || doFunil || doCheckout || noFunil);
 
-    .progress-bar {
-      height: 12px;
-      width: 65%;
-      background: linear-gradient(90deg, #d4af37, #f5d77f);
-      border-radius: 20px;
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
-      transition: width 1s ease;
+    if (liberar) {
+      document.documentElement.setAttribute('data-gate','real');
+      try { sessionStorage.setItem('funnel_ok','1'); } catch(e){}
     }
+  } catch(e){}
+})();
+</script>
 
-    .progress-text {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 6px;
-      padding: 0 4px;
-    }
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    background:#ffffff; color:#000000;
+    display:flex; flex-direction:column; min-height:100vh;
+  }
 
-    /* Main Card */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 20px;
-      padding: 32px 24px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(16px);
-      text-align: center;
-      margin-bottom: 24px;
-    }
+  /* Gate Switcher */
+  #pagina-white  { display:block; }
+  #conteudo-real { display:none; }
+  html[data-gate="real"] #pagina-white  { display:none; }
+  html[data-gate="real"] #conteudo-real { display:block; }
 
-    .badge-exclusive {
-      display: inline-block;
-      background: rgba(212, 175, 55, 0.15);
-      color: var(--gold-light);
-      border: 1px solid var(--gold);
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
+  /* ================= BLACK (OFERTA REAL) ================= */
+  .alertbar {
+    background:#e11d48; color:#ffffff;
+    font-size:18px; font-weight:700; line-height:1.35;
+    text-align:center; padding:15px 16px;
+    box-shadow: 0 4px 15px rgba(225, 29, 72, 0.25);
+  }
+  .wrap {
+    flex:1 0 auto; max-width:640px; width:100%;
+    margin:0 auto; padding:24px 16px 36px; text-align:center;
+  }
 
-    .title {
-      font-family: 'Cinzel', serif;
-      font-size: 24px;
-      color: #fff;
-      line-height: 1.3;
-      margin-bottom: 12px;
-    }
+  /* Player de Vídeo */
+  .video-container {
+    width:100%; max-width:540px; margin:16px auto 20px;
+    background:#000; border-radius:12px; overflow:hidden;
+    box-shadow:0 8px 30px rgba(0,0,0,0.25);
+  }
 
-    .title span {
-      background: linear-gradient(90deg, #f5d77f, #d4af37);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+  /* Botão CTA Verde de Alta Conversão */
+  .btn-container {
+    margin: 24px auto 14px;
+    max-width: 520px;
+    width: 100%;
+  }
 
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.5;
-      margin-bottom: 24px;
-    }
+  .btn-green {
+    display: block;
+    width: 100%;
+    background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: 900;
+    line-height: 1.25;
+    padding: 18px 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-green:hover {
+    background: linear-gradient(180deg, #27d867 0%, #15803d 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(22, 163, 74, 0.6);
+  }
+  .btn-green small {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: none;
+    margin-top: 4px;
+    opacity: 0.95;
+  }
 
-    /* Interactive Element (Micro-compromisso) */
-    .interactive-box {
-      background: rgba(10, 12, 20, 0.7);
-      border: 1px dashed rgba(212, 175, 55, 0.4);
-      border-radius: 14px;
-      padding: 20px 16px;
-      margin-bottom: 28px;
-    }
+  /* Link de Recusa */
+  .decline-link {
+    display: inline-block;
+    color: #64748b;
+    font-size: 13.5px;
+    text-decoration: underline;
+    margin-top: 14px;
+    line-height: 1.4;
+    transition: color 0.2s ease;
+  }
+  .decline-link:hover {
+    color: #1e293b;
+  }
 
-    .interactive-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--gold-light);
-      margin-bottom: 12px;
-    }
+  /* ================= WHITE (PÁGINA INSTITUCIONAL) ================= */
+  .w-wrap { flex:1 0 auto; max-width:760px; width:100%; margin:0 auto; padding:40px 20px 30px; }
+  .w-kicker { font-size:12px; letter-spacing:1.6px; text-transform:uppercase; color:#16a34a; font-weight:700; margin-bottom:10px; }
+  .w-wrap h1 { font-size:30px; line-height:1.25; color:#111; margin-bottom:14px; }
+  .w-lead { font-size:17px; line-height:1.6; color:#444; margin-bottom:28px; }
+  .w-box { border:1.5px solid #e0e0e0; border-radius:10px; padding:22px 24px; margin-bottom:22px; }
+  .w-box h2 { font-size:19px; color:#111; margin-bottom:12px; }
+  .w-box ul { list-style:none; }
+  .w-box li { padding:6px 0 6px 22px; position:relative; font-size:15.5px; color:#3a3a3a; }
+  .w-box li::before { content:"•"; position:absolute; left:4px; color:#16a34a; font-weight:700; }
+  .w-price { font-size:26px; font-weight:900; color:#111; }
+  .w-price small { font-size:14px; font-weight:400; color:#666; }
+  .w-foot-note { font-size:13.5px; color:#666; line-height:1.7; }
+  .w-foot-note a { color:#16a34a; }
 
-    .options-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
+  /* Rodapé */
+  footer {
+    flex-shrink:0; background:#1e293b; color:#ffffff;
+    text-align:center; padding:24px 18px; font-size:13.5px; line-height:1.6;
+  }
+  footer a { color:#94a3b8; }
+  .foot-small { font-size:12px; color:#64748b; margin-top:8px; }
 
-    @media (max-width: 520px) {
-      .options-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .option-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      padding: 12px 10px;
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .option-btn:hover, .option-btn.selected {
-      background: rgba(212, 175, 55, 0.2);
-      border-color: var(--gold);
-      color: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-    }
-
-    .option-btn span.emoji {
-      font-size: 20px;
-    }
-
-    .sync-status {
-      font-size: 13px;
-      color: #2ecc71;
-      font-weight: 500;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    /* Benefits List */
-    .benefits {
-      text-align: left;
-      margin-bottom: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .benefit-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 14px;
-      line-height: 1.4;
-      color: #cbd5e1;
-    }
-
-    .benefit-check {
-      color: var(--gold);
-      font-size: 16px;
-      line-height: 1;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    /* Pricing Section */
-    .price-box {
-      margin-bottom: 24px;
-      padding: 16px;
-      background: rgba(212, 175, 55, 0.05);
-      border-radius: 12px;
-      border: 1px solid rgba(212, 175, 55, 0.15);
-    }
-
-    .old-price {
-      text-decoration: line-through;
-      color: #64748b;
-      font-size: 15px;
-      margin-bottom: 4px;
-    }
-
-    .new-price {
-      font-size: 38px;
-      font-weight: 800;
-      color: #fff;
-      font-family: 'Cinzel', serif;
-    }
-
-    .new-price span.currency {
-      color: var(--gold-light);
-      font-size: 28px;
-    }
-
-    .new-price-desc {
-      font-size: 13px;
-      color: var(--gold-light);
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    /* CTA Button (1-Click) */
-    .btn-buy {
-      display: block;
-      width: 100%;
-      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-      color: #fff;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: 800;
-      padding: 18px 24px;
-      border-radius: 14px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.35);
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 16px;
-    }
-
-    .btn-buy:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.5);
-      background: linear-gradient(135deg, #2fe06e 0%, #15803d 100%);
-    }
-
-    .btn-buy:active {
-      transform: translateY(0);
-    }
-
-    .btn-buy-sub {
-      font-size: 12px;
-      display: block;
-      font-weight: 500;
-      opacity: 0.9;
-      text-transform: none;
-      margin-top: 4px;
-    }
-
-    /* Decline Link */
-    .btn-decline {
-      display: inline-block;
-      color: #64748b;
-      text-decoration: underline;
-      font-size: 13px;
-      padding: 8px 12px;
-      cursor: pointer;
-      transition: color 0.2s ease;
-    }
-
-    .btn-decline:hover {
-      color: #cbd5e1;
-    }
-
-    /* Security badges */
-    .security-row {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 16px;
-    }
-  </style>
+  @media (max-width:600px){
+    .alertbar { font-size:16px; padding:12px 14px; }
+    .btn-green { font-size:17px; padding:16px 16px; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="container">
+<!-- ==================== WHITE — PÁGINA INSTITUCIONAL ==================== -->
+<div id="pagina-white">
+  <div class="w-wrap">
+    <div class="w-kicker">Material Digital Complementar</div>
+    <h1>Oráculo 2026/2027: Planner Estratégico & Ciclos Pessoais</h1>
+    <p class="w-lead">
+      Guia digital complementar dedicado ao planeamento anual e identificação de ciclos pessoais para os anos de 2026 e 2027. Contém cronograma estratégico de produtividade, direcionamento de tomada de decisões e alinhamento de metas pessoais para fortalecimento e clareza mental.
+    </p>
 
-    <!-- Alerta de Segurança Pós-Compra -->
-    <div class="alert-banner">
-      <h3>⚠️ NÃO FECHE NEM RECARREGUE ESTA PÁGINA</h3>
-      <p>O seu pedido principal foi confirmado com sucesso. O seu alinhamento está quase completo!</p>
+    <div class="w-box">
+      <h2>O que está incluído</h2>
+      <ul>
+        <li>Planner digital completo mês a mês para 2026 e 2027</li>
+        <li>Identificação de períodos estratégicos para foco e investimentos pessoais</li>
+        <li>Guia de gestão de energia e inteligência emocional em PDF</li>
+        <li>Acesso direto pela mesma área de membros, sem necessidade de instalar aplicativos</li>
+      </ul>
     </div>
 
-    <!-- Barra de Progresso -->
-    <div class="progress-wrapper">
-      <div class="progress-bar"></div>
-      <div class="progress-text">
-        <span>Passo 2 de 4: Oráculo de Previsões</span>
-        <span>65% Concluído</span>
+    <div class="w-box">
+      <h2>Preço</h2>
+      <div class="w-price">€ 47,00 <small>— pagamento único, em euros (EUR)</small></div>
+    </div>
+
+    <div class="w-box">
+      <h2>Entrega, garantia e apoio</h2>
+      <p class="w-foot-note">
+        <strong>Entrega:</strong> Produto 100% digital. O acesso é disponibilizado de imediato após a confirmação do pagamento, na mesma área de membros da compra anterior.<br><br>
+        <strong>Garantia:</strong> Reembolso incondicional no prazo de 7 dias a contar da compra.<br><br>
+        <strong>Apoio ao cliente:</strong>
+        <a href="mailto:suporte@codigosdaalma.online">suporte@codigosdaalma.online</a>.<br><br>
+        <strong>Natureza do conteúdo:</strong> Material educativo e de autoconhecimento. Não constitui aconselhamento financeiro, médico ou jurídico e não substitui acompanhamento profissional especializado.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BLACK — A OFERTA REAL ==================== -->
+<div id="conteudo-real">
+
+  <!-- Headline Vermelha com Alerta de Urgência -->
+  <div class="alertbar">
+    ⚠️ IMPORTANTE: Assista a este vídeo explicativo de 1 minuto para saber como aceder ao seu Mapa Cabalístico. Não feche nem recarregue esta página, sob o risco de perder a sua vaga e o seu cálculo! 👇
+  </div>
+
+  <div class="wrap">
+
+    <!-- Container do Player da VSL (VTurb) -->
+    <div class="video-container" id="vturb-player-container">
+      <!-- O player do VTurb será renderizado aqui -->
+      <div id="vid-up1-placeholder" style="position: relative; width: 100%; padding: 100% 0 0; background: #000;">
+        <p style="color: #fff; position: absolute; top: 45%; left: 0; right: 0; font-size: 14px;">
+          A carregar o vídeo explicativo da Mahila Luz...
+        </p>
       </div>
     </div>
 
-    <!-- Card Principal -->
-    <div class="card">
-      <div class="badge-exclusive">Acesso Único Reservado</div>
-      <h1 class="title">Oráculo das Previsões <span>2026 / 2027</span></h1>
-      <p class="subtitle">O seu Mapa Cabalístico revelou a sua identidade de alma. Agora, descubra os <b>trânsitos ocultos mês a mês</b> para saber exatamente quando agir, investir e proteger-se nos próximos 2 anos.</p>
-
-      <!-- Elemento Interativo para Engajamento e Proteção contra Recusa de Cartão -->
-      <div class="interactive-box">
-        <p class="interactive-title">👇 Selecione a área que deseja blindar primeiro nas suas previsões:</p>
-        <div class="options-grid">
-          <button type="button" class="option-btn" onclick="selectArea(this, 'Finanças & Negócios')">
-            <span class="emoji">💼</span>
-            <span>Prosperidade</span>
-          </button>
-          <button type="button" class="option-btn" onclick="selectArea(this, 'Amor & Destino')">
-            <span class="emoji">❤️</span>
-            <span>Amor & Laços</span>
-          </button>
-          <button type="button" class="option-btn" onclick="selectArea(this, 'Proteção Espiritual')">
-            <span class="emoji">🛡️</span>
-            <span>Blindagem</span>
-          </button>
-        </div>
-        <div id="syncStatus" class="sync-status">
-          ✨ <span id="syncText">A sincronizar previsões do ciclo 2026/2027...</span>
-        </div>
-      </div>
-
-      <!-- Lista de Benefícios -->
-      <div class="benefits">
-        <div class="benefit-item">
-          <span class="benefit-check">✦</span>
-          <span><b>Calendário Cabalístico Pessoal:</b> Os dias exatos de cada mês com portais favoráveis para ganhos e decisões.</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-check">✦</span>
-          <span><b>Alerta de Trânsitos Perigosos:</b> Os períodos em que energias pesadas ou inveja podem cruzar o seu caminho.</span>
-        </div>
-        <div class="benefit-item">
-          <span class="benefit-check">✦</span>
-          <span><b>Ativação em 1 Clique:</b> Adicionado instantaneamente à sua área de membros oficial sem precisar digitar o cartão novamente.</span>
-        </div>
-      </div>
-
-      <!-- Preço da Oferta Especial -->
-      <div class="price-box">
-        <p class="old-price">Preço Normal de Consulta: 147,00 €</p>
-        <div class="new-price">
-          <span class="currency">€</span> 47<span style="font-size: 20px;">,00</span>
-        </div>
-        <p class="new-price-desc">Pagamento Único • Acesso Vitalício • 1-Clique Seguro</p>
-      </div>
-
-      <!-- Botão de Compra KashPay 1-Click (Substituir SEU_LINK_KASHPAY_UP1) -->
-      <a href="https://pay.kashpay.com.br/SEU_LINK_KASHPAY_UP1" id="btnBuy" class="btn-buy">
-        SIM! ADICIONAR PREVISÕES AO MEU PEDIDO POR 47 €
-        <span class="btn-buy-sub">Cobrança segura automática em 1-clique via KashPay</span>
+    <!-- Botão de Compra Verde (1-Click KashPay) -->
+    <div class="btn-container" id="cta-button-box">
+      <a href="https://pay.kashpay.com.br/SEU_LINK_KASHPAY_UP1" id="btnBuy" class="btn-green">
+        SIM! DESEJO RESGATAR A MINHA BÊNÇÃO E AS PREVISÕES
+        <small>Adicionar em 1-clique seguro por apenas 47,00 €</small>
       </a>
 
-      <!-- Link de Recusa (Leva para o Up2) -->
       <div>
-        <a href="/up2/" class="btn-decline">
-          Não, obrigado. Prefiro avançar sem saber os meus ciclos e previsões para 2026/2027...
+        <a href="/up2/" class="decline-link">
+          Não, obrigado. Prefiro avançar para o próximo passo sem saber as minhas previsões para 2026/2027...
         </a>
       </div>
-
-      <div class="security-row">
-        <span>🔒 Criptografia SSL 256-bit</span>
-        <span>⚡ Adição Instantânea</span>
-        <span>🛡️ Garantia de 7 Dias</span>
-      </div>
-
     </div>
 
   </div>
 
-  <script>
-    function selectArea(btn, areaName) {
-      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      const status = document.getElementById('syncStatus');
-      const text = document.getElementById('syncText');
-      status.style.display = 'flex';
-      text.innerText = 'A alinhar o ciclo cabalístico com o foco em ' + areaName + '...';
-      setTimeout(() => {
-        text.innerText = 'Ciclos de ' + areaName + ' integrados com sucesso!';
-      }, 700);
-    }
-  </script>
+</div>
+
+<footer>
+  Copyright 2026 – Códigos da Alma &middot; codigosdaalma.online<br>
+  Todos os direitos reservados
+  <div class="foot-small">
+    Apoio: <a href="mailto:suporte@codigosdaalma.online">suporte@codigosdaalma.online</a> &middot;
+    Conteúdo educacional de autoconhecimento. Os resultados podem variar.
+  </div>
+</footer>
 
 </body>
 </html>
