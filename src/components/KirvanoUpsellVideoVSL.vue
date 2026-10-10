@@ -1523,7 +1523,7 @@
                 // Sistema de Vídeos Personalizados VTurb
                 currentVideoId: null,
                 showP1Video: false,
-                vturbAccountId: '0a246cdd-c6bd-48cb-b2bf-d2a8c03c2dd5',
+                vturbAccountId: '141468aa-0e0b-4b46-b784-a9403b5f9a1c',
                 videoMapP1: {
                     'H_20_S': '6a8ddf0c8a289dc3ec39c27a',
                     'H_20_C': '6a8dded77acb975e9f20777f',
@@ -1550,13 +1550,13 @@
                 currentVideoIdP2: null,
                 showP2Video: false,
                 videoMapP2: {
-                    'dinheiro': 'ab-6abed2fd584a247615bffad9', // teste A/B da VTurb (prefixo "ab-")
-                    'felicidade': '6a8df4bc655329ca2a976877',
-                    'saude': 'ab-6abed43d33fce89fba95b5d3', // teste A/B da VTurb (prefixo "ab-")
-                    'h_casado': '6a8df35f0d360e5354befd86',
-                    'h_solteiro': '6a8df3a04f8274c280d51ffa',
-                    'm_casada': '6a8df1a0e05af68d185dd5d2',
-                    'm_solteira': '6a8df07946d6ec1c24018e9b'
+                    'dinheiro': '6aca7cb46a1c023d5c53389c',
+                    'felicidade': '6aca8464b53d557a78abfffd',
+                    'saude': '6aca8268e6574b13f0d07410',
+                    'h_casado': '6aca850c6cde7bc69e694840',
+                    'h_solteiro': '6aca82fd8c841663bd8c06b4',
+                    'm_casada': '6aca81d03df4b8e43b433f20',
+                    'm_solteira': '6aca813414f965042387a2ae'
                 }
             };
         },
@@ -1716,10 +1716,10 @@
             async formNumeroDestinoCompleted() {
                 this.backgroundVSL = true;
 
-                // Carrega o vídeo P1 personalizado usando VTurb
+                // Após o cálculo numerológico, exibe o modal de e-mail e depois carrega a VSL P2 adaptada
                 setTimeout(() => {
                     this.loadingBlock = false;
-                    this.loadPersonalizedVideoP1();
+                    this.showEmailOptinModal();
                 }, 2000);
 
                 // Código antigo mantido para referência (não é mais usado)
