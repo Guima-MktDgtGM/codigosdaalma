@@ -1525,26 +1525,26 @@
                 showP1Video: false,
                 vturbAccountId: '141468aa-0e0b-4b46-b784-a9403b5f9a1c',
                 videoMapP1: {
-                    'H_20_S': '6a8ddf0c8a289dc3ec39c27a',
-                    'H_20_C': '6a8dded77acb975e9f20777f',
-                    'H_30_S': '6a8ddf3b8a289dc3ec39c348',
-                    'H_30_C': '6a8ddf4aa174b8508e5c51a6',
-                    'H_40_S': '6a8ddc763a633a4e675274be',
-                    'H_40_C': '6a8ddef631552ce9b670c595',
-                    'H_50_S': '6a8ddc4e0926c935d2f61d10',
-                    'H_50_C': '6a8ddc5b288cd993d346a2fd',
-                    'H_60_S': '6a8ddec5d5cdae2c958db60d',
-                    'H_60_C': '6a8ddee67dfab8208b748de0',
-                    'M_20_S': '6a8dde0cffc004c1d7a60aef',
-                    'M_20_C': '6a8ddc87b7f86bb6308f93eb',
-                    'M_30_S': '6a8dddfbb7f86bb6308f9899',
-                    'M_30_C': '6a8ddc694f6c9b43d0ecba64',
-                    'M_40_S': '6a8ddf59288cd993d346ab86',
-                    'M_40_C': '6a8ddeb90db8ff81b1ef24a0',
-                    'M_50_S': '6a8ddf6a288cd993d346aba8',
-                    'M_50_C': '6a8ddc9bb7f86bb6308f9501',
-                    'M_60_S': '6a8ddf2ce6c295a47b8f869d',
-                    'M_60_C': '6a95a793d5992a6252188982'
+                    'H_20_S': '6aca7f406cde7bc69e693a15',
+                    'H_20_C': '6aca7f9340d1252ebf47d44e',
+                    'H_30_S': '6aca7f9b8c841663bd8bfdd0',
+                    'H_30_C': '6aca7f384586075a08abd05b',
+                    'H_40_S': '6aca7f18b53d557a78abf2c4',
+                    'H_40_C': '6aca7efb6cc3ddc3e5976a3d',
+                    'H_50_S': '6aca7f0f3e621d4fce9c9aed',
+                    'H_50_C': '6aca7f0855229e07c5654f9d',
+                    'H_60_S': '6aca7f20b53d557a78abf2db',
+                    'H_60_C': '6aca7f013e621d4fce9c9ad1',
+                    'M_20_S': '6aca7f31a50c0aae35d4728d',
+                    'M_20_C': '6aca7f624731787c32f92714',
+                    'M_30_S': '6aca7f295cf0c3106408666b',
+                    'M_30_C': '6aca7f803e621d4fce9c9b51',
+                    'M_40_S': '6aca7f5ae6574b13f0d06c78',
+                    'M_40_C': '6aca7f473df4b8e43b4338a7',
+                    'M_50_S': '6aca7f72e6574b13f0d06c99',
+                    'M_50_C': '6aca7f8c6a1c023d5c533ace',
+                    'M_60_S': '6aca7f506cde7bc69e693a28',
+                    'M_60_C': '6aca7fa455229e07c5655037'
                 },
 
                 currentVideoIdP2: null,
@@ -1716,10 +1716,10 @@
             async formNumeroDestinoCompleted() {
                 this.backgroundVSL = true;
 
-                // Após o cálculo numerológico, exibe o modal de e-mail e depois carrega a VSL P2 adaptada
+                // Carrega a VSL curta personalizada P1 da VTurb
                 setTimeout(() => {
                     this.loadingBlock = false;
-                    this.showEmailOptinModal();
+                    this.loadPersonalizedVideoP1();
                 }, 2000);
 
                 // Código antigo mantido para referência (não é mais usado)
