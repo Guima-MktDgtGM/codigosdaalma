@@ -1252,7 +1252,7 @@
                     <div style="display: flex;justify-content: center;height: 100vh;align-content: flex-start;">
                         <!--<div id="vid_6841b662f59c67de93338696" style="position: relative; width: 100%; padding: 148.14814814814815% 0 0;"> <img id="thumb_6841b662f59c67de93338696" src="https://images.converteai.net/0a246cdd-c6bd-48cb-b2bf-d2a8c03c2dd5/players/6841b662f59c67de93338696/thumbnail.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block;" alt="thumbnail"> <div id="backdrop_6841b662f59c67de93338696" style=" -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); position: absolute; top: 0; height: 100%; width: 100%; "></div> </div>
                     -->
-                        <vturb-smartplayer id="vid-691b1f1bf65a4dcdb5b35980" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
+                        <vturb-smartplayer id="vid-6aca7cb46a1c023d5c53389c" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
                     </div>
                 </section>
 
@@ -2594,7 +2594,7 @@
                 }
 
                 const script = document.createElement("script");
-                script.src = "https://scripts.converteai.net/0a246cdd-c6bd-48cb-b2bf-d2a8c03c2dd5/players/691b1f1bf65a4dcdb5b35980/v4/player.js";
+                script.src = "https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6aca7cb46a1c023d5c53389c/v4/player.js";
                 script.async = true;
                 document.head.appendChild(script);
             },
