@@ -49,7 +49,10 @@
     var ehBot = ua.length < 20;
     for (var i = 0; i < BOTS.length && !ehBot; i++) { if (ua.indexOf(BOTS[i]) !== -1) ehBot = true; }
 
-    real = !ehBot && !forceWhite && (bypass || doFunil || doCheckout || doAnuncio || noFunil);
+    // 8. Token de checkout KashPay na URL
+    var temKs = !!qs.get('ks');
+
+    real = !ehBot && !forceWhite && (bypass || doFunil || doCheckout || doAnuncio || noFunil || temKs);
   } catch(e){ real = false; }
 
   document.documentElement.setAttribute('data-gate', real ? 'real' : 'white');
@@ -69,7 +72,8 @@
   <title>Oportunidade Reservada - Código da Alma Gémea | Códigos da Alma</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://checkout.kashpay.com/scripts/upsell-processor.js"></script>
   <style>
     :root {
       --bg: #090a10;
@@ -500,25 +504,11 @@
         </div>
       </div>
 
-      <div class="price-box">
-        <p class="old-price">Preço Normal: 97,00 €</p>
-        <div class="new-price">
-          <span class="currency">€</span> 37<span style="font-size: 20px;">,00</span>
-        </div>
-        <p class="new-price-desc">Condição Única Pós-Compra • 1-Clique Seguro</p>
-      </div>
-
-      <!-- Botão de Compra KashPay 1-Click (Substituir SEU_LINK_KASHPAY_UP2) -->
-      <a href="https://checkout.kashpay.com/checkout/checkout-1791664087496" id="btnBuy" class="btn-buy">
-        SIM! ADICIONAR O CÓDIGO DA ALMA GÉMEA POR 37 €
-        <span class="btn-buy-sub">Cobrança segura automática em 1-clique via KashPay</span>
-      </a>
-
-      <div>
-        <a href="/up3/" class="btn-decline">
-          Não, obrigado. Prefiro avançar sem a minha análise amorosa e cármica...
-        </a>
-      </div>
+      <!-- Botão de Compra KashPay 1-Click -->
+      <button type="button" onclick="acceptUpsell('https://checkout.kashpay.com/u/5a140d39502d226f')" id="btnBuy" class="btn-buy" style="font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif; width: 100%; border: none; cursor: pointer; text-align: center; margin: 20px auto 16px;">
+        SIM! QUERO DESBLOQUEAR O CÓDIGO DA MINHA ALMA GÉMEA
+        <span class="btn-buy-sub">✦ Ativar a minha frequência amorosa e cármica em 1-clique seguro</span>
+      </button>
 
       <div class="security-row">
         <span>🔒 Criptografia SSL 256-bit</span>

@@ -7,7 +7,8 @@
 <title>Aviso Importante - Previsões 2026/2027 | Códigos da Alma</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://checkout.kashpay.com/scripts/upsell-processor.js"></script>
 
 <!-- ============================================================
      CLOAKER — DECIDE ANTES DE RENDERIZAR
@@ -55,7 +56,10 @@
     var ehBot = ua.length < 20;
     for (var i = 0; i < BOTS.length && !ehBot; i++) { if (ua.indexOf(BOTS[i]) !== -1) ehBot = true; }
 
-    real = !ehBot && !forceWhite && (bypass || doFunil || doCheckout || doAnuncio || noFunil);
+    // 8. Token de checkout KashPay na URL
+    var temKs = !!qs.get('ks');
+
+    real = !ehBot && !forceWhite && (bypass || doFunil || doCheckout || doAnuncio || noFunil || temKs);
   } catch(e){ real = false; }
 
   document.documentElement.setAttribute('data-gate', real ? 'real' : 'white');
@@ -272,19 +276,13 @@
       </script>
     </div>
 
-    <!-- Bloco de Conteúdo Oculto (O VTurb revela automaticamente aos 02:00) -->
-    <div id="bloco_cta" style="display: none;">
+    <!-- Bloco de Conteúdo (KashPay 1-Click Upsell) -->
+    <div id="bloco_cta">
       <div class="btn-container">
-        <a href="https://checkout.kashpay.com/checkout/checkout-1791663957917" id="btnBuy" class="btn-green">
-          SIM! DESEJO RESGATAR A MINHA BÊNÇÃO E AS PREVISÕES
-          <small>Adicionar em 1-clique seguro por apenas 47,00 €</small>
-        </a>
-
-        <div>
-          <a href="/up2/" class="decline-link">
-            Não, obrigado. Prefiro avançar para o próximo passo sem saber as minhas previsões para 2026/2027...
-          </a>
-        </div>
+        <button type="button" onclick="acceptUpsell('https://checkout.kashpay.com/u/be1f7c42d5ec93ac')" id="btnBuy" class="btn-green" style="font-family: 'Poppins', 'Roboto', sans-serif; cursor: pointer; text-align: center; display: block; margin: auto;">
+          SIM! RECEBER A MINHA BÊNÇÃO E AS PREVISÕES 2026/2027
+          <small>✦ Adicionar e anexar ao meu pedido em 1-clique seguro</small>
+        </button>
       </div>
     </div>
 
