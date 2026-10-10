@@ -2546,7 +2546,7 @@
 
 
                     const url =
-                        `https://api.codigosdaalma.online/capturar-lead?email=${encodeURIComponent(this.emailValue)}&name=${encodeURIComponent(this.firstNameValue)}&tagId=${encodeURIComponent(this.tagId)}${this.utmPrefix ? `&utm_prefix=${encodeURIComponent(this.utmPrefix)}` : ""}`;
+                        `https://worker-leads.vendasonlinemktdgtgm.workers.dev/capturar-lead?email=${encodeURIComponent(this.emailValue)}&name=${encodeURIComponent(this.firstNameValue)}&tagId=${encodeURIComponent(this.tagId)}${this.utmPrefix ? `&utm_prefix=${encodeURIComponent(this.utmPrefix)}` : ""}`;
 
                     try {
                         const response = axios.post(url);

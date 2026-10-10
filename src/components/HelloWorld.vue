@@ -5093,7 +5093,7 @@
         }
 
         try {
-          const response = await fetch('https://api.codigosdaalma.online/enviar-pdf', {
+          const response = await fetch('https://worker-leads.vendasonlinemktdgtgm.workers.dev/enviar-pdf', {
             method: 'POST',
             body: formData,
           });
