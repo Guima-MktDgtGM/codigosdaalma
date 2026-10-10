@@ -2838,13 +2838,11 @@
     <div class="progress-spacer"></div>
     <div class="w-full max-w-3xl px-4 mt-6" v-if="pagina == 1">
       <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded shadow">
-        <p class="font-semibold mb-2">Seu relatório está a caminho no seu email! Mas você já pode ver ele por essa
-          página</p>
-        <p>Você receberá um e-mail em breve. Caso não receba dentro de 3 horas, não se preocupe.</p>
-        <p>Envie um e-mail com seu <strong>Nome Completo</strong>, <strong>CPF</strong> e explique o que está
-          acontecendo para que possamos ajudar.</p>
-        <p class="mt-2"><strong>Suporte:</strong> <a href="mailto:suporte@codigosdaalma.online"
-            class="underline">suporte@codigosdaalma.online</a> <br><small>(nosso e-mail não tem ".br" no final)</small></p>
+        <p class="font-semibold mb-2">O seu relatório está a caminho do seu e-mail! Mas já pode visualizá-lo nesta página:</p>
+        <p>Receberá um e-mail em breve. Caso não receba dentro de alguns minutos, não se preocupe.</p>
+        <p>Envie uma mensagem com o seu <strong>Nome Completo</strong>, o <strong>e-mail utilizado na compra</strong> e explique o que está a acontecer para que possamos ajudar.</p>
+        <p class="mt-2"><strong>Apoio ao cliente:</strong> <a href="mailto:suporte@codigosdaalma.online"
+            class="underline">suporte@codigosdaalma.online</a></p>
       </div>
     </div>
     <div class="w-full max-w-3xl py-8 bg-white" id="conteudo-para-pdf" ref="conteudoPdf">
