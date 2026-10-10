@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviso Importante - Previsões 2026/2027 | Códigos da Alma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a10;
+      --card-bg: rgba(22, 24, 38, 0.95);
+      --gold: #d4af37;
+      --gold-light: #f5d77f;
+      --gold-dark: #aa820a;
+      --accent-red: #e63946;
+      --green: #2ecc71;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(30, 41, 59, 0.5) 0%, transparent 50%);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 60px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Top Alert Banner */
+    .alert-banner {
+      background: linear-gradient(90deg, #7f1d1d, #991b1b, #7f1d1d);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-radius: 12px;
+      padding: 14px 18px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25);
+      animation: pulseAlert 2.5s infinite;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { border-color: rgba(239, 68, 68, 0.4); }
+      50% { border-color: rgba(239, 68, 68, 0.9); }
+    }
+
+    .alert-banner h3 {
+      font-family: 'Cinzel', serif;
+      color: #fee2e2;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .alert-banner p {
+      color: #fca5a5;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Progress bar */
+    .progress-wrapper {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      width: 65%;
+      background: linear-gradient(90deg, #d4af37, #f5d77f);
+      border-radius: 20px;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+      transition: width 1s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      padding: 0 4px;
+    }
+
+    /* Main Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 20px;
+      padding: 32px 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(16px);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .badge-exclusive {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      border: 1px solid var(--gold);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .title {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .title span {
+      background: linear-gradient(90deg, #f5d77f, #d4af37);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    /* Interactive Element (Micro-compromisso) */
+    .interactive-box {
+      background: rgba(10, 12, 20, 0.7);
+      border: 1px dashed rgba(212, 175, 55, 0.4);
+      border-radius: 14px;
+      padding: 20px 16px;
+      margin-bottom: 28px;
+    }
+
+    .interactive-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 12px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .option-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 12px 10px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .option-btn:hover, .option-btn.selected {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--gold);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+    }
+
+    .option-btn span.emoji {
+      font-size: 20px;
+    }
+
+    .sync-status {
+      font-size: 13px;
+      color: #2ecc71;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    /* Benefits List */
+    .benefits {
+      text-align: left;
+      margin-bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #cbd5e1;
+    }
+
+    .benefit-check {
+      color: var(--gold);
+      font-size: 16px;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Pricing Section */
+    .price-box {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(212, 175, 55, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #64748b;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .new-price {
+      font-size: 38px;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'Cinzel', serif;
+    }
+
+    .new-price span.currency {
+      color: var(--gold-light);
+      font-size: 28px;
+    }
+
+    .new-price-desc {
+      font-size: 13px;
+      color: var(--gold-light);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* CTA Button (1-Click) */
+    .btn-buy {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 18px 24px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.35);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .btn-buy:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.5);
+      background: linear-gradient(135deg, #2fe06e 0%, #15803d 100%);
+    }
+
+    .btn-buy:active {
+      transform: translateY(0);
+    }
+
+    .btn-buy-sub {
+      font-size: 12px;
+      display: block;
+      font-weight: 500;
+      opacity: 0.9;
+      text-transform: none;
+      margin-top: 4px;
+    }
+
+    /* Decline Link */
+    .btn-decline {
+      display: inline-block;
+      color: #64748b;
+      text-decoration: underline;
+      font-size: 13px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .btn-decline:hover {
+      color: #cbd5e1;
+    }
+
+    /* Security badges */
+    .security-row {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Alerta de Segurança Pós-Compra -->
+    <div class="alert-banner">
+      <h3>⚠️ NÃO FECHE NEM RECARREGUE ESTA PÁGINA</h3>
+      <p>O seu pedido principal foi confirmado com sucesso. O seu alinhamento está quase completo!</p>
+    </div>
+
+    <!-- Barra de Progresso -->
+    <div class="progress-wrapper">
+      <div class="progress-bar"></div>
+      <div class="progress-text">
+        <span>Passo 2 de 4: Oráculo de Previsões</span>
+        <span>65% Concluído</span>
+      </div>
+    </div>
+
+    <!-- Card Principal -->
+    <div class="card">
+      <div class="badge-exclusive">Acesso Único Reservado</div>
+      <h1 class="title">Oráculo das Previsões <span>2026 / 2027</span></h1>
+      <p class="subtitle">O seu Mapa Cabalístico revelou a sua identidade de alma. Agora, descubra os <b>trânsitos ocultos mês a mês</b> para saber exatamente quando agir, investir e proteger-se nos próximos 2 anos.</p>
+
+      <!-- Elemento Interativo para Engajamento e Proteção contra Recusa de Cartão -->
+      <div class="interactive-box">
+        <p class="interactive-title">👇 Selecione a área que deseja blindar primeiro nas suas previsões:</p>
+        <div class="options-grid">
+          <button type="button" class="option-btn" onclick="selectArea(this, 'Finanças & Negócios')">
+            <span class="emoji">💼</span>
+            <span>Prosperidade</span>
+          </button>
+          <button type="button" class="option-btn" onclick="selectArea(this, 'Amor & Destino')">
+            <span class="emoji">❤️</span>
+            <span>Amor & Laços</span>
+          </button>
+          <button type="button" class="option-btn" onclick="selectArea(this, 'Proteção Espiritual')">
+            <span class="emoji">🛡️</span>
+            <span>Blindagem</span>
+          </button>
+        </div>
+        <div id="syncStatus" class="sync-status">
+          ✨ <span id="syncText">A sincronizar previsões do ciclo 2026/2027...</span>
+        </div>
+      </div>
+
+      <!-- Lista de Benefícios -->
+      <div class="benefits">
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>Calendário Cabalístico Pessoal:</b> Os dias exatos de cada mês com portais favoráveis para ganhos e decisões.</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>Alerta de Trânsitos Perigosos:</b> Os períodos em que energias pesadas ou inveja podem cruzar o seu caminho.</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>Ativação em 1 Clique:</b> Adicionado instantaneamente à sua área de membros oficial sem precisar digitar o cartão novamente.</span>
+        </div>
+      </div>
+
+      <!-- Preço da Oferta Especial -->
+      <div class="price-box">
+        <p class="old-price">Preço Normal de Consulta: 147,00 €</p>
+        <div class="new-price">
+          <span class="currency">€</span> 47<span style="font-size: 20px;">,00</span>
+        </div>
+        <p class="new-price-desc">Pagamento Único • Acesso Vitalício • 1-Clique Seguro</p>
+      </div>
+
+      <!-- Botão de Compra KashPay 1-Click (Substituir SEU_LINK_KASHPAY_UP1) -->
+      <a href="https://pay.kashpay.com.br/SEU_LINK_KASHPAY_UP1" id="btnBuy" class="btn-buy">
+        SIM! ADICIONAR PREVISÕES AO MEU PEDIDO POR 47 €
+        <span class="btn-buy-sub">Cobrança segura automática em 1-clique via KashPay</span>
+      </a>
+
+      <!-- Link de Recusa (Leva para o Up2) -->
+      <div>
+        <a href="/up2/" class="btn-decline">
+          Não, obrigado. Prefiro avançar sem saber os meus ciclos e previsões para 2026/2027...
+        </a>
+      </div>
+
+      <div class="security-row">
+        <span>🔒 Criptografia SSL 256-bit</span>
+        <span>⚡ Adição Instantânea</span>
+        <span>🛡️ Garantia de 7 Dias</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function selectArea(btn, areaName) {
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const status = document.getElementById('syncStatus');
+      const text = document.getElementById('syncText');
+      status.style.display = 'flex';
+      text.innerText = 'A alinhar o ciclo cabalístico com o foco em ' + areaName + '...';
+      setTimeout(() => {
+        text.innerText = 'Ciclos de ' + areaName + ' integrados com sucesso!';
+      }, 700);
+    }
+  </script>
+
+</body>
+</html>

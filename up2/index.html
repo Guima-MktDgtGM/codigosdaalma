@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oportunidade Reservada - Código da Alma Gémea | Códigos da Alma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a10;
+      --card-bg: rgba(22, 24, 38, 0.95);
+      --gold: #d4af37;
+      --gold-light: #f5d77f;
+      --pink: #ec4899;
+      --green: #2ecc71;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(236, 72, 153, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(30, 41, 59, 0.5) 0%, transparent 50%);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 60px;
+    }
+
+    .container { width: 100%; max-width: 680px; margin: 0 auto; }
+
+    .alert-banner {
+      background: linear-gradient(90deg, #701a75, #86198f, #701a75);
+      border: 1px solid rgba(217, 70, 239, 0.4);
+      border-radius: 12px;
+      padding: 14px 18px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(217, 70, 239, 0.25);
+    }
+
+    .alert-banner h3 {
+      font-family: 'Cinzel', serif;
+      color: #fae8ff;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .alert-banner p { color: #f5d0fe; font-size: 13px; font-weight: 500; }
+
+    .progress-wrapper {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      width: 82%;
+      background: linear-gradient(90deg, #ec4899, #f472b6);
+      border-radius: 20px;
+      box-shadow: 0 0 12px rgba(236, 72, 153, 0.5);
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      padding: 0 4px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(236, 72, 153, 0.25);
+      border-radius: 20px;
+      padding: 32px 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(16px);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .badge-exclusive {
+      display: inline-block;
+      background: rgba(236, 72, 153, 0.15);
+      color: #f472b6;
+      border: 1px solid var(--pink);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .title {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .title span {
+      background: linear-gradient(90deg, #f472b6, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .interactive-box {
+      background: rgba(10, 12, 20, 0.7);
+      border: 1px dashed rgba(236, 72, 153, 0.4);
+      border-radius: 14px;
+      padding: 20px 16px;
+      margin-bottom: 28px;
+    }
+
+    .interactive-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f472b6;
+      margin-bottom: 12px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .options-grid { grid-template-columns: 1fr; }
+    }
+
+    .option-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 12px 10px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .option-btn:hover, .option-btn.selected {
+      background: rgba(236, 72, 153, 0.2);
+      border-color: var(--pink);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.2);
+    }
+
+    .option-btn span.emoji { font-size: 20px; }
+
+    .sync-status {
+      font-size: 13px;
+      color: #2ecc71;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .benefits {
+      text-align: left;
+      margin-bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #cbd5e1;
+    }
+
+    .benefit-check {
+      color: var(--pink);
+      font-size: 16px;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .price-box {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(236, 72, 153, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(236, 72, 153, 0.15);
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #64748b;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .new-price {
+      font-size: 38px;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'Cinzel', serif;
+    }
+
+    .new-price span.currency {
+      color: #f472b6;
+      font-size: 28px;
+    }
+
+    .new-price-desc {
+      font-size: 13px;
+      color: #f472b6;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .btn-buy {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 18px 24px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.35);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .btn-buy:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.5);
+      background: linear-gradient(135deg, #2fe06e 0%, #15803d 100%);
+    }
+
+    .btn-buy-sub {
+      font-size: 12px;
+      display: block;
+      font-weight: 500;
+      opacity: 0.9;
+      text-transform: none;
+      margin-top: 4px;
+    }
+
+    .btn-decline {
+      display: inline-block;
+      color: #64748b;
+      text-decoration: underline;
+      font-size: 13px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .btn-decline:hover { color: #cbd5e1; }
+
+    .security-row {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="alert-banner">
+      <h3>🔒 QUASE LÁ! O SEU PEDIDO AINDA ESTÁ A SER PROCESSADO</h3>
+      <p>Aproveite esta condição única antes de aceder à sua área de membros.</p>
+    </div>
+
+    <div class="progress-wrapper">
+      <div class="progress-bar"></div>
+      <div class="progress-text">
+        <span>Passo 3 de 4: Código da Alma Gémea</span>
+        <span>82% Concluído</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="badge-exclusive">Sinastria Cármica Reservada</div>
+      <h1 class="title">O Código da <span>Alma Gémea</span></h1>
+      <p class="subtitle">Descubra a <b>ressonância de frequência amorosa</b> guardada no seu nome. Entenda porque certos relacionamentos travaram no passado e como atrair ou harmonizar a sua conexão definitiva.</p>
+
+      <div class="interactive-box">
+        <p class="interactive-title">👇 Qual é a situação atual do seu coração?</p>
+        <div class="options-grid">
+          <button type="button" class="option-btn" onclick="selectLove(this, 'Atrair Alma Gémea')">
+            <span class="emoji">✨</span>
+            <span>À Procura do Amor</span>
+          </button>
+          <button type="button" class="option-btn" onclick="selectLove(this, 'Harmonizar Casal')">
+            <span class="emoji">💍</span>
+            <span>Em Relação / Casada</span>
+          </button>
+          <button type="button" class="option-btn" onclick="selectLove(this, 'Superar Laço Cármico')">
+            <span class="emoji">💔</span>
+            <span>Dúvida / Desapego</span>
+          </button>
+        </div>
+        <div id="syncStatus" class="sync-status">
+          💖 <span id="syncText">A calcular compatibilidade cármica...</span>
+        </div>
+      </div>
+
+      <div class="benefits">
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>Mapa da Sinastria Cabalística:</b> O cálculo que revela se a outra pessoa é um laço de alma ou uma prova cármica de crescimento.</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>Desbloqueio de Votos de Solidão:</b> O ritual de limpeza para quebrar pactos inconscientes de vidas passadas.</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-check">✦</span>
+          <span><b>Ativação com 1 Clique:</b> O manual em PDF é anexado imediatamente ao seu acesso oficial.</span>
+        </div>
+      </div>
+
+      <div class="price-box">
+        <p class="old-price">Preço Normal: 97,00 €</p>
+        <div class="new-price">
+          <span class="currency">€</span> 37<span style="font-size: 20px;">,00</span>
+        </div>
+        <p class="new-price-desc">Condição Única Pós-Compra • 1-Clique Seguro</p>
+      </div>
+
+      <!-- Botão de Compra KashPay 1-Click (Substituir SEU_LINK_KASHPAY_UP2) -->
+      <a href="https://pay.kashpay.com.br/SEU_LINK_KASHPAY_UP2" id="btnBuy" class="btn-buy">
+        SIM! ADICIONAR O CÓDIGO DA ALMA GÉMEA POR 37 €
+        <span class="btn-buy-sub">Cobrança segura automática em 1-clique via KashPay</span>
+      </a>
+
+      <div>
+        <a href="/up3/" class="btn-decline">
+          Não, obrigado. Prefiro avançar sem a minha análise amorosa e cármica...
+        </a>
+      </div>
+
+      <div class="security-row">
+        <span>🔒 Criptografia SSL 256-bit</span>
+        <span>⚡ Adição Instantânea</span>
+        <span>🛡️ Garantia de 7 Dias</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function selectLove(btn, statusName) {
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const status = document.getElementById('syncStatus');
+      const text = document.getElementById('syncText');
+      status.style.display = 'flex';
+      text.innerText = 'A sintonizar frequências com foco em: ' + statusName + '...';
+      setTimeout(() => {
+        text.innerText = 'Frequência de ' + statusName + ' alinhada com sucesso!';
+      }, 700);
+    }
+  </script>
+
+</body>
+</html>
