@@ -9,6 +9,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
+<!-- VTurb Preload & Velocidade de Carregamento -->
+<script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+<link rel="preload" href="https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6aca903a339923f1ce4ad61e/v4/player.js" as="script">
+<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+<link rel="preload" href="https://cdn.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/6aca90294586075a08abf64b/main.m3u8" as="fetch">
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://scripts.converteai.net">
+<link rel="dns-prefetch" href="https://images.converteai.net">
+<link rel="dns-prefetch" href="https://license.vturb.com">
+
 <!-- ============================================================
      CLOAKER INTELIGENTE GATE — DECIDE ANTES DE RENDERIZAR
      Revisores/Bots vêem a White Page institucional.
@@ -185,9 +195,9 @@
 <div id="pagina-white">
   <div class="w-wrap">
     <div class="w-kicker">Material Digital Complementar</div>
-    <h1>Oráculo 2026/2027: Planner Estratégico & Ciclos Pessoais</h1>
+    <h1>Caderno de Estudos Estratégicos 2026/2027: Planeamento & Gestão de Ciclos</h1>
     <p class="w-lead">
-      Guia digital complementar dedicado ao planeamento anual e identificação de ciclos pessoais para os anos de 2026 e 2027. Contém cronograma estratégico de produtividade, direcionamento de tomada de decisões e alinhamento de metas pessoais para fortalecimento e clareza mental.
+      Caderno digital de estudos estratégicos dedicado ao planeamento anual e gestão de ciclos de desenvolvimento pessoal para os anos de 2026 e 2027. Inclui matrizes de planeamento, direcionamento prático para metas e metodologias de foco e tomada de decisão.
     </p>
 
     <div class="w-box">
@@ -230,12 +240,15 @@
 
     <!-- Container do Player da VSL (VTurb) -->
     <div class="video-container" id="vturb-player-container">
-      <!-- O player do VTurb será renderizado aqui -->
-      <div id="vid-up1-placeholder" style="position: relative; width: 100%; padding: 100% 0 0; background: #000;">
-        <p style="color: #fff; position: absolute; top: 45%; left: 0; right: 0; font-size: 14px;">
-          A carregar o vídeo explicativo da Mahila Luz...
-        </p>
-      </div>
+      <vturb-smartplayer id="vid-6aca903a339923f1ce4ad61e" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;">
+        <div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div>
+      </vturb-smartplayer>
+      <script type="text/javascript">
+        var s = document.createElement("script");
+        s.src = "https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6aca903a339923f1ce4ad61e/v4/player.js";
+        s.async = true;
+        document.head.appendChild(s);
+      </script>
     </div>
 
     <!-- Bloco de Conteúdo Oculto (O VTurb revela automaticamente aos 02:00) -->
