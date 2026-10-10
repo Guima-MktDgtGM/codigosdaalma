@@ -9,68 +9,84 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
-<!-- VTurb Preload & Velocidade de Carregamento -->
-<script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
-<link rel="preload" href="https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6aca903a339923f1ce4ad61e/v4/player.js" as="script">
-<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
-<link rel="preload" href="https://cdn.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/6aca90294586075a08abf64b/main.m3u8" as="fetch">
-<link rel="dns-prefetch" href="https://cdn.converteai.net">
-<link rel="dns-prefetch" href="https://scripts.converteai.net">
-<link rel="dns-prefetch" href="https://images.converteai.net">
-<link rel="dns-prefetch" href="https://license.vturb.com">
-
 <!-- ============================================================
-     CLOAKER INTELIGENTE GATE — DECIDE ANTES DE RENDERIZAR
-     Revisores/Bots vêem a White Page institucional.
-     Compradores reais vêem o vídeo e o botão.
+     CLOAKER — DECIDE ANTES DE RENDERIZAR
+     Só abre a oferta para quem veio do funil (anúncio → checkout).
+     Bot, revisor e quem abre o link solto vê a white.
+     A white NUNCA carrega o player: preload e script do VTurb
+     só entram quando o portão libera.
      ============================================================ -->
 <script>
 (function(){
+  var real = false, qs;
   try {
-    var qs = new URLSearchParams(location.search);
+    qs = new URLSearchParams(location.search);
 
-    // 1. Chaves de bypass
-    var bypass = qs.get('bypass') === 'fiel2026' || qs.get('bypass') === 'gl2026' || qs.get('btn') === '1' || qs.get('preview') === '1';
+    // 1. Bypass da equipe
+    var bypass = qs.get('bypass') === 'gl2026';
 
-    // 2. Parâmetros de retorno de checkout (KashPay / Stripe / Hotmart)
-    var doFunil = !!(qs.get('transaction_id') || qs.get('order_id') || qs.get('payment_id') || qs.get('fsid') || qs.get('hash') || qs.get('src') === 'kashpay');
+    // 2. Marca do funil — vai na URL de redirecionamento configurada na KashPay
+    var doFunil = qs.get('src') === 'fs2026';
 
-    // 3. Referrer de checkout
+    // 3. Veio do checkout (hostname exato, nunca substring)
     var refHost = '';
     try { refHost = new URL(document.referrer).hostname.toLowerCase(); } catch(e){}
-    var HOSTS = ['pay.kashpay.com.br', 'kashpay.com.br', 'checkout.stripe.com', 'stripe.com', 'codigosdaalma.online'];
-    var doCheckout = HOSTS.some(function(h){ return refHost.indexOf(h) !== -1; });
+    var HOSTS = ['checkout.kashpay.com','pay.kashpay.com','kashpay.com','www.kashpay.com',
+                 'checkout.kashpay.com.br','pay.kashpay.com.br','kashpay.com.br','www.kashpay.com.br'];
+    var doCheckout = HOSTS.indexOf(refHost) !== -1;
 
-    // 4. Sessão ativa
+    // 4. Entrou por anúncio no front (cookie gravado pelo index.php)
+    var doAnuncio = /(?:^|;\s*)_gl_ok=1/.test(document.cookie);
+
+    // 5. Sessão já liberada por outra página de upsell
     var noFunil = false;
     try { noFunil = sessionStorage.getItem('funnel_ok') === '1'; } catch(e){}
 
-    // 5. Parâmetro explícito de white
+    // 6. White forçada
     var forceWhite = qs.get('clean') === '1' || qs.get('white') === '1';
 
-    // 6. Detecção de Bots e crawlers
+    // 7. Bots e automação — sempre white
     var ua = (navigator.userAgent || '').toLowerCase();
     var BOTS = ['facebookexternalhit','facebot','facebookcatalog','meta-externalagent',
                 'meta-externalhit','googlebot','adsbot-google','mediapartners-google',
                 'bingbot','yandex','semrushbot','ahrefsbot','headlesschrome','phantomjs',
                 'selenium','webdriver','puppeteer','playwright','python-requests',
-                'curl','wget','bot','crawler','spider','inspect'];
+                'curl','wget','bot','crawler','spider','inspect','lighthouse'];
     var ehBot = ua.length < 20;
     for (var i = 0; i < BOTS.length && !ehBot; i++) { if (ua.indexOf(BOTS[i]) !== -1) ehBot = true; }
 
-    var liberar = !ehBot && !forceWhite && (bypass || doFunil || doCheckout || noFunil);
+    real = !ehBot && !forceWhite && (bypass || doFunil || doCheckout || doAnuncio || noFunil);
+  } catch(e){ real = false; }
 
-    if (liberar) {
-      document.documentElement.setAttribute('data-gate','real');
-      try { sessionStorage.setItem('funnel_ok','1'); } catch(e){}
-      if (qs.get('btn') === '1' || qs.get('preview') === '1') {
-        window.addEventListener('DOMContentLoaded', function(){
-          var el = document.getElementById('bloco_cta');
-          if (el) el.style.display = 'block';
-        });
-      }
+  document.documentElement.setAttribute('data-gate', real ? 'real' : 'white');
+  window.__gateReal = real;
+  if (!real) return;
+
+  try { sessionStorage.setItem('funnel_ok','1'); } catch(e){}
+
+  // Preloads do VTurb só para quem vai ver o vídeo
+  [['https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6aca903a339923f1ce4ad61e/v4/player.js','script'],
+   ['https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js','script'],
+   ['https://cdn.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/6aca90294586075a08abf64b/main.m3u8','fetch']
+  ].forEach(function(p){
+    var l = document.createElement('link'); l.rel = 'preload'; l.href = p[0]; l.as = p[1];
+    if (p[1] === 'fetch') l.crossOrigin = 'anonymous';
+    document.head.appendChild(l);
+  });
+  window._plt = window._plt || (performance && performance.timeOrigin ? performance.timeOrigin + performance.now() : Date.now());
+
+  window.addEventListener('DOMContentLoaded', function(){
+    // Link de recusa leva a marca do funil e as UTMs adiante
+    if (location.search) {
+      var dec = document.querySelectorAll('.decline-link, .btn-decline');
+      for (var j = 0; j < dec.length; j++) dec[j].href = dec[j].getAttribute('href').split('?')[0] + location.search;
     }
-  } catch(e){}
+    // ?btn=1 mostra o botão sem esperar o vídeo (só com o portão liberado)
+    if (qs.get('btn') === '1' || qs.get('preview') === '1') {
+      var el = document.getElementById('bloco_cta');
+      if (el) el.style.display = 'block';
+    }
+  });
 })();
 </script>
 
@@ -174,6 +190,7 @@
   .w-price small { font-size:14px; font-weight:400; color:#666; }
   .w-foot-note { font-size:13.5px; color:#666; line-height:1.7; }
   .w-foot-note a { color:#16a34a; }
+  .w-capa { display:block; width:100%; max-width:420px; height:auto; margin:0 auto 26px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.12); }
 
   /* Rodapé */
   footer {
@@ -199,6 +216,8 @@
     <p class="w-lead">
       Caderno digital de estudos estratégicos dedicado ao planeamento anual e gestão de ciclos de desenvolvimento pessoal para os anos de 2026 e 2027. Inclui matrizes de planeamento, direcionamento prático para metas e metodologias de foco e tomada de decisão.
     </p>
+
+    <img class="w-capa" src="/img/capa_estudos_ciclos.jpg" alt="Capa do Caderno de Estudos Estratégicos 2026/2027" width="1024" height="1024">
 
     <div class="w-box">
       <h2>O que está incluído</h2>
@@ -244,17 +263,19 @@
         <div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div>
       </vturb-smartplayer>
       <script type="text/javascript">
-        var s = document.createElement("script");
-        s.src = "https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6aca903a339923f1ce4ad61e/v4/player.js";
-        s.async = true;
-        document.head.appendChild(s);
+        if (window.__gateReal) {
+          var s = document.createElement("script");
+          s.src = "https://scripts.converteai.net/141468aa-0e0b-4b46-b784-a9403b5f9a1c/players/6aca903a339923f1ce4ad61e/v4/player.js";
+          s.async = true;
+          document.head.appendChild(s);
+        }
       </script>
     </div>
 
     <!-- Bloco de Conteúdo Oculto (O VTurb revela automaticamente aos 02:00) -->
     <div id="bloco_cta" style="display: none;">
       <div class="btn-container">
-        <a href="https://pay.kashpay.com.br/SEU_LINK_KASHPAY_UP1" id="btnBuy" class="btn-green">
+        <a href="https://checkout.kashpay.com/checkout/checkout-1791663957917" id="btnBuy" class="btn-green">
           SIM! DESEJO RESGATAR A MINHA BÊNÇÃO E AS PREVISÕES
           <small>Adicionar em 1-clique seguro por apenas 47,00 €</small>
         </a>

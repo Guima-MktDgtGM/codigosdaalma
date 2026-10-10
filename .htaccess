@@ -1,8 +1,24 @@
+DirectoryIndex index.php index.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
+
+  # Quem pede /index.html direto também passa pelo cloaker
+  # (THE_REQUEST = pedido original; o fallback interno abaixo não cai aqui)
+  RewriteCond %{THE_REQUEST} \s/+index\.html[\s?]
+  RewriteRule ^index\.html$ /index.php [L]
+
+  RewriteRule ^index\.(html|php)$ - [L]
+
+  # Rotas do app Vue (termos, privacidade, contato, entrega) → shell do app
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|php)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
 </IfModule>

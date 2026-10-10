@@ -1,8 +1,71 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-PT" data-gate="white">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+
+<!-- ============================================================
+     CLOAKER — DECIDE ANTES DE RENDERIZAR
+     Só abre a oferta para quem veio do funil (anúncio → checkout).
+     Bot, revisor e quem abre o link solto vê a white.
+     ============================================================ -->
+<script>
+(function(){
+  var real = false, qs;
+  try {
+    qs = new URLSearchParams(location.search);
+
+    // 1. Bypass da equipe
+    var bypass = qs.get('bypass') === 'gl2026';
+
+    // 2. Marca do funil — vai na URL de redirecionamento configurada na KashPay
+    var doFunil = qs.get('src') === 'fs2026';
+
+    // 3. Veio do checkout (hostname exato, nunca substring)
+    var refHost = '';
+    try { refHost = new URL(document.referrer).hostname.toLowerCase(); } catch(e){}
+    var HOSTS = ['checkout.kashpay.com','pay.kashpay.com','kashpay.com','www.kashpay.com',
+                 'checkout.kashpay.com.br','pay.kashpay.com.br','kashpay.com.br','www.kashpay.com.br'];
+    var doCheckout = HOSTS.indexOf(refHost) !== -1;
+
+    // 4. Entrou por anúncio no front (cookie gravado pelo index.php)
+    var doAnuncio = /(?:^|;\s*)_gl_ok=1/.test(document.cookie);
+
+    // 5. Sessão já liberada por outra página de upsell
+    var noFunil = false;
+    try { noFunil = sessionStorage.getItem('funnel_ok') === '1'; } catch(e){}
+
+    // 6. White forçada
+    var forceWhite = qs.get('clean') === '1' || qs.get('white') === '1';
+
+    // 7. Bots e automação — sempre white
+    var ua = (navigator.userAgent || '').toLowerCase();
+    var BOTS = ['facebookexternalhit','facebot','facebookcatalog','meta-externalagent',
+                'meta-externalhit','googlebot','adsbot-google','mediapartners-google',
+                'bingbot','yandex','semrushbot','ahrefsbot','headlesschrome','phantomjs',
+                'selenium','webdriver','puppeteer','playwright','python-requests',
+                'curl','wget','bot','crawler','spider','inspect','lighthouse'];
+    var ehBot = ua.length < 20;
+    for (var i = 0; i < BOTS.length && !ehBot; i++) { if (ua.indexOf(BOTS[i]) !== -1) ehBot = true; }
+
+    real = !ehBot && !forceWhite && (bypass || doFunil || doCheckout || doAnuncio || noFunil);
+  } catch(e){ real = false; }
+
+  document.documentElement.setAttribute('data-gate', real ? 'real' : 'white');
+  window.__gateReal = real;
+  if (!real) return;
+
+  try { sessionStorage.setItem('funnel_ok','1'); } catch(e){}
+
+  // Link de recusa leva a marca do funil e as UTMs adiante
+  window.addEventListener('DOMContentLoaded', function(){
+    if (!location.search) return;
+    var dec = document.querySelectorAll('.decline-link, .btn-decline');
+    for (var j = 0; j < dec.length; j++) dec[j].href = dec[j].getAttribute('href').split('?')[0] + location.search;
+  });
+})();
+</script>
   <title>Oportunidade Reservada - Código da Alma Gémea | Códigos da Alma</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -306,9 +369,80 @@
       color: var(--text-muted);
       margin-top: 16px;
     }
+
+    /* ================= PORTÃO WHITE / BLACK ================= */
+    #pagina-white  { display:block; }
+    #conteudo-real { display:none; width:100%; }
+    html[data-gate="real"] #pagina-white  { display:none; }
+    html[data-gate="real"] #conteudo-real { display:block; }
+    html:not([data-gate="real"]) body { background:#ffffff; color:#111; padding:0; display:block; font-family:Arial, Helvetica, sans-serif; }
+
+    .w-wrap { max-width:760px; width:100%; margin:0 auto; padding:40px 20px 30px; }
+    .w-kicker { font-size:12px; letter-spacing:1.6px; text-transform:uppercase; color:#16a34a; font-weight:700; margin-bottom:10px; }
+    .w-wrap h1 { font-size:30px; line-height:1.25; color:#111; margin-bottom:14px; }
+    .w-lead { font-size:17px; line-height:1.6; color:#444; margin-bottom:28px; }
+    .w-capa { display:block; width:100%; max-width:420px; height:auto; margin:0 auto 26px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.12); }
+    .w-box { border:1.5px solid #e0e0e0; border-radius:10px; padding:22px 24px; margin-bottom:22px; }
+    .w-box h2 { font-size:19px; color:#111; margin-bottom:12px; }
+    .w-box ul { list-style:none; }
+    .w-box li { padding:6px 0 6px 22px; position:relative; font-size:15.5px; color:#3a3a3a; line-height:1.5; }
+    .w-box li::before { content:"•"; position:absolute; left:4px; color:#16a34a; font-weight:700; }
+    .w-price { font-size:26px; font-weight:900; color:#111; }
+    .w-price small { font-size:14px; font-weight:400; color:#666; }
+    .w-foot-note { font-size:13.5px; color:#666; line-height:1.7; }
+    .w-foot-note a { color:#16a34a; }
+    .w-footer { background:#1e293b; color:#fff; text-align:center; padding:24px 18px; font-size:13.5px; line-height:1.6; }
+    .w-footer a { color:#94a3b8; }
+    .w-footer small { display:block; font-size:12px; color:#94a3b8; margin-top:8px; }
+    @media (max-width:600px){ .w-wrap h1 { font-size:25px; } }
   </style>
 </head>
 <body>
+
+  <!-- ==================== WHITE — PÁGINA DO PRODUTO ==================== -->
+  <div id="pagina-white">
+    <div class="w-wrap">
+      <div class="w-kicker">Material Digital Complementar</div>
+      <h1>Estudos Interpessoais: Psicologia da Comunicação & Relações</h1>
+      <p class="w-lead">Curso digital sobre comunicação e relações interpessoais: como funcionam as dinâmicas entre pessoas, como ouvir e ser ouvido, e como lidar com conflitos no casal, na família e no trabalho.</p>
+
+      <img class="w-capa" src="/img/capa_estudos_relacoes.jpg" alt="Capa do material Estudos Interpessoais — Psicologia da Comunicação & Relações" width="1024" height="1024">
+
+      <div class="w-box">
+        <h2>O que está incluído</h2>
+        <ul>
+          <li>Módulo 1: Fundamentos da Comunicação Interpessoal — dinâmicas de grupo, empatia e escuta ativa</li>
+          <li>Resolução de conflitos e comunicação não violenta, com exemplos do dia a dia</li>
+          <li>Exercícios de reflexão sobre padrões de relacionamento, em PDF</li>
+          <li>Acesso direto pela mesma área de membros, sem necessidade de instalar aplicativos</li>
+        </ul>
+      </div>
+
+      <div class="w-box">
+        <h2>Preço</h2>
+        <div class="w-price">€ 37,00 <small>— pagamento único, em euros (EUR)</small></div>
+      </div>
+
+      <div class="w-box">
+        <h2>Entrega, garantia e apoio</h2>
+        <p class="w-foot-note">
+          <strong>Entrega:</strong> Produto 100% digital. O acesso é disponibilizado de imediato após a confirmação do pagamento, na mesma área de membros da compra anterior.<br><br>
+          <strong>Garantia:</strong> Reembolso incondicional no prazo de 7 dias a contar da compra.<br><br>
+          <strong>Apoio ao cliente:</strong>
+          <a href="mailto:suporte@codigosdaalma.online">suporte@codigosdaalma.online</a>.<br><br>
+          <strong>Natureza do conteúdo:</strong> Material educativo e de autoconhecimento. Não constitui aconselhamento psicológico, médico, financeiro ou jurídico e não substitui acompanhamento profissional especializado.
+        </p>
+      </div>
+    </div>
+    <div class="w-footer">
+      Copyright 2026 – Códigos da Alma &middot; codigosdaalma.online<br>
+      Todos os direitos reservados
+      <small>Conteúdo educacional de autoconhecimento. Os resultados podem variar.</small>
+    </div>
+  </div>
+
+  <!-- ==================== BLACK — A OFERTA REAL ==================== -->
+  <div id="conteudo-real">
 
   <div class="container">
 
@@ -375,7 +509,7 @@
       </div>
 
       <!-- Botão de Compra KashPay 1-Click (Substituir SEU_LINK_KASHPAY_UP2) -->
-      <a href="https://pay.kashpay.com.br/SEU_LINK_KASHPAY_UP2" id="btnBuy" class="btn-buy">
+      <a href="https://checkout.kashpay.com/checkout/checkout-1791664087496" id="btnBuy" class="btn-buy">
         SIM! ADICIONAR O CÓDIGO DA ALMA GÉMEA POR 37 €
         <span class="btn-buy-sub">Cobrança segura automática em 1-clique via KashPay</span>
       </a>
@@ -409,6 +543,8 @@
       }, 700);
     }
   </script>
+
+  </div>
 
 </body>
 </html>
