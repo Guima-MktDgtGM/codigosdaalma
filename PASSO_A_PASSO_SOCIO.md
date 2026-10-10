@@ -53,6 +53,10 @@ Leia o arquivo PASSO_A_PASSO_SOCIO.md e faça as substituições necessárias no
 - [Opção A: Manter o Worker padrão já integrado (https://worker-leads.vendasonlinemktdgtgm.workers.dev)] OU
 - [Opção B: Meu próprio Worker: https://meu-worker.workers.dev]
 
+7. LINK DOS BÓNUS DO GOOGLE DRIVE (OPCIONAL):
+- [Opção A: Manter a pasta padrão já configurada: https://drive.google.com/drive/folders/1hUkkNHoQ9EBl0ZnZd58dGmeEo1uaXx3C?usp=sharing] OU
+- [Opção B: Meu link do Drive próprio: cole aqui]
+
 Por favor, atualize todos os arquivos correspondentes mantendo o cloaker, o design e o 1-click perfeitamente funcionais.
 ```
 
@@ -135,7 +139,48 @@ Caso queira saber exatamente o que o Antigravity irá alterar nos arquivos:
 
 ---
 
-## 5. Como Testar Antes de Subir Anúncios
+## 6. Entregáveis dos Produtos e Links dos Bónus
+
+Para você e o seu suporte ficarem 100% alinhados, aqui está o que cada cliente recebe em cada etapa e como os arquivos são entregues:
+
+### 🎁 1. Front — Teste Numerológico Cabalístico (€19 / €9,90):
+* **Entregável Principal:** **Mapa Numerológico Cabalístico Oficial** (relatório personalizado de 11 páginas).
+  * O próprio sistema gera o PDF no navegador da cliente com base na data de nascimento dela.
+  * A cliente pode descarregar diretamente na tela de membros (`/pGwZSDj`).
+  * O Worker envia automaticamente uma cópia em PDF anexa para o e-mail dela.
+* **3 Bónus Oficiais Inclusos no Front:**
+  1. *O Dossiê dos Trânsitos Proibidos* (PDF)
+  2. *O Escudo do Sol Cabalístico* (PDF)
+  3. *Ritual Cabalístico da Mão Esquerda* (PDF)
+* **Link Oficial do Google Drive (Já Pronto e Público):**
+  `https://drive.google.com/drive/folders/1hUkkNHoQ9EBl0ZnZd58dGmeEo1uaXx3C?usp=sharing`
+  *(Nota: Esse link já está inserido no e-mail automático do Resend e no botão dourado da área de membros. Você pode manter exatamente esse link ou criar uma cópia no seu próprio Google Drive e pedir para a IA atualizar).*
+
+---
+
+### 🔮 2. Upsell 1 — Previsões Cabalísticas 2026/2027 (€47):
+* **Entregável:** Livro digital / Dossiê completo de predições personalizadas para os ciclos de 2026 e 2027 (Previsões de amor, finanças, saúde e alertas de trânsitos kármicos).
+* **Entrega:** Configure na KashPay (na área do produto do Up1) a entrega automática do PDF por e-mail ou coloque o link de download na página de obrigado.
+
+---
+
+### ❤️ 3. Upsell 2 — O Código Secreto da Alma Gémea (€37):
+* **Entregável:** E-book oficial de Sinastria Cabalística e Conexão de Chamas Gémeas.
+  * Inclui: Sinais de Reconhecimento, Técnicas de Corte de Amarras Kármicas e o Ritual de Ativação do Fio Vermelho.
+* **Entrega:** Configurado diretamente no e-mail de pós-compra do Up2 na KashPay.
+
+---
+
+### 🛡️ 4. Upsell 3 — Os 7 Selos Sagrados de Salomão (€24):
+* **Entregável:** **Kit Digital de Ativação Energética:**
+  * 7 Imagens em alta definição dos Selos Sagrados (para usar como fundo de tela do telemóvel ou imprimir).
+  * Guia de Consagração de 2 Minutos (passo a passo para consagrar o selo escolhido).
+  * 7 Áudios Binaurais MP3 com Frequências Solfeggio específicas para harmonização e desbloqueio energético.
+* **Entrega:** Configurado no pós-compra do Up3 na KashPay via link do Drive ou área de download.
+
+---
+
+## 7. Como Testar Antes de Subir Anúncios
 
 1. Abra a página inicial com bypass: `https://seusite.com/?bypass=gl2026`.
 2. Verifique se o VTurb do Front carrega perfeitamente.
@@ -147,3 +192,4 @@ Caso queira saber exatamente o que o Antigravity irá alterar nos arquivos:
 5. Abra o site sem bypass em uma aba anônima (como um revisor ou curioso): confirme se exibe a **White Page** institucional.
 
 Tudo pronto para rodar e lucrar! 🚀
+
