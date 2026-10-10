@@ -2850,8 +2850,17 @@
         <h3 style="color: #f5d77f; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">🎁 OS SEUS 3 LIVROS BÓNUS OFICIAIS ESTÃO DISPONÍVEIS!</h3>
         <p style="color: #e2e8f0; font-size: 0.95rem; margin-bottom: 14px;">Aceda agora ao <b>Dossiê dos Trânsitos Proibidos</b>, ao <b>Escudo do Sol Cabalístico</b> e ao <b>Ritual da Mão Esquerda</b>:</p>
         <a href="https://drive.google.com/drive/folders/1hUkkNHoQ9EBl0ZnZd58dGmeEo1uaXx3C?usp=sharing" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #28a745; color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 1rem; text-decoration: none; box-shadow: 0 4px 10px rgba(40,167,69,0.3);">
-          📥 ACEDER E DESCARREGAR OS BÓNUS
+          👉 ACEDER E DESCARREGAR OS BÓNUS
         </a>
+      </div>
+
+      <!-- Banner de Download da Leitura Personalizada em PDF -->
+      <div style="background: linear-gradient(135deg, #1f1b2e 0%, #110d1f 100%); border: 2px solid #8b5cf6; border-radius: 12px; padding: 20px; text-align: center; margin-top: 15px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);">
+        <h3 style="color: #ddd6fe; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">📥 DESCARREGAR MAPA NUMEROLÓGICO EM PDF</h3>
+        <p style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 14px;">Pode ler as 11 páginas aqui no site ou descarregar o livro completo em PDF para o seu telemóvel ou computador:</p>
+        <button @click="downloadCartilha()" style="display: inline-block; background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); color: #ffffff; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 1rem; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);">
+          📥 DESCARREGAR O MEU PDF AGORA
+        </button>
       </div>
     </div>
     <div class="w-full max-w-3xl py-8 bg-white" id="conteudo-para-pdf" ref="conteudoPdf">
@@ -4184,11 +4193,11 @@
 
                 <div class="assinatura-mahila">
                   <div class="foto-mahila">
-                    <img src="../assets/img/img_mahila.png" alt="Mahila Luz" class="img-mahila">
+                    <img src="../assets/img/img_mahila.png" alt="Códigos da Alma" class="img-mahila">
                   </div>
                   <div class="info-mahila">
-                    <p class="nome-mahila"><strong>Mahila Luz</strong></p>
-                    <p class="titulo-mahila">Numeróloga | Terapeuta Holística | Guia Espiritual</p>
+                    <p class="nome-mahila"><strong>Oráculo Códigos da Alma</strong></p>
+                    <p class="titulo-mahila">Numerologia Sagrada & Cabalística</p>
                     <p class="frase-mahila">"Iluminando caminhos através da sabedoria dos números" ✨</p>
                   </div>
                 </div>
@@ -4207,11 +4216,20 @@
             <p><em>Gratidão infinita por permitir que eu seja parte da sua jornada de despertar numerológico. Que os
                 números sagrados sempre guiem seus passos rumo à felicidade plena! 💫</em></p>
           </div>
+
+          <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 2px solid #d4af37; border-radius: 12px; padding: 25px 20px; text-align: center; margin-top: 30px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);">
+            <h3 style="color: #f5d77f; font-size: 1.35rem; font-weight: 700; margin-bottom: 10px;">🎉 Parabéns por concluir a sua Leitura Cósmica!</h3>
+            <p style="color: #e2e8f0; font-size: 1rem; margin-bottom: 18px;">Guarde os seus Códigos Sagrados para sempre. Descarregue a sua Leitura Completa em formato PDF:</p>
+            <button @click="downloadCartilha()" style="display: inline-block; background: linear-gradient(135deg, #28a745 0%, #218838 100%); color: #ffffff; padding: 14px 28px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);">
+              📥 DESCARREGAR LEITURA COMPLETA EM PDF
+            </button>
+          </div>
         </div>
     </div>    
-    <div class="w-full max-w-3xl px-4 py-8 bg-white navegacao">
+    <div class="w-full max-w-3xl px-4 py-8 bg-white navegacao" style="display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
       <button class="button-nav voltar" @click="voltarPagina()" v-if="pagina > 1">Voltar</button>
       <button class="button-nav proxima" @click="mudarPagina()" v-if="pagina != 11">Próxima</button>
+      <button class="button-nav baixar-pdf" @click="downloadCartilha()" style="background-color: #28a745; border-color: #28a745; color: #fff; font-weight: bold; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.95rem;">📥 Descarregar PDF</button>
     </div>
   </div>
 </div>
@@ -4905,7 +4923,7 @@
         doc.setFont('helvetica', 'normal'); // Fonte normal
         const normalTextY13 = nextContentY12 + 10;
         const endY13 = addTextWithPageCheck(
-          "Reforço da Importância dos Números da Sorte \n\nOs números da sorte são mais do que simples dígitos; eles são símbolos poderosos que ressoam com as energias do universo e com sua essência pessoal. Incorporá-los em sua vida diária pode abrir portas para novas oportunidades, atrair prosperidade e trazer um sentido de harmonia e alinhamento com as forças cósmicas que influenciam seu destino. \n\nUtilizar seus números da sorte em decisões importantes e pequenas escolhas cotidianas é uma maneira prática de aumentar suas chances de sucesso e bem-estar. Seja agendando compromissos em datas favoráveis, escolhendo números de assentos ou mesas, ou até mesmo usando-os em suas senhas, cada pequena ação pode acumular energias positivas e direcioná-las para você. \n\nMensagem Final de Incentivo \nLembre-se, você tem nas mãos uma ferramenta poderosa para transformar sua vida de maneira significativa. Os números da sorte personalizados para você foram cuidadosamente selecionados para ressoar com suas energias únicas. Ao utilizar esta cartilha, você está se alinhando com as forças do universo que trabalham a seu favor. \n\nAcredite no poder dos números e na capacidade que eles têm de influenciar sua vida positivamente. Permita que essa nova abordagem traga mais clareza, confiança e sucesso em suas escolhas diárias. Cada passo que você dá com a orientação dos seus números da sorte é um passo em direção a uma vida mais próspera e plena. \n\nEstamos juntos nessa jornada, e eu estou aqui para apoiá-la em cada etapa do caminho. Confie no processo, siga suas intuições e aproveite as maravilhas que seus números da sorte podem trazer. Um grande abraço, e que a sorte esteja sempre ao seu lado! \n\nMahila Luz",
+          "Reforço da Importância dos Números da Sorte \n\nOs números da sorte são mais do que simples dígitos; eles são símbolos poderosos que ressoam com as energias do universo e com sua essência pessoal. Incorporá-los em sua vida diária pode abrir portas para novas oportunidades, atrair prosperidade e trazer um sentido de harmonia e alinhamento com as forças cósmicas que influenciam seu destino. \n\nUtilizar seus números da sorte em decisões importantes e pequenas escolhas cotidianas é uma maneira prática de aumentar suas chances de sucesso e bem-estar. Seja agendando compromissos em datas favoráveis, escolhendo números de assentos ou mesas, ou até mesmo usando-os em suas senhas, cada pequena ação pode acumular energias positivas e direcioná-las para você. \n\nMensagem Final de Incentivo \nLembre-se, você tem nas mãos uma ferramenta poderosa para transformar sua vida de maneira significativa. Os números da sorte personalizados para você foram cuidadosamente selecionados para ressoar com suas energias únicas. Ao utilizar esta cartilha, você está se alinhando com as forças do universo que trabalham a seu favor. \n\nAcredite no poder dos números e na capacidade que eles têm de influenciar sua vida positivamente. Permita que essa nova abordagem traga mais clareza, confiança e sucesso em suas escolhas diárias. Cada passo que você dá com a orientação dos seus números da sorte é um passo em direção a uma vida mais próspera e plena. \n\nEstamos juntos nessa jornada, e eu estou aqui para apoiá-la em cada etapa do caminho. Confie no processo, siga suas intuições e aproveite as maravilhas que seus números da sorte podem trazer. Um grande abraço, e que a sorte esteja sempre ao seu lado! \n\nCódigos da Alma",
           13, 'normal', [0, 0, 0], 10, normalTextY13, lineHeightFactor);
 
         let nextContentY13 = endY13 + 10;
@@ -4951,7 +4969,7 @@
         const data = {
           sender: {
             email: 'suporte@codigosdaalma.online',
-            name: ' Mahila Luz'
+            name: 'Códigos da Alma'
           },
           to: [{
               email: this.email
@@ -6121,7 +6139,7 @@ break;
           lineHeightFactor);
 
         const endY13 = addTextWithPageCheck(
-          "\nOs números são mais do que simples dígitos; eles são símbolos poderosos que ressoam com as energias do universo e com sua essência pessoal. Incorporá-los em sua vida diária pode abrir portas para novas oportunidades, atrair prosperidade e trazer um sentido de harmonia e alinhamento com as forças cósmicas que influenciam seu destino. \n\nUtilizar seus números em decisões importantes e pequenas escolhas cotidianas é uma maneira prática de aumentar suas chances de sucesso e bem-estar. Seja agendando compromissos em datas favoráveis, escolhendo números de assentos ou mesas, ou até mesmo usando-os em suas senhas, cada pequena ação pode acumular energias positivas e direcioná-las para você. \n\nMensagem Final de Incentivo \nLembre-se, você tem nas mãos uma ferramenta poderosa para transformar sua vida de maneira significativa. Os números foram cuidadosamente selecionados para ressoar com suas energias astrológicas únicas. Ao utilizar este mapa, você está se alinhando com as forças do universo que trabalham a seu favor. \n\nAcredite no poder dos números e na capacidade que eles têm de influenciar sua vida positivamente. Permita que essa nova abordagem traga mais clareza, confiança e sucesso em suas escolhas diárias. Cada passo que você dá com a orientação dos seus números da sorte é um passo em direção a uma vida mais próspera e plena. \n\nEstamos juntos nessa jornada, e eu estou aqui para apoiá-la em cada etapa do caminho. Confie no processo, siga suas intuições e aproveite as maravilhas que seus números da sorte podem trazer. Um grande abraço, e que a sorte esteja sempre ao seu lado! \n\nMahila Luz",
+          "\nOs números são mais do que simples dígitos; eles são símbolos poderosos que ressoam com as energias do universo e com sua essência pessoal. Incorporá-los em sua vida diária pode abrir portas para novas oportunidades, atrair prosperidade e trazer um sentido de harmonia e alinhamento com as forças cósmicas que influenciam seu destino. \n\nUtilizar seus números em decisões importantes e pequenas escolhas cotidianas é uma maneira prática de aumentar suas chances de sucesso e bem-estar. Seja agendando compromissos em datas favoráveis, escolhendo números de assentos ou mesas, ou até mesmo usando-os em suas senhas, cada pequena ação pode acumular energias positivas e direcioná-las para você. \n\nMensagem Final de Incentivo \nLembre-se, você tem nas mãos uma ferramenta poderosa para transformar sua vida de maneira significativa. Os números foram cuidadosamente selecionados para ressoar com suas energias astrológicas únicas. Ao utilizar este mapa, você está se alinhando com as forças do universo que trabalham a seu favor. \n\nAcredite no poder dos números e na capacidade que eles têm de influenciar sua vida positivamente. Permita que essa nova abordagem traga mais clareza, confiança e sucesso em suas escolhas diárias. Cada passo que você dá com a orientação dos seus números da sorte é um passo em direção a uma vida mais próspera e plena. \n\nEstamos juntos nessa jornada, e eu estou aqui para apoiá-la em cada etapa do caminho. Confie no processo, siga suas intuições e aproveite as maravilhas que seus números da sorte podem trazer. Um grande abraço, e que a sorte esteja sempre ao seu lado! \n\nCódigos da Alma",
           20, 'normal', [0, 0, 0], 10, 20, lineHeightFactor);
 
         let nextContentY13 = endY13 + 10;
