@@ -69,20 +69,37 @@ Por favor, atualize todos os arquivos correspondentes mantendo o cloaker, o desi
 1. **Conta e Produtos na KashPay:**
    * Crie a sua conta na KashPay.
    * Cadastre os 4 produtos do funil:
-     * **Front:** Teste Numerológico Cabalístico (€19)
+     * **Front:** Teste Numerológico Cabalístico (€19 ou €9,90)
      * **Up1:** Previsões Cabalísticas 2026/2027 (€47)
      * **Up2:** Código Secreto da Alma Gémea (€37)
      * **Up3:** Os 7 Selos Sagrados de Salomão (€24)
-   * Configure os Upsells como One-Click na KashPay para gerar as URLs `/u/...`.
-   * Na KashPay, conecte o Pixel do Facebook `3725791700905617` marcando para enviar `InitiateCheckout`.
+   * **Como montar o Funil de Upsell 1-Click na KashPay:**
+     1. Na KashPay, vá em **Produtos -> Funis de Vendas -> Criar Novo Funil**.
+     2. Selecione o seu produto Front como entrada do funil.
+     3. Adicione a primeira etapa de Upsell (Up1): configure a URL da página de destino como `https://seudominio.com/up1/`.
+     4. A KashPay irá gerar o link de compra 1-Click do Up1 (formato `https://checkout.kashpay.com/u/SEU_HASH_UP1`). É esse link que vai no botão verde do Up1!
+     5. Adicione a etapa de Upsell 2 (Up2): defina a URL da página como `https://seudominio.com/up2/` e pegue o link 1-Click gerado para colocar no botão do Up2.
+     6. Adicione a etapa de Upsell 3 (Up3): defina a URL como `https://seudominio.com/up3/` e pegue o link 1-Click gerado para colocar no botão do Up3.
+     7. **Página de Obrigado / Entrega Final:** Na última etapa (após Up3 ou recusa), configure o redirecionamento final para a área de membros: `https://seudominio.com/pGwZSDj`.
+   * **Pixel na KashPay:**
+     * Conecte o Meta Pixel `3725791700905617` marcando para disparar apenas `InitiateCheckout`.
+
 2. **Conta na UTMify:**
-   * Crie o produto/campanha na sua UTMify.
+   * Crie a campanha/produto na sua UTMify.
    * Copie o seu **Código do Pixel da UTMify** e o seu **Script de UTMs da UTMify**.
-   * Integre o Webhook da KashPay na sua UTMify para que ela receba as vendas e envie o evento `Purchase` via API de Conversões (CAPI) para a Meta.
-3. **Conta no VTurb:**
-   * Suba os vídeos do Front e do Up1 no seu painel do VTurb.
-   * No player do Front, configure o botão de CTA para abrir o link de checkout do seu Front da KashPay.
-   * Pegue os IDs de Player e Vídeo do Front e do Up1.
+   * Cadastre o Webhook da KashPay na sua UTMify para que ela rastreie as vendas aprovadas e envie o evento `Purchase` via API de Conversões (CAPI) para a Meta.
+
+3. **Conta no VTurb (Vídeos e Delay de Botão):**
+   * **Front:** Suba o vídeo principal. No VTurb, ative o botão de CTA dentro do próprio player apontando para o seu checkout do Front da KashPay.
+   * **Up1 (MUITO IMPORTANTE - Delay de Elemento HTML Oculto):**
+     1. Suba o vídeo do Up1 no VTurb.
+     2. Vá em **Configurações do Vídeo -> Ações do Player / Delay de Botão / Elemento da Página**.
+     3. Selecione a opção **"Exibir elemento da página"** (ou "HTML Oculto").
+     4. No campo do seletor, digite: `#bloco_cta` (ou `.smartplayer-call-to-action`).
+     5. Defina o tempo de pitch do vídeo (quando a oradora começa a apresentar a bênção e as previsões).
+     6. O VTurb vai manter o botão 1-Click oculto até aquele segundo exato, e só então fará o botão verde surgir magicamente na tela!
+     7. *(Dica: Para testar a página sem ter que assistir ao vídeo todo, acesse `https://seudominio.com/up1/?bypass=gl2026&btn=1` que o botão aparece de imediato).*
+
 4. **Domínio próprio:**
    * O domínio que comprou (ex: na Hostinger / Namecheap / Cloudflare).
 
@@ -141,7 +158,12 @@ Caso queira saber exatamente o que o Antigravity irá alterar nos arquivos:
 
 ## 6. Entregáveis dos Produtos e Links dos Bónus
 
-Para você e o seu suporte ficarem 100% alinhados, aqui está o que cada cliente recebe em cada etapa e como os arquivos são entregues:
+Para você e o seu suporte ficarem 100% alinhados, aqui está o que cada cliente recebe em cada etapa e o status exato de cada entregável:
+
+> [!IMPORTANT]
+> **Status dos Arquivos:**
+> * **Front e os 3 Bónus:** Estão **100% prontos** no código e na pasta pública do Google Drive.
+> * **Upsell 1, 2 e 3:** Toda a estrutura de páginas, design, VSLs, quizzes e botões 1-click estão **100% operacionais**. Porém, os arquivos finais dos produtos (os PDFs de conteúdo e áudios que a cliente baixa após a aprovação da compra) devem ser hospedados no Google Drive e vinculados no e-mail de entrega de cada produto na KashPay.
 
 ### 🎁 1. Front — Teste Numerológico Cabalístico (€19 / €9,90):
 * **Entregável Principal:** **Mapa Numerológico Cabalístico Oficial** (relatório personalizado de 11 páginas).
