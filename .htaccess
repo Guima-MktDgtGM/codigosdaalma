@@ -4,6 +4,9 @@ DirectoryIndex index.php index.html
   RewriteEngine On
   RewriteBase /
 
+  # Log antigo do cloaker (IP e aparelho dos visitantes) — nunca público
+  RewriteRule ^gate_debug\.txt$ - [F,L]
+
   # Quem pede /index.html direto também passa pelo cloaker
   # (THE_REQUEST = pedido original; o fallback interno abaixo não cai aqui)
   RewriteCond %{THE_REQUEST} \s/+index\.html[\s?]
