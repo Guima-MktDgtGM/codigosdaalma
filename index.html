@@ -89,5 +89,104 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/CSSRulePlugin.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://kit.fontawesome.com/e4e8e4da22.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- SENTINELA P1: LIBERAÇÃO AUTOMÁTICA DA TELA AZUL DE E-MAIL -->
+    <script>
+    (function() {
+        var modalOpened = false;
+
+        function revealEmailModal() {
+            if (modalOpened) return;
+            var modal = document.getElementById('email-optin-modal');
+            if (modal) {
+                modalOpened = true;
+                modal.classList.remove('parte2-hidden');
+                modal.style.display = 'flex';
+                console.log('[Sentinela P1] Tela azul de e-mail liberada com sucesso!');
+            }
+        }
+
+        // Atalho para testes imediatos via URL: ?email=1 ou ?tela=azul
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('email') === '1' || urlParams.get('tela') === 'azul') {
+            var waitModal = setInterval(function() {
+                var m = document.getElementById('email-optin-modal');
+                if (m) {
+                    revealEmailModal();
+                    clearInterval(waitModal);
+                }
+            }, 300);
+        }
+
+        // 1. Ouvinte para eventos de mensagens (postMessage / VTurb API)
+        window.addEventListener('message', function(e) {
+            try {
+                var data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+                if (data && (
+                    data.event === 'ended' || 
+                    data.type === 'video-ended' || 
+                    data.type === 'vturb:video-ended' ||
+                    (data.smartplayer && data.smartplayer.event === 'ended')
+                )) {
+                    revealEmailModal();
+                }
+            } catch(err) {}
+        });
+
+        // 2. Monitoramento ativo do player P1 em tempo real
+        var checkInterval = setInterval(function() {
+            var p1Container = document.getElementById('personalized-video-p1');
+            if (!p1Container) return;
+
+            // Busca elemento <video> dentro do container (direto ou no shadowRoot do vturb-smartplayer)
+            var player = p1Container.querySelector('vturb-smartplayer');
+            var video = p1Container.querySelector('video');
+            if (!video && player && player.shadowRoot) {
+                video = player.shadowRoot.querySelector('video');
+            }
+
+            if (video && !video.__sentinelaAttached) {
+                video.__sentinelaAttached = true;
+
+                // Libera a tela azul quando a oradora fala do e-mail (a ~65s do fim do vídeo)
+                video.addEventListener('timeupdate', function() {
+                    if (video.duration > 0 && (video.duration - video.currentTime <= 70)) {
+                        revealEmailModal();
+                    }
+                });
+
+                // Libera a tela azul caso o vídeo termine completamente
+                video.addEventListener('ended', function() {
+                    revealEmailModal();
+                });
+            }
+
+            // Monitora instâncias globais do VTurb SmartPlayer se disponíveis
+            if (window.smartplayer && window.smartplayer.instances) {
+                window.smartplayer.instances.forEach(function(inst) {
+                    if (!inst.__sentinelaAttached) {
+                        inst.__sentinelaAttached = true;
+                        if (inst.video) {
+                            inst.video.addEventListener('timeupdate', function() {
+                                if (inst.video.duration > 0 && (inst.video.duration - inst.video.currentTime <= 70)) {
+                                    revealEmailModal();
+                                }
+                            });
+                            inst.video.addEventListener('ended', revealEmailModal);
+                        }
+                        if (typeof inst.on === 'function') {
+                            inst.on('ended', revealEmailModal);
+                            inst.on('timeupdate', function() {
+                                if (inst.video && inst.video.duration > 0 && (inst.video.duration - inst.video.currentTime <= 70)) {
+                                    revealEmailModal();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }, 500);
+    })();
+    </script>
 </body>
 </html>
