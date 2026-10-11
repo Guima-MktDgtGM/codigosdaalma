@@ -1700,12 +1700,20 @@
 
             handleNome() {
                 if (!this.firstNameValue) {
-                    alert("Campo do primeiro nome inválido!");
-                    return;
+                    this.handleFieldFirstName();
+                }
+                if (!this.firstNameValue) {
+                    const fallback = (this.firstName || "").trim().split(/\s+/)[0];
+                    if (fallback) {
+                        this.firstNameValue = fallback;
+                    } else {
+                        alert("Por favor, insira o seu primeiro nome!");
+                        return;
+                    }
                 }
                 this.trackQuizStep(8, 'name_submitted');
                 const alertModal = document.querySelector(".modal-warning .content-warning h3 span");
-                alertModal.innerHTML = this.firstNameValue;
+                if (alertModal) alertModal.innerHTML = this.firstNameValue;
                 this.section1 = false;
 
                 this.loadingBlock = true;
@@ -1721,58 +1729,20 @@
                     this.loadingBlock = false;
                     this.loadPersonalizedVideoP1();
                 }, 2000);
-
-                // Código antigo mantido para referência (não é mais usado)
-                /*
-                let genderPath = this.genderValue === "masculino" ? "h" : "m";
-                let civilStatusChar = this.getCharCivilStatus(this.civilStatusValue);
-                this.ageUserValue = this.getAgeUser();
-                let ageFormatted = this.getAgeUserFormat(this.ageUserValue);
-
-                console.log(genderPath, civilStatusChar, ageFormatted);
-
-                const audioPath = "../audio/p1/" + genderPath + "_" + ageFormatted + "_" + civilStatusChar + ".mp3";
-                const animationPath = "../animations/p1/" + genderPath + "_" + ageFormatted + "_" + civilStatusChar + ".json";
-                const legendPath = "../legends/p1/" + genderPath + "_" + ageFormatted + "_" + civilStatusChar + ".vtt";
-
-                const jsonData = await this.getJsonData(animationPath);
-
-                setTimeout(() => {
-                    this.showPlayer = true;
-                    this.elements.sectionAnimation.classList.remove("hide");
-                    this.elements.audioSection.classList.remove("hide");
-                    this.elements.audioBar.classList.remove("hide");
-                    this.loadingBlock = false;
-                    this.elements.sectionAnimation.classList.remove("hide");
-
-                    if (jsonData) {
-                        this.generatorAnimation(jsonData);
-                    }
-                }, 2000);
-
-                await this.handleVideo(audioPath, legendPath, this.elements.audioElement);
-                await this.handleStartVideo(true);
-                this.handleFormsSections(this.formsSectionsArray);
-                */
             },
             handleFieldFirstName() {
-                const value = this.firstName;
+                const value = (this.firstName || "").trim();
                 const numberPattern = /[0-9]/;
-                const multipleNamesPattern = /[a-z]+[ ]+[a-z]/g;
 
                 if (numberPattern.test(value)) {
                     this.errorFieldMessage = "*Apenas letras são permitidas!";
                     this.firstNameValue = undefined;
                     return;
                 }
-                if (multipleNamesPattern.test(value)) {
-                    this.errorFieldMessage = "*Apenas o primeiro nome!";
-                    this.firstNameValue = undefined;
-                    return;
-                }
                 this.errorFieldMessage = "";
-                const valueFormated = value.replace(/ /g, "");
-                this.firstNameValue = valueFormated;
+                // Pega automaticamente o primeiro nome se o usuário digitar nome completo
+                const firstNameOnly = value.split(/\s+/)[0];
+                this.firstNameValue = firstNameOnly || "Amigo";
             },
             handleEmailEmailValidations(field) {
                 let emailRegex = /^([A-Za-z0-9._-])+@([A-Za-z0-9_-])+\.([A-Za-z]{2,4})$/;
@@ -2545,18 +2515,27 @@
                     dataLayer.push({ event: 'add_lead_signo' });
 
 
+                    const cleanEmail = (this.emailValue || "").trim().toLowerCase();
+                    this.emailValue = cleanEmail;
+                    const cleanFirstName = (this.firstNameValue || this.firstName || "Amigo").trim().split(/\s+/)[0];
+                    this.firstNameValue = cleanFirstName;
+
                     const url =
-                        `https://worker-leads.vendasonlinemktdgtgm.workers.dev/capturar-lead?email=${encodeURIComponent(this.emailValue)}&name=${encodeURIComponent(this.firstNameValue)}&tagId=${encodeURIComponent(this.tagId)}${this.utmPrefix ? `&utm_prefix=${encodeURIComponent(this.utmPrefix)}` : ""}`;
+                        `https://worker-leads.vendasonlinemktdgtgm.workers.dev/capturar-lead?email=${encodeURIComponent(cleanEmail)}&name=${encodeURIComponent(cleanFirstName)}&tagId=${encodeURIComponent(this.tagId)}${this.utmPrefix ? `&utm_prefix=${encodeURIComponent(this.utmPrefix)}` : ""}`;
 
                     try {
-                        const response = axios.post(url);
-                        this.moonPhasesStepTwo();
-                        
-                    } catch (error) {
-                        this.moonPhasesStepTwo();
-                        console.error('.', error);
-
+                        if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+                            navigator.sendBeacon(url);
+                        }
+                        if (typeof fetch === 'function') {
+                            fetch(url, { method: 'POST', mode: 'no-cors', keepalive: true }).catch(() => {});
+                        }
+                        axios.post(url).catch(() => {});
+                    } catch (err) {
+                        console.error('Lead trigger error:', err);
                     }
+
+                    this.moonPhasesStepTwo();
 
                     if (this.$posthog) {
                         this.$posthog.capture('lead_conversion', {
