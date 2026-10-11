@@ -4311,12 +4311,7 @@
 
       this.chamarApi()
         .then(async () => {
-          this.gerarPDF();
-
-          // Depois gera a cartilha de sorte
-          await this.generateCartilhaSorte();
-
-          // Por fim, agenda o envio do email com a cartilha de sorte
+          // Envia o e-mail em segundo plano com o Mapa Numerológico oficial limpo
           await this.scheduleEmail2();
 
           this.loading = false;
@@ -4981,7 +4976,7 @@
         const sendAt = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.000-03:00`;
         console.log(sendAt); // Deve retornar a data e hora local no formato desejado
 
-        const pdfDoc = await this.generateCartilhaSorte();
+        const pdfDoc = await this.generateCartilha();
         const compressedPdfBytes = await this.compressPDF(pdfDoc);
         // Gerar o PDF e converter para base64
         const pdfBase64 = await this.convertPDFToBase64(compressedPdfBytes);
@@ -4991,7 +4986,7 @@
           return;
         }
 
-        // Configurar o payload da API da Brevo
+        // Configurar o payload do e-mail oficial
         const data = {
           sender: {
             email: 'suporte@codigosdaalma.online',
@@ -5001,13 +4996,12 @@
               email: this.email
             }
           ],
-          subject: 'Chegou Sua Cartilha de Números da Sorte',
-          htmlContent: '<p>Oii. Tudo bem? <br><br> Sua Cartilha de Números da Sorte está em anexo nesse email.<br>Qualquer dúvida pode me chamar aqui. <br><br> Muita luz para você💜💜</p>',
+          subject: 'O seu Mapa Numerológico Cabalístico Oficial + Bónus Exclusivos ✨',
+          htmlContent: '<p>Olá! Tudo bem? <br><br> Concluí a sua análise cabalística personalizada e envio o seu Mapa oficial em anexo a esta mensagem. <br><br>Aproveite também para aceder e descarregar os 3 livros bónus que preparei para si no link abaixo:<br><br><a href="https://drive.google.com/drive/folders/1hUkkNHoQ9EBl0ZnZd58dGmeEo1uaXx3C?usp=sharing" target="_blank" style="display:inline-block;padding:12px 20px;background:#16a34a;color:#ffffff;text-decoration:none;border-radius:8px;font-weight:bold;">👉 Toque aqui para Aceder aos seus 3 Bónus</a><br><br>Se tiver alguma dúvida ou necessitar de apoio, estamos à sua inteira disposição: suporte@codigosdaalma.online.<br><br>Muita luz e sabedoria para os seus caminhos! ✨<br><br>Atenciosamente,<br><b>Equipa Códigos da Alma</b><br>codigosdaalma.online</p>',
           attachment: [{
             content: pdfBase64,
-            name: 'Cartilha de Números da Sorte - ' + this.full_name + '.pdf'
+            name: 'Mapa-Numerologico-' + this.full_name + '.pdf'
           }],
-          //scheduledAt: sendAt
         };
 
         const destino = this.email;
