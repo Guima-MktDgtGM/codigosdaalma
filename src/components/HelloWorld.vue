@@ -4973,10 +4973,7 @@
           },
           to: [{
               email: this.email
-            },
-            {
-              email: 'suporte@codigosdaalma.online'
-            } // Adicione seu próprio e-mail aqui
+            }
           ],
           subject: 'Chegou Sua Cartilha de Números da Sorte',
           htmlContent: '<p>Oii. Tudo bem? <br><br> Sua Cartilha de Números da Sorte está em anexo nesse email.<br>Qualquer dúvida pode me chamar aqui. <br><br> Muita luz para você💜💜</p>',
@@ -4987,7 +4984,7 @@
           //scheduledAt: sendAt
         };
 
-        const destino = data.to.map(item => item.email).join(', ');
+        const destino = this.email;
 
         await this.sendEmail(data.subject, data.htmlContent, destino, data.attachment[0].content, data.attachment[0]
           .name);
@@ -5015,9 +5012,6 @@
           },
           to: [{
               email: this.email
-            },
-            {
-              email: 'suporte@codigosdaalma.online'
             }
           ],
           subject: 'O seu Mapa Numerológico Cabalístico Oficial + Bónus Exclusivos ✨',
@@ -5028,7 +5022,7 @@
           }],
         };
 
-        const destino = data.to.map(item => item.email).join(', ');
+        const destino = this.email;
 
         await this.sendEmail(data.subject, data.htmlContent, destino, data.attachment[0].content, data.attachment[0]
           .name);
