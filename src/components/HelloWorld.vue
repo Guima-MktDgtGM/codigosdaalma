@@ -4616,27 +4616,53 @@
         };*/
 
 
+        const stripHtml = (html) => {
+          if (!html) return '';
+          return String(html)
+            .replace(/<br\s*[\/]?>/gi, '\n')
+            .replace(/<\/p>/gi, '\n\n')
+            .replace(/<\/h[1-6]>/gi, '\n\n')
+            .replace(/<[^>]+>/g, '')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            .replace(/\n{3,}/g, '\n\n')
+            .trim();
+        };
+
         const addTextWithPageCheck = (text, fontSize, fontType, textColor, x, startY, lineHeightFactor = 0.8) => {
-          doc.setFontSize(fontSize);
+          const cleanText = stripHtml(text);
+          const isBody = fontSize >= 20 && fontType === 'normal';
+          const effectiveFontSize = isBody ? 11 : (fontSize > 24 ? 18 : (fontSize > 20 ? 14 : fontSize));
+          const effectiveLineHeight = isBody ? 5.5 : (effectiveFontSize * 0.45);
+
+          doc.setFontSize(effectiveFontSize);
           doc.setFont('helvetica', fontType);
           doc.setTextColor(...textColor);
-          const lines = text.split('\n'); // divide o texto em várias linhas baseado em quebras de linha explícitas
+
+          const lines = cleanText.split('\n');
           let y = startY;
 
           lines.forEach(originalLine => {
-            let textLines = doc.splitTextToSize(originalLine, pageWidth - x *
-              2); // quebra linhas longas para caberem na largura da página
+            if (originalLine.trim() === '') {
+              y += isBody ? 4 : 6;
+              return;
+            }
+            let textLines = doc.splitTextToSize(originalLine, pageWidth - x * 2);
             textLines.forEach(line => {
-              if (y + fontSize > pageHeight - 10) { // Checa se a próxima linha cabe na página
+              if (y + effectiveLineHeight > pageHeight - 15) {
                 doc.addPage();
-                y = 10; // Reseta a posição y para a margem superior da nova página
+                y = 20;
               }
               doc.text(line, x, y);
-              y += fontSize * lineHeightFactor; // Ajusta o espaçamento da linha
+              y += effectiveLineHeight;
             });
           });
 
-          return y; // Retorna a posição y após adicionar o texto
+          return y;
         };
 
         // Adicionar imagem ao documento
@@ -5699,27 +5725,53 @@ break;
         };*/
 
 
+        const stripHtml = (html) => {
+          if (!html) return '';
+          return String(html)
+            .replace(/<br\s*[\/]?>/gi, '\n')
+            .replace(/<\/p>/gi, '\n\n')
+            .replace(/<\/h[1-6]>/gi, '\n\n')
+            .replace(/<[^>]+>/g, '')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            .replace(/\n{3,}/g, '\n\n')
+            .trim();
+        };
+
         const addTextWithPageCheck = (text, fontSize, fontType, textColor, x, startY, lineHeightFactor = 0.8) => {
-          doc.setFontSize(fontSize);
+          const cleanText = stripHtml(text);
+          const isBody = fontSize >= 20 && fontType === 'normal';
+          const effectiveFontSize = isBody ? 11 : (fontSize > 24 ? 18 : (fontSize > 20 ? 14 : fontSize));
+          const effectiveLineHeight = isBody ? 5.5 : (effectiveFontSize * 0.45);
+
+          doc.setFontSize(effectiveFontSize);
           doc.setFont('helvetica', fontType);
           doc.setTextColor(...textColor);
-          const lines = text.split('\n'); // divide o texto em várias linhas baseado em quebras de linha explícitas
+
+          const lines = cleanText.split('\n');
           let y = startY;
 
           lines.forEach(originalLine => {
-            let textLines = doc.splitTextToSize(originalLine, pageWidth - x *
-              2); // quebra linhas longas para caberem na largura da página
+            if (originalLine.trim() === '') {
+              y += isBody ? 4 : 6;
+              return;
+            }
+            let textLines = doc.splitTextToSize(originalLine, pageWidth - x * 2);
             textLines.forEach(line => {
-              if (y + fontSize > pageHeight - 10) { // Checa se a próxima linha cabe na página
+              if (y + effectiveLineHeight > pageHeight - 15) {
                 doc.addPage();
-                y = 10; // Reseta a posição y para a margem superior da nova página
+                y = 20;
               }
               doc.text(line, x, y);
-              y += fontSize * lineHeightFactor; // Ajusta o espaçamento da linha
+              y += effectiveLineHeight;
             });
           });
 
-          return y; // Retorna a posição y após adicionar o texto
+          return y;
         };
 
         // Adicionar imagem ao documento
