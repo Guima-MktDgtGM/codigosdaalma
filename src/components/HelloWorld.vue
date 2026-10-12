@@ -5129,7 +5129,8 @@
             type: 'application/pdf'
           });
 
-          formData.append('attachment', blob);
+          const finalPdfName = (attachmentName && attachmentName.endsWith('.pdf')) ? attachmentName : ((attachmentName || 'Mapa-Numerologico') + '.pdf');
+          formData.append('attachment', blob, finalPdfName);
         }
 
         try {
@@ -5689,39 +5690,131 @@ break;
         this.calculateSoulNumber();
         this.calculatePersonalityNumber();
         this.calculateMaturityNumber();
+        if (this.calculateSubconsciousSelfNumber) this.calculateSubconsciousSelfNumber();
+        if (this.calculateChallengeNumbers) this.calculateChallengeNumbers();
+
         const doc = new jsPDF({
-          compression: 'FAST'
+          compression: 'FAST',
+          unit: 'mm',
+          format: 'a4'
         });
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
+        const pageWidth = 210;
+        const pageHeight = 297;
+        const margin = 18;
+        const contentWidth = pageWidth - margin * 2;
+        const topMargin = 22;
+        const bottomMargin = 22;
 
-        // URL ou caminho local para a imagem
-        const imageUrl = require('@/assets/carta-capa.png');
+        const clientName = this.full_name || 'Buscador(a) da Verdade';
 
-        // Converter imagem para formato aceito pelo jsPDF
-        const imageData = await this.loadImage(imageUrl);
+        // Paleta Nobre
+        const colPrimary = [74, 21, 75];       // Roxo Imperial
+        const colAccent = [124, 58, 237];      // Roxo Vibrante
+        const colGold = [184, 134, 11];        // Dourado Nobre
+        const colText = [30, 41, 59];          // Carvão Escuro
+        const colMuted = [100, 116, 139];      // Cinza Elegante
+        const colBoxBg = [248, 245, 255];      // Fundo Lilás
+        const colBoxBorder = [221, 214, 254];  // Borda Lilás
 
-        // Função auxiliar para adicionar texto com verificação de espaço
-        /*const addTextWithPageCheck = (text, fontSize, fontType, textColor, x, startY) => {
-          doc.setFontSize(fontSize);
-          doc.setFont('helvetica', fontType);
-          doc.setTextColor(...textColor);
-          let textLines = doc.splitTextToSize(text, pageWidth - x * 2);
-          let y = startY;
-          textLines.forEach(line => {
-            if (y + fontSize > pageHeight - 10) { // Checa se a próxima linha cabe na página
-              doc.addPage();
-              y = 10; // Margem superior após nova página
-            }
-            doc.text(line, x, y);
-            y += fontSize * 0.8; // Ajusta o espaçamento da linha baseado no tamanho da fonte
-          });
-        };*/
+        // Capa Oficial Cabalística
+        try {
+          const imageUrl = require('@/assets/capa/capa_mapa_numerologico.jpg');
+          const imageData = await this.loadImage(imageUrl);
+          doc.addImage(imageData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+        } catch (e) {
+          console.error('Erro ao carregar capa:', e);
+        }
 
+        let currentPage = 1;
+        let cursorY = topMargin;
 
-        const stripHtml = (html) => {
-          if (!html) return '';
-          return String(html)
+        const addHeaderFooter = (pNum) => {
+          if (pNum === 1) return;
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(8);
+          doc.setTextColor(...colMuted);
+          doc.text('CÓDIGOS DA ALMA  •  MAPA NUMEROLÓGICO CABALÍSTICO', margin, 12);
+          doc.setDrawColor(...colBoxBorder);
+          doc.setLineWidth(0.3);
+          doc.line(margin, 15, pageWidth - margin, 15);
+
+          doc.line(margin, pageHeight - 14, pageWidth - margin, pageHeight - 14);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8);
+          doc.setTextColor(...colMuted);
+          doc.text('codigosdaalma.online', margin, pageHeight - 9);
+          doc.text('Exclusivo para ' + clientName + '  •  Página ' + pNum, pageWidth - margin, pageHeight - 9, { align: 'right' });
+        };
+
+        const checkPageBreak = (needed) => {
+          if (cursorY + needed > pageHeight - bottomMargin) {
+            doc.addPage();
+            currentPage++;
+            addHeaderFooter(currentPage);
+            cursorY = topMargin;
+          }
+        };
+
+        const addChapter = (title, subtitle) => {
+          checkPageBreak(25);
+          if (cursorY > topMargin + 5) {
+            cursorY += 6;
+            checkPageBreak(20);
+          }
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(14);
+          doc.setTextColor(...colPrimary);
+          doc.text(title, margin, cursorY);
+          cursorY += 6;
+
+          if (subtitle) {
+            doc.setFont('helvetica', 'italic');
+            doc.setFontSize(9.5);
+            doc.setTextColor(...colGold);
+            doc.text(subtitle, margin, cursorY);
+            cursorY += 5;
+          }
+
+          doc.setDrawColor(...colAccent);
+          doc.setLineWidth(0.5);
+          doc.line(margin, cursorY - 1, margin + 35, cursorY - 1);
+          cursorY += 5;
+        };
+
+        const addBadge = (label, num, desc) => {
+          checkPageBreak(25);
+          cursorY += 2;
+          const bHeight = 22;
+          doc.setFillColor(...colBoxBg);
+          doc.setDrawColor(...colBoxBorder);
+          doc.setLineWidth(0.4);
+          doc.roundedRect(margin, cursorY, contentWidth, bHeight, 3, 3, 'FD');
+
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(24);
+          doc.setTextColor(...colAccent);
+          doc.text(String(num || '-'), margin + 7, cursorY + 15);
+
+          doc.setDrawColor(...colBoxBorder);
+          doc.line(margin + 23, cursorY + 3, margin + 23, cursorY + bHeight - 3);
+
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(11);
+          doc.setTextColor(...colPrimary);
+          doc.text(String(label).toUpperCase(), margin + 27, cursorY + 8);
+
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9);
+          doc.setTextColor(...colMuted);
+          const subL = doc.splitTextToSize(desc || 'Frequência de manifestação da sua essência cósmica.', contentWidth - 32);
+          doc.text(subL[0] || '', margin + 27, cursorY + 15);
+
+          cursorY += bHeight + 5;
+        };
+
+        const addText = (raw) => {
+          if (!raw) return;
+          const clean = String(raw)
             .replace(/<br\s*[\/]?>/gi, '\n')
             .replace(/<\/p>/gi, '\n\n')
             .replace(/<\/h[1-6]>/gi, '\n\n')
@@ -5732,467 +5825,133 @@ break;
             .replace(/&gt;/g, '>')
             .replace(/&quot;/g, '"')
             .replace(/&#39;/g, "'")
-            .replace(/\n{3,}/g, '\n\n')
             .trim();
-        };
 
-        const addTextWithPageCheck = (text, fontSize, fontType, textColor, x, startY, lineHeightFactor = 0.8) => {
-          const cleanText = stripHtml(text);
-          const isBody = fontSize >= 20 && fontType === 'normal';
-          const effectiveFontSize = isBody ? 11 : (fontSize > 24 ? 18 : (fontSize > 20 ? 14 : fontSize));
-          const effectiveLineHeight = isBody ? 5.5 : (effectiveFontSize * 0.45);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(...colText);
+          const lineH = 5.2;
 
-          doc.setFontSize(effectiveFontSize);
-          doc.setFont('helvetica', fontType);
-          doc.setTextColor(...textColor);
-
-          const lines = cleanText.split('\n');
-          let y = startY;
-
-          lines.forEach(originalLine => {
-            if (originalLine.trim() === '') {
-              y += isBody ? 4 : 6;
-              return;
+          const parts = clean.split('\n').filter(p => p.trim() !== '');
+          for (const p of parts) {
+            const wrapped = doc.splitTextToSize(p.trim(), contentWidth);
+            checkPageBreak(wrapped.length * lineH + 3);
+            for (const line of wrapped) {
+              doc.text(line, margin, cursorY);
+              cursorY += lineH;
             }
-            let textLines = doc.splitTextToSize(originalLine, pageWidth - x * 2);
-            textLines.forEach(line => {
-              if (y + effectiveLineHeight > pageHeight - 15) {
-                doc.addPage();
-                y = 20;
-              }
-              doc.text(line, x, y);
-              y += effectiveLineHeight;
-            });
-          });
-
-          return y;
+            cursorY += 2.5;
+          }
         };
 
-        // Adicionar imagem ao documento
-        // A imagem cobrirá a totalidade da página A4
-        doc.addImage(imageData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
-
-        // Adicionar nova página
+        // --- Capítulos e Conteúdo ---
         doc.addPage();
+        currentPage++;
+        addHeaderFooter(currentPage);
+        cursorY = topMargin;
 
-        const rectHeight = 20; // Altura do retângulo para o fundo, em mm
+        addChapter('Seja Bem-vindo(a) à Sua Revelação Sagrada', 'Códigos Pessoais Despertados para ' + clientName);
+        addText('Olá, ' + clientName + '! Que alegria ter você aqui, pronto(a) para iniciar esta jornada fascinante de autodescoberta. Cada número e símbolo do seu Mapa Numerológico Cabalístico foi calculado meticulosamente através da sabedoria milenar.');
+        addText('Este Mapa é a sua bússola sagrada: ele revela seus talentos natos, os desafios a serem transmutados em poder e as oportunidades desenhadas para os seus ciclos de vida.');
 
-        // Coordenadas e dimensões do retângulo de fundo
-        let rectY = 20; // Posição vertical inicial do retângulo no topo da página
-        const lineHeightFactor = 0.8; // Ajuste esse valor conforme necessário para mais ou menos espaço entre linhas
-        // Texto normal abaixo do terceiro título
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const endYInicio = addTextWithPageCheck('Seja Bem-vindo(a)!', 24, 'bold', [128, 0, 128], 10, rectY,
-          lineHeightFactor);
+        addChapter('1. A Origem Sagrada da Numerologia', 'Das Civilizações Antigas à Harmonia de Pitágoras');
+        addText('A Numerologia possui raízes que remontam a mais de 10.000 anos na antiga Babilônia e no Egito. Pitágoras, sábio grego do século VI a.C., compreendeu que os números são a linguagem viva com a qual o universo foi tecido.');
+        addText('Cada ser humano carrega uma assinatura numérica única. Conhecer a sua frequência pessoal permite alinhar suas escolhas diárias ao fluxo cósmico da abundância e clareza.');
 
-        // Adicionar texto normal abaixo do fundo roxo
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-
-        const normalTextY = endYInicio + 5; // Posição Y um pouco abaixo do fundo roxo
-        const endY = addTextWithPageCheck(
-          'Olá! Que alegria ter você aqui, pronto para iniciar essa jornada fascinante de autodescoberta. Estou tão empolgada quanto você! É como se estivéssemos prestes a abrir um cofre que guarda os segredos da sua existência. Este Mapa Numerológico vai muito além de simples números e palavras; ele atua como uma bússola, orientando você pelos altos e baixos da sua trajetória.\nAqui estão alguns dos tesouros que você encontrará:',
-          20, 'normal', [0, 0, 0], 10, normalTextY, lineHeightFactor);
-
-        const normalTextY21 = endY + 5; // Posição Y um pouco abaixo do fundo roxo
-
-        addTextWithPageCheck('Reconhecer Seus Pontos Fortes:', 20, 'normal', [128, 0, 128], 10, normalTextY21,
-          lineHeightFactor);
-        const endY212 = addTextWithPageCheck(
-          '\nComo um reflexo que revela sua verdadeira essência, destacando seus talentos e habilidades únicos.',
-          20, 'normal', [0, 0, 0], 10, normalTextY21, lineHeightFactor);
-
-        const normalTextY22 = endY212 + 5; // Posição Y um pouco abaixo do fundo roxo
-
-        addTextWithPageCheck('Compreender Sua Fase Atual:', 20, 'normal', [128, 0, 128], 10, normalTextY22,
-          lineHeightFactor);
-        addTextWithPageCheck(
-          '\nUma lente que focaliza sua situação presente e o que é necessário para seu desenvolvimento.', 20,
-          'normal', [0, 0, 0], 10, normalTextY22, lineHeightFactor);
-
+        // Número da Alma
         doc.addPage();
+        currentPage++;
+        addHeaderFooter(currentPage);
+        cursorY = topMargin;
 
-        addTextWithPageCheck('Aproveitar Melhor as Oportunidades:', 20, 'normal', [128, 0, 128], 10, 20,
-          lineHeightFactor);
-        const endY232 = addTextWithPageCheck(
-          '\nUm roteiro que mostra os caminhos disponíveis à sua frente, auxiliando você a identificar e aproveitar as oportunidades.',
-          20, 'normal', [0, 0, 0], 10, 20, lineHeightFactor);
+        addChapter('2. O Seu Número da Alma', 'O Desejo Profundo do Seu Coração e Suas Motivações Ocultas');
+        addBadge('Número da Alma', this.soulNumber, 'A essência que verdadeiramente alimenta o seu espírito.');
+        addText(this.soulText || 'O Número da Alma é derivado das vogais do seu nome de nascimento e revela suas aspirações mais íntimas, o que traz realização verdadeira e paz ao seu coração.');
 
-        const normalTextY24 = endY232 + 5; // Posição Y um pouco abaixo do fundo roxo
-
-        addTextWithPageCheck('Superar Bloqueios e Desafios:', 20, 'normal', [128, 0, 128], 10, normalTextY24,
-          lineHeightFactor);
-        const endY242 = addTextWithPageCheck(
-          '\nJuntos, identificaremos os obstáculos no seu caminho e os transformaremos em degraus para o seu crescimento.',
-          20, 'normal', [0, 0, 0], 10, normalTextY24, lineHeightFactor);
-
-        const normalTextY25 = endY242 + 5; // Posição Y um pouco abaixo do fundo roxo
-
-        addTextWithPageCheck(
-          '\nAntes de avançarmos, preciso compartilhar minha empolgação: adorei criar o seu guia! Cada número e símbolo neste guia é como uma estrela no céu, juntos, eles contam a sua história única. Ao analisar cada detalhe, descobri o quão especial você é. Cada elemento revelou algo novo e surpreendente sobre você, e mal posso esperar para compartilhar tudo isso. Preste Atenção, Pois Vem Algo Importante Sua jornada de autodescoberta está prestes a começar, e tenho um pedido para você:\n\nDedique-se ao Próximo Capítulo (Descubra o Poder da Numerologia): Este é o primeiro passo para um universo novo e fascinante que está por vir.\n\nVamos começar! Se tiver qualquer dúvida, não hesite em me chamar!',
-          20, 'normal', [0, 0, 0], 10, normalTextY25, lineHeightFactor);
-
+        // Número de Expressão
         doc.addPage();
+        currentPage++;
+        addHeaderFooter(currentPage);
+        cursorY = topMargin;
 
-        const nextContentY = 20;
-        addTextWithPageCheck('A Breve História da Numerologia', 22, 'normal', [128, 0, 128], 10, nextContentY,
-          lineHeightFactor);
-        addTextWithPageCheck(
-          '\nAntes de mergulharmos em cada aspecto da sua vida, é importante entender mais sobre a Numerologia, uma arte antiga e fascinante que nos ajuda a compreender melhor a nós mesmos e o mundo ao nosso redor.\n\nA Numerologia tem raízes profundas e antigas. Como uma árvore robusta e bela, ela cresceu e se desenvolveu ao longo de milhares de anos. Para realmente entender a Numerologia, precisamos olhar para suas origens.\n\nAcredita-se que a Numerologia tenha surgido na antiga Babilônia e no Egito, há mais de 10.000 anos. No entanto, foi o filósofo grego Pitágoras, por volta do século VI a.C., quem é considerado o pai da Numerologia moderna. Pitágoras não era apenas um matemático genial, famoso pelo Teorema de Pitágoras, mas também um místico. Ele acreditava que os números eram mais do que simples formas de contar ou medir; eles tinham um significado profundo e espiritual.\n\nPitágoras acreditava que todo o universo poderia ser expresso através de números, e que estes poderiam revelar a harmonia e as vibrações do cosmos. É como se cada número fosse uma nota musical, e juntos, formassem uma bela melodia que nos ajuda a entender melhor o mundo ao nosso redor.\n\nTalvez você pense: "Isso parece um pouco complicado, não é?" Mas não se preocupe! Vamos descobrir juntos como tudo isso funciona. Vamos explorar o fascinante mundo da Numerologia e ver o que os números têm a nos dizer.',
-          20, 'normal', [0, 0, 0], 10, nextContentY, lineHeightFactor);
+        addChapter('3. O Seu Número de Expressão', 'Seus Talentos Inatos e Capacidade de Realização no Mundo');
+        addBadge('Número de Expressão', this.expressionNumber, 'Suas ferramentas naturais e potência criativa.');
+        addText(this.expressionText || 'Calculado através da soma de todas as letras do seu nome, o Número de Expressão representa seus dons inatos e a maneira como você materializa seus objetivos no mundo.');
 
+        // Caminho da Vida
         doc.addPage();
+        currentPage++;
+        addHeaderFooter(currentPage);
+        cursorY = topMargin;
 
-        addTextWithPageCheck('A Evolução da Numerologia ao Longo dos Séculos', 22, 'normal', [128, 0, 128], 10, 20,
-          lineHeightFactor);
-        addTextWithPageCheck(
-          '\nA Numerologia evoluiu e se adaptou em diferentes culturas e períodos de tempo, desde os ensinamentos pitagóricos até as práticas modernas.\n\nNa China, por exemplo, os números sempre foram uma parte integral da cultura e do cotidiano. O número 8, que soa como a palavra para prosperidade em chinês, é considerado extremamente favorável. Muitas pessoas procuram incluir o número 8 em endereços, números de telefone e até mesmo em datas de casamento. Por outro lado, o número 4, que soa como a palavra para morte, é frequentemente evitado.\n\nNa Índia, a Numerologia é amplamente influenciada pelo sistema chamado "Jyotish" ou astrologia védica, que atribui significados profundos e complexos aos números. Por exemplo, o número 1 está associado ao Sol, simbolizando liderança e individualidade, enquanto o número 2 está associado à Lua, representando emoção e dualidade.\n\nDurante a Idade Média na Europa, a Numerologia era frequentemente utilizada em conjunto com outras formas de adivinhação e espiritualidade. No entanto, com o advento do Iluminismo e a ênfase crescente na razão sobre a fé, a Numerologia foi vista por muitos como superstição e perdeu popularidade. \n\nNo século XX, a Numerologia ganhou novo fôlego, principalmente por meio do trabalho de numerólogos como Dr. Julia Seton, Florence Campbell e Juno Jordan. Eles desenvolveram novas formas de interpretar os números e integraram a Numerologia em um quadro mais amplo de desenvolvimento pessoal e autoconhecimento.',
-          20, 'normal', [0, 0, 0], 10, 20, lineHeightFactor);
+        addChapter('4. O Seu Caminho da Vida (Destino)', 'A Grande Rodovia Cósmica da Sua Existência');
+        addBadge('Caminho da Vida', this.lifeNumber, 'As oportunidades mestras e a direção do seu destino.');
+        addText(this.lifeText || 'Obtido pela soma contínua da sua data sagrada de nascimento, o Caminho da Vida é a estrada mestra onde você encontrará suas maiores lições e vitórias.');
 
+        // Personalidade e Subconsciente
         doc.addPage();
+        currentPage++;
+        addHeaderFooter(currentPage);
+        cursorY = topMargin;
 
-        addTextWithPageCheck('O que é a Numerologia?', 22, 'normal', [128, 0, 128], 10, 20, lineHeightFactor);
-        addTextWithPageCheck(
-          '\nA Numerologia é uma ciência e arte antiga que estuda a influência dos números em nossa vida. Mas como isso funciona na prática? Vamos usar alguns exemplos para ilustrar.\n\nImagine que cada número é como um personagem em uma novela, cada um com sua própria personalidade e energia. Por exemplo, o número 1 é como o herói da história: independente, forte e determinado. Ele representa liderança, ambição e originalidade.\n\nO número 2, por outro lado, é como o melhor amigo do herói: gentil, harmonioso e compreensivo. Ele é o pacificador que traz equilíbrio e cooperação.\n\nO número 3 é como o encantador da história: sociável, criativo e cheio de energia. Ele é um comunicador nato, sempre pronto para se expressar e compartilhar suas ideias.\n\nE o número 4 é o trabalhador dedicado: sempre confiável e prático. Ele representa estabilidade, ordem e pragmatismo.\n\nA Numerologia nos ajuda a entender a energia única de cada número e como ela influencia nossa vida. Cada número tem seu próprio papel a desempenhar em nossa jornada. Além disso, a Numerologia nos ajuda a entender as relações entre os números, como aprender uma nova linguagem, onde os números são as palavras e suas combinações criam frases e sentenças cheias de significado.',
-          20, 'normal', [0, 0, 0], 10, 20, lineHeightFactor);
+        addChapter('5. Personalidade e Subconsciente', 'Sua Aura Externa e Sua Força Interior Oculta');
+        addBadge('Número da Personalidade', this.personalityNumber, 'A impressão magnética que você deixa no mundo.');
+        addText(this.personalityText || 'Calculado pelas consoantes do seu nome, reflete sua fachada externa, como as pessoas o percebem e o seu magnetismo pessoal.');
 
-        doc.addPage();
-
-        addTextWithPageCheck('Como os Números Influenciam a Vida das Pessoas', 22, 'normal', [128, 0, 128], 10, 20,
-          lineHeightFactor);
-        const endYCt = addTextWithPageCheck(
-          '\nVamos explorar como cada um dos números da Numerologia se relaciona com diferentes aspectos da vida:\n\nEntendendo Nossos Talentos e Desafios: O Número de Expressão, calculado a partir das letras do nome completo, revela seus talentos naturais, habilidades e características pessoais. O Número de Desafio mostra os obstáculos que você precisa superar e as lições que deve aprender.\n\nDireção para o Futuro: O Número do Destino, calculado a partir da data de nascimento, é como um mapa rodoviário da vida, indicando as principais lições, oportunidades e desafios que você provavelmente encontrará.\n\nRelacionamentos e Compatibilidade: O Número da Alma, calculado a partir das vogais do nome completo, mostra o que você realmente deseja em um relacionamento e o que faz você se sentir realizado. O Número de Personalidade, calculado a partir das consoantes do nome completo, revela como você é percebido pelos outros, o que pode afetar a dinâmica dos relacionamentos.\n\nCrescimento Pessoal e Espiritual: O Número da Maturidade, calculado somando o Número do Destino e o Número de Expressão, indica o potencial para crescimento pessoal e cumprimento do seu propósito na vida, geralmente a partir dos 40 anos. O Número do Aprendizado, calculado a partir do dia do nascimento, indica as lições de vida que você está aqui para aprender e como isso pode contribuir para o seu crescimento.\n\nA Numerologia nos oferece uma rica tapeçaria de números, cada um com seu próprio significado e influência em nossa vida. A seguir, vamos explorar o que é um Mapa Numerológico.',
-          20, 'normal', [0, 0, 0], 10, 20, lineHeightFactor);
-
-        const normalTextY26 = endYCt + 5;
-
-        addTextWithPageCheck('O que é um Mapa Numerológico?', 22, 'normal', [128, 0, 128], 10, normalTextY26,
-          lineHeightFactor);
-        const endYCt2 = addTextWithPageCheck(
-          '\nUm Mapa Numerológico é semelhante a um mapa do tesouro, mas em vez de procurar por ouro, ele nos ajuda a descobrir tesouros ainda mais valiosos: o conhecimento sobre nós mesmos e nosso potencial.\n\nO Mapa Numerológico é um retrato detalhado de uma pessoa, desenhado não com pincel e tinta, mas com números. Ele é criado usando a data de nascimento e o nome completo, calculando uma série de números - como o Número do Caminho da Vida, Número de Expressão, Número da Alma, Número de Personalidade, Número do Aprendizado, Número do Poder, entre outros.\n\nO propósito de um Mapa Numerológico é nos ajudar a entender melhor quem somos e qual é o nosso caminho na vida. Assim como um mapa de estradas nos mostra a melhor rota para chegar a um destino, o Mapa Numerológico nos mostra o caminho para alcançar nosso potencial máximo.\n\nEle pode revelar nossos pontos fortes e fracos, nossos desejos mais profundos, nossas melhores oportunidades e os desafios que temos pela frente. Ele nos dá uma ideia de como somos percebidos pelos outros e até nos oferece dicas sobre como podemos melhorar nossos relacionamentos.',
-          20, 'normal', [0, 0, 0], 10, normalTextY26, lineHeightFactor);
-
-        const normalTextY27 = endYCt2 + 5;
-
-        addTextWithPageCheck('Como Ler e Interpretar o Mapa Numerológico', 22, 'normal', [128, 0, 128], 10,
-          normalTextY27, lineHeightFactor);
-        const endYCt3 = addTextWithPageCheck(
-          '\nEntender o seu Mapa Numerológico é como descobrir um novo manual para a sua vida. Cada número traz uma visão diferente sobre quem você é e o que você pode alcançar.\n\nComeçamos com o Número do Destino. Se este número for 1, indica uma forte tendência para liderança e independência. Sabendo disso, você pode começar a confiar mais em suas decisões e talvez assumir um papel de liderança no trabalho ou na comunidade.\n\nO Número de Expressão reflete seus talentos e capacidades. Se o seu número for 2, sugere que você é bom em trabalhar em equipe e possui grande empatia. Você pode se destacar em profissões que envolvam cuidar de pessoas ou resolver conflitos, como enfermagem ou mediação.\n\nSeu Número da Alma revela seus desejos mais profundos. Se o seu número for 5, você tem um forte desejo por liberdade e aventura. Sabendo disso, você pode planejar mais viagens e aventuras em sua vida ou buscar um trabalho que ofereça maior flexibilidade.\n\nO Número da Personalidade mostra como os outros te veem. Um número 9 indica que as pessoas veem você como alguém generoso e altruísta. Sabendo disso, você pode usar essas qualidades para criar relações mais fortes e significativas.\n\nO Número do Aprendizado pode indicar um talento especial. Se o seu número for 6, isso sugere um dom especial para ensinar ou aconselhar. Considerar dar aulas particulares ou se tornar uma conselheira pode ser uma boa ideia.\n\nO Número da Maturidade aponta para o seu potencial ao atingir a maturidade. Um número 8, por exemplo, indica um potencial para prosperidade financeira e poder. Sabendo disso, você pode tomar decisões financeiras com mais confiança e buscar posições de liderança.n\nOs Números de Desafio mostram os obstáculos que você pode enfrentar em diferentes áreas da vida. Se um dos seus números de desafio for 7, pode ser que você enfrente desafios relacionados à espiritualidade ou à busca por conhecimento. Nesse caso, aulas, cursos ou livros sobre espiritualidade podem ser úteis.',
-          20, 'normal', [0, 0, 0], 10, normalTextY27, lineHeightFactor);
-
-        const normalTextY28 = endYCt3 + 5;
-
-        addTextWithPageCheck('O que é o Número da Alma?', 22, 'normal', [128, 0, 128], 10, normalTextY28,
-          lineHeightFactor);
-        const endYCt4 = addTextWithPageCheck(
-          '\nO Número da Alma, também conhecido como o número do desejo do coração, reflete seus desejos internos, aquilo que você deseja ser, ter ou fazer na vida. É um número muito importante porque revela sua motivação interna, o que realmente te faz levantar da cama todos os dias.\nSabendo o seu Número da Alma, você pode direcionar melhor suas ações para atingir o que deseja. Por exemplo, se o seu Número da Alma indicar um forte desejo de ajudar os outros, você pode buscar oportunidades de voluntariado, trabalhar em ONGs ou escolher uma profissão que permita esse cuidado com o próximo, como medicina ou assistência social.',
-          20, 'normal', [0, 0, 0], 10, normalTextY28, lineHeightFactor);
-
-        const normalTextY29 = endYCt4 + 5;
-
-        addTextWithPageCheck('O que é o Número de Expressão?', 22, 'normal', [128, 0, 128], 10, normalTextY29,
-          lineHeightFactor);
-        const endYCt5 = addTextWithPageCheck(
-          '\nO Número de Expressão é como um mapa para uma mina de ouro escondida dentro de você. Ele revela suas habilidades naturais e talentos inatos, muitos dos quais você pode ainda não estar plenamente consciente.\n\nDe maneira mais técnica, o Número de Expressão é derivado das letras do seu nome completo, conforme registrado no nascimento. Ele traz à tona as habilidades, competências e talentos que você possui nesta vida.\n\nConhecendo o seu Número de Expressão, você pode compreender melhor seus talentos e como usá-los para alcançar seus objetivos. Por exemplo, se o seu Número de Expressão indicar um talento natural para a comunicação, você pode se destacar em carreiras como jornalismo, publicidade ou ensino.\n\nSe descobrir que tem uma grande habilidade para lidar com detalhes, pode prosperar em campos como contabilidade ou administração de empresas. Conhecer o seu Número de Expressão pode lhe dar uma vantagem significativa na vida.',
-          20, 'normal', [0, 0, 0], 10, normalTextY29, lineHeightFactor);
-
-        const normalTextY30 = endYCt5 + 5;
-
-        addTextWithPageCheck('O que é o Número do Destino?', 22, 'normal', [128, 0, 128], 10, normalTextY30,
-          lineHeightFactor);
-        const endYCt6 = addTextWithPageCheck(
-          '\nO Número do Destino é como a estrada principal que atravessa toda a sua vida. Ele é a maior rodovia que você vai percorrer na sua jornada, mostrando a direção principal que sua vida tomará.\n\nVamos imaginar uma pessoa muito prestativa e amorosa, sempre disponível para ajudar os outros. Faz sentido que o Número do Destino dela seja 6, um número associado ao amor, à família e à responsabilidade. Sabendo disso, ela entende melhor porque sempre sentiu uma forte necessidade de cuidar das pessoas ao seu redor, o que lhe dá uma visão mais clara do seu propósito e a ajuda a se sentir mais realizada.\n\nPor outro lado, imagine uma pessoa muito independente e que adora aventuras. Se o Número do Destino dela é 5, que está relacionado à liberdade e a mudanças, ela entende melhor porque se sente mais feliz quando está em movimento e vivendo novas experiências.\n\nPortanto, o Número do Destino não define totalmente quem você é, mas pode lhe dar uma ideia das lições importantes que você veio aprender aqui e dos desafios que pode enfrentar. Pense nele como uma bússola que ajuda a entender o caminho que você veio percorrer.',
-          20, 'normal', [0, 0, 0], 10, normalTextY30, lineHeightFactor);
-
-        const normalTextY31 = endYCt6 + 5;
-
-        addTextWithPageCheck('O que é o Número da Personalidade?', 22, 'normal', [128, 0, 128], 10, normalTextY31,
-          lineHeightFactor);
-        const endYCt7 = addTextWithPageCheck(
-          '\nPense no Número da Personalidade como a fachada que você apresenta ao mundo. Quando você conhece alguém pela primeira vez, essa pessoa forma uma primeira impressão com base no que vê e sente. Essa impressão é o que chamamos de Número da Personalidade na numerologia.\n\nO Número da Personalidade indica como você é percebido pelas pessoas ao seu redor, especialmente por aquelas que não te conhecem bem. É como um cartão de visitas que mostra algumas características suas antes mesmo de qualquer conversa.\n\nEntender o seu Número da Personalidade pode ajudar a entender por que as pessoas reagem a você de determinadas maneiras. Por exemplo, se seu Número da Personalidade indica uma aparência séria e reservada, você pode entender por que algumas pessoas podem achá-lo um pouco distante no primeiro encontro. Sabendo disso, você pode tomar a iniciativa de mostrar mais do seu lado acolhedor e amigável, quebrando essa primeira impressão.',
-          20, 'normal', [0, 0, 0], 10, normalTextY31, lineHeightFactor);
-
-        const normalTextY32 = endYCt7 + 5;
-
-        addTextWithPageCheck('O que é o Número do Subconsciente?', 22, 'normal', [128, 0, 128], 10, normalTextY32,
-          lineHeightFactor);
-        addTextWithPageCheck(
-          '\nO Número do Subconsciente reflete a sua capacidade de lidar com desafios e a sua reação instintiva a situações de pressão. Ele é derivado das letras que aparecem repetidamente no seu nome completo. Este número revela os recursos internos que você tem à disposição quando enfrenta dificuldades.\n\nQuando você conhece o seu Número do Subconsciente, pode compreender melhor suas reações automáticas e padrões de comportamento inconscientes. Por exemplo, se o seu Número do Subconsciente indicar uma alta capacidade de resiliência, você pode se sentir mais confiante ao enfrentar desafios, sabendo que possui uma força interior para superar obstáculos.\n\nEntender o seu Número do Subconsciente é como descobrir uma reserva oculta de força e recursos dentro de você. Isso pode ser extremamente útil em momentos de estresse ou crise, proporcionando uma compreensão mais profunda de suas capacidades e limitando reações impulsivas.',
-          20, 'normal', [0, 0, 0], 10, normalTextY32, lineHeightFactor);
-
-        doc.addPage();
-
-        addTextWithPageCheck('Números de Desafio', 22, 'normal', [128, 0, 128], 10, 20, lineHeightFactor);
-        const endYCt9 = addTextWithPageCheck(
-          '\nA vida é como uma escola, e os Números de Desafio são como os deveres de casa que precisamos fazer para aprender nossas lições e evoluir. Esses números, na numerologia, são como um mapa que nos mostra as lições que precisamos aprender ao longo da vida. Eles apontam para os obstáculos que podemos encontrar, que são exatamente o que precisamos para crescer e evoluir.\n\nConhecendo seus Números de Desafio, você pode usá-los para aprender e crescer. Eles dão pistas sobre os desafios que você pode enfrentar e como superá-los. Lembre-se de que os desafios são oportunidades de crescimento, e com a numerologia, você tem uma ferramenta poderosa para entender esses desafios e tirar o melhor proveito deles.',
-          20, 'normal', [0, 0, 0], 10, 20, lineHeightFactor);
-
-        const normalTextY34 = endYCt9 + 5;
-
-        addTextWithPageCheck('Como os Números de Desafio Funcionam', 22, 'normal', [128, 0, 128], 10, normalTextY34,
-          lineHeightFactor);
-        const endYCt10 = addTextWithPageCheck(
-          '\nOs Números de Desafio podem aparecer em diferentes fases da vida, cada um trazendo lições específicas para aquele período. As fases dos Números de Desafio são calculadas com base na data de nascimento e outras variáveis. Aqui estão as idades específicas:\n\nPrimeiro Desafio (0 a 30 anos): Geralmente aparece na infância e adolescência, influenciando o desenvolvimento inicial da personalidade e os primeiros testes de caráter.\n\nSegundo Desafio (30 a 40 anos): Acontece durante a juventude até a meia-idade, quando as responsabilidades começam a aumentar e as decisões de vida mais significativas são tomadas.\n\nTerceiro Desafio (40 a 55 anos): Aparece na meia-idade até a velhice, muitas vezes trazendo testes de adaptação e sabedoria adquirida ao longo dos anos.\n\nQuarto Desafio (55 anos em diante): Pode influenciar durante toda a vida, sendo um desafio constante que pode ser revisitado em várias ocasiões.',
-          20, 'normal', [0, 0, 0], 10, normalTextY34, lineHeightFactor);
-
-        const normalTextY35 = endYCt10 + 5;
-
-        addTextWithPageCheck('Como Utilizar essa Informação', 22, 'normal', [128, 0, 128], 10, normalTextY35,
-          lineHeightFactor);
-        const endYCt11 = addTextWithPageCheck(
-          '\nCompreendendo seus Números de Desafio, você está melhor preparado para enfrentar os obstáculos da vida. Use essa informação para se preparar e aprender as lições que a vida quer ensinar. Cada desafio é uma oportunidade para crescer e evoluir, tornando você mais forte e sábio ao longo do tempo.\n\nPegue seu mapa e prepare-se para a aventura da vida! Com seus Números de Desafio em mãos, você está mais preparado do que nunca para aprender e crescer.\n\nCom isso, estamos prontos para explorar o que cada número significa para você e como eles podem guiar sua jornada de autoconhecimento.',
-          20, 'normal', [0, 0, 0], 10, normalTextY35, lineHeightFactor);
-
-
-        // Verificar a distância até o final da página
-        if (nextContentY + 10 > pageHeight) {
-          doc.addPage();
-          rectY = 10; // Reinicia no topo da nova página
-        } else {
-          rectY += rectHeight + 10; // Incrementar rectY para continuar adicionando mais conteúdo
+        if (this.subconsciousSelfNumber) {
+          addBadge('Número do Subconsciente', this.subconsciousSelfNumber, 'Seus recursos ocultos e reação sob pressão.');
+          addText(this.subconsciousText || 'Revela a sua capacidade de resiliência e as reservas energéticas que você acessa em momentos de crise.');
         }
 
-        // Texto normal abaixo do segundo título
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextY2 = endYCt11 + 10;
-        const endY2 = addTextWithPageCheck(
-          'A seleção dos seus números da sorte foi realizada por meio de uma análise detalhada do seu nome e data de nascimento, empregando os princípios da numerologia. Este processo identifica os números que mais ressoam com suas energias pessoais. \n\nCálculo do Número de Expressão \nO número de expressão, também conhecido como número de personalidade, é calculado a partir das letras do seu nome completo. Cada letra corresponde a um número específico (1-9), e esses números são somados até serem reduzidos a um único dígito. Este número revela sua personalidade natural, habilidades e os talentos que você traz ao mundo. \n\nCálculo do Número da Vida \nO número da vida, ou número de destino, é calculado a partir de sua data de nascimento. Todos os números de sua data de nascimento (dia, mês e ano) são somados continuamente até que se reduzam a um único dígito. Este número reflete o principal percurso de sua vida, destacando oportunidades, desafios e lições essenciais que você encontrará. \n\nCálculo do Número da Alma \nEste número é obtido somando apenas as vogais de seu nome. As vogais revelam seus desejos internos, sonhos e as motivações ocultas que movem sua vida. Como nos outros cálculos, as letras são convertidas em números que, somados, são reduzidos a um único dígito. \n\nCálculo do Número de Personalidade \nDiferente do número de expressão, o número de personalidade é calculado usando apenas as consoantes do seu nome. Este número reflete como você se apresenta e é percebido pelo mundo externo, indicando a impressão que você deixa nas outras pessoas.',
-          20, 'normal', [0, 0, 0], 10, normalTextY2, lineHeightFactor);
-
-        const nextContentY2 = endY2 + 10;
-
-        // Verificar a distância até o final da página
-        if (nextContentY2 + 10 > pageHeight) {
-          doc.addPage();
-          rectY = 10; // Reinicia no topo da nova página
-        } else {
-          rectY += rectHeight + 10; // Incrementar rectY para continuar adicionando mais conteúdo
-        }
-
-        // Texto normal abaixo do terceiro título
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextY3 = nextContentY2 + 10;
-        const endY3 = addTextWithPageCheck(
-          'Cálculo do Número da Maturidade \nO número da maturidade é calculado somando o número da vida (número de destino) e o número de expressão (número de personalidade). Este número representa as forças que você começa a compreender e a integrar mais plenamente à medida que amadurece, geralmente por volta dos 35-40 anos de idade. Ele indica as energias que se tornam mais proeminentes e influentes durante a segunda metade da sua vida, guiando-o para o seu pleno potencial e realizações maiores. \n\n4. Personalização dos Números da Sorte \nOs números finais são personalizados para refletir sua energia única. Eles são projetados para alinhar-se com suas vibrações naturais e ajudar a atrair as oportunidades e sucessos que você busca. \n\nEstes números não apenas ressoam com suas energias pessoais, mas também harmonizam com as influências cósmicas que moldam seu destino. Incorporá-los em sua vida cotidiana pode trazer uma nova dimensão de sorte e prosperidade, orientando suas decisões e atraindo boas energias.',
-          20, 'normal', [0, 0, 0], 10, normalTextY3, lineHeightFactor);
-
-        let nextContentY3 = endY3 + 10;
-
-        // Verificar a distância até o final da página
-        if (nextContentY3 + 10 > pageHeight) {
-          rectY = 10; // Reinicia no topo da nova página
-        } else {
-          rectY += rectHeight + 10; // Incrementar rectY para continuar adicionando mais conteúdo
-        }
-
-        // Texto normal abaixo do terceiro título
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextYSouLTitle = nextContentY3 + 30;
-        const endYnormalTextYSouLTitle = addTextWithPageCheck('\nO que seu Número da Alma diz sobre você?', 24,
-          'normal', [128, 0, 128], 10, normalTextYSouLTitle, lineHeightFactor);
-
-        let nextContentYSoulText = endYnormalTextYSouLTitle + 5;
-
-        // Texto normal abaixo do terceiro título
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextYsoulText = nextContentYSoulText;
-        const endY4 = addTextWithPageCheck('O seu Número da Alma é ' + this.soulNumber + '\n\n' + this.soulText, 20,
-          'normal', [0, 0, 0], 10, normalTextYsoulText, lineHeightFactor);
-
-        let nextContentYExpressaoTitle = endY4 + 10;
-
-        // Texto normal abaixo do terceiro título
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYExpressaoTitle = nextContentYExpressaoTitle + 10;
-        const endYExpressaoTitle = addTextWithPageCheck('O que seu Número de Expressão diz sobre você?', 24, 'normal',
-          [128, 0, 128], 10, normalTextContentYExpressaoTitle, lineHeightFactor);
-
-        // Texto normal abaixo do terceiro título
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYExpressao = endYExpressaoTitle + 10;
-        const endYExpressao = addTextWithPageCheck('O seu Número de Expressão é ' + this.expressionNumber + '\n\n' +
-          this.expressionText, 20, 'normal', [0, 0, 0], 10, normalTextContentYExpressao, lineHeightFactor);
-
-        // Texto normal abaixo do terceiro título
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYLifePathTitle = endYExpressao + 10;
-        const endYLifePathTitle = addTextWithPageCheck('O que seu Número do Caminho da Vida diz sobre você?', 23,
-          'normal', [128, 0, 128], 10, normalTextContentYLifePathTitle, lineHeightFactor);
-
-        // Texto normal abaixo do terceiro título
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYLifePath = endYLifePathTitle + 10;
-        const endYLifePath = addTextWithPageCheck('O seu Número do Caminho da Vida é ' + this.lifeNumber + '\n\n' +
-          this.lifeText, 20, 'normal', [0, 0, 0], 10, normalTextContentYLifePath, lineHeightFactor);
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYPersonalityNumberTitle = endYLifePath + 10;
-        const endYPersonalityNumberTitle = addTextWithPageCheck('O que seu Número da Personalidade diz sobre você?',
-          24, 'normal', [128, 0, 128], 10, normalTextContentYPersonalityNumberTitle, lineHeightFactor);
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYPersonalityNumber = endYPersonalityNumberTitle + 10;
-        const endYPersonalityNumber = addTextWithPageCheck('O seu Número da Personalidade é ' + this
-          .personalityNumber + '\n\n' + this.personalityText, 20, 'normal', [0, 0, 0], 10,
-          normalTextContentYPersonalityNumber, lineHeightFactor);
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYsubconsciousSelfNumberTitle = endYPersonalityNumber + 10;
-        const endYsubconsciousSelfNumberTitle = addTextWithPageCheck(
-          'O que seu Número do Subconsciente diz sobre você?', 24, 'normal', [128, 0, 128], 10,
-          normalTextContentYsubconsciousSelfNumberTitle, lineHeightFactor);
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYsubconsciousSelfNumber = endYsubconsciousSelfNumberTitle + 10;
-        const endYsubconsciousSelfNumber = addTextWithPageCheck('O seu Número do Subconsciente é ' + this
-          .subconsciousSelfNumber + '\n\n' + this.subconsciousText, 20, 'normal', [0, 0, 0], 10,
-          normalTextContentYsubconsciousSelfNumber, lineHeightFactor);
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbersTitle = endYsubconsciousSelfNumber + 10;
-        const endYChallengeNumbersTitle = addTextWithPageCheck('O que seus Número do Desafio dizem sobre você?', 24,
-          'normal', [128, 0, 128], 10, normalTextContentYChallengeNumbersTitle, lineHeightFactor);
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbers = endYChallengeNumbersTitle + 10;
-        const endYChallengeNumbers = addTextWithPageCheck('O seus Números do Desafio são: ' + this.challengeNumbers
-          .first + ',' + this.challengeNumbers.second + ',' + this.challengeNumbers.third + ' e ' + this
-          .challengeNumbers.main + '.', 20, 'normal', [0, 0, 0], 10, normalTextContentYChallengeNumbers,
-          lineHeightFactor);
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbersTitle1 = endYChallengeNumbers + 10;
-        const endYChallengeNumbersTitle1 = addTextWithPageCheck('Desafio da vida com número ' + this.challengeNumbers
-          .first, 22, 'bold', [128, 0, 128], 10, normalTextContentYChallengeNumbersTitle1, lineHeightFactor);
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbersDesc1 = endYChallengeNumbersTitle1 + 10;
-        const endYChallengeNumbersDesc01 = addTextWithPageCheck(this.challengeNumbers.firstText, 20, 'normal', [0, 0,
-          0
-        ], 10, normalTextContentYChallengeNumbersDesc1, lineHeightFactor);
-
-        let nextContentChallengeNumbersTitle02 = endYChallengeNumbersDesc01 + 10;
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbersTitle02 = nextContentChallengeNumbersTitle02 + 10;
-        const endYChallengeNumbersTitle02 = addTextWithPageCheck('Desafio da vida com número ' + this.challengeNumbers
-          .second, 22, 'bold', [128, 0, 128], 10, normalTextContentYChallengeNumbersTitle02, lineHeightFactor);
-
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbersDesc02 = endYChallengeNumbersTitle02 + 10;
-        const endYChallengeNumbersDesc02 = addTextWithPageCheck(this.challengeNumbers.secondText, 20, 'normal', [0, 0,
-          0
-        ], 10, normalTextContentYChallengeNumbersDesc02, lineHeightFactor);
-
-        let nextContentChallengeNumbersTitle03 = endYChallengeNumbersDesc02 + 10;
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbersTitle03 = nextContentChallengeNumbersTitle03 + 10;
-        const endYChallengeNumbersTitle03 = addTextWithPageCheck('Desafio da vida com número ' + this.challengeNumbers
-          .third, 22, 'bold', [128, 0, 128], 10, normalTextContentYChallengeNumbersTitle03, lineHeightFactor);
-
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbersDesc03 = endYChallengeNumbersTitle03 + 10;
-        const endYChallengeNumbersDesc03 = addTextWithPageCheck(this.challengeNumbers.thirdText, 20, 'normal', [0, 0,
-          0
-        ], 10, normalTextContentYChallengeNumbersDesc03, lineHeightFactor);
-
-        let nextContentChallengeNumbersTitle04 = endYChallengeNumbersDesc03 + 10;
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbersTitle04 = nextContentChallengeNumbersTitle04 + 10;
-        const endYChallengeNumbersTitle04 = addTextWithPageCheck('Desafio da vida com número ' + this.challengeNumbers
-          .main, 22, 'bold', [128, 0, 128], 10, normalTextContentYChallengeNumbersTitle04, lineHeightFactor);
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-        const normalTextContentYChallengeNumbersDesc04 = endYChallengeNumbersTitle04 + 10;
-        const endYChallengeNumbersDesc04 = addTextWithPageCheck(this.challengeNumbers.mainText + '.', 20, 'normal', [
-          0, 0, 0
-        ], 10, normalTextContentYChallengeNumbersDesc04, lineHeightFactor);
-
-        let nextContentY4 = endYChallengeNumbersDesc04 + 10;
-
-
-        // Verificar a distância até o final da página
-        if (nextContentY4 + 10 > pageHeight) {
-          rectY = 10; // Reinicia no topo da nova página
-        } else {
-          rectY += rectHeight + 10; // Incrementar rectY para continuar adicionando mais conteúdo
-        }
-
-        doc.setTextColor(0, 0, 0); // Cor do texto preto
-        doc.setFontSize(13); // Tamanho da fonte menor para o texto normal
-        doc.setFont('helvetica', 'normal'); // Fonte normal
-
+        // Números de Desafio
         doc.addPage();
+        currentPage++;
+        addHeaderFooter(currentPage);
+        cursorY = topMargin;
 
-        addTextWithPageCheck('Reforço da Importância dos Números', 22, 'bold', [128, 0, 128], 10, 20,
-          lineHeightFactor);
+        addChapter('6. Os Seus Números de Desafio', 'Os Portais de Evolução e Crescimento Conquistado');
+        addText('Na sabedoria cabalística, desafios não são obstáculos para punir, mas sim mestres que despertam habilidades latentes. Conheça as suas quatro grandes lições de vida:');
 
-        const endY13 = addTextWithPageCheck(
-          "\nOs números são mais do que simples dígitos; eles são símbolos poderosos que ressoam com as energias do universo e com sua essência pessoal. Incorporá-los em sua vida diária pode abrir portas para novas oportunidades, atrair prosperidade e trazer um sentido de harmonia e alinhamento com as forças cósmicas que influenciam seu destino. \n\nUtilizar seus números em decisões importantes e pequenas escolhas cotidianas é uma maneira prática de aumentar suas chances de sucesso e bem-estar. Seja agendando compromissos em datas favoráveis, escolhendo números de assentos ou mesas, ou até mesmo usando-os em suas senhas, cada pequena ação pode acumular energias positivas e direcioná-las para você. \n\nMensagem Final de Incentivo \nLembre-se, você tem nas mãos uma ferramenta poderosa para transformar sua vida de maneira significativa. Os números foram cuidadosamente selecionados para ressoar com suas energias astrológicas únicas. Ao utilizar este mapa, você está se alinhando com as forças do universo que trabalham a seu favor. \n\nAcredite no poder dos números e na capacidade que eles têm de influenciar sua vida positivamente. Permita que essa nova abordagem traga mais clareza, confiança e sucesso em suas escolhas diárias. Cada passo que você dá com a orientação dos seus números da sorte é um passo em direção a uma vida mais próspera e plena. \n\nEstamos juntos nessa jornada, e eu estou aqui para apoiá-la em cada etapa do caminho. Confie no processo, siga suas intuições e aproveite as maravilhas que seus números da sorte podem trazer. Um grande abraço, e que a sorte esteja sempre ao seu lado! \n\nCódigos da Alma",
-          20, 'normal', [0, 0, 0], 10, 20, lineHeightFactor);
-
-        let nextContentY13 = endY13 + 10;
-
-        // Verificar a distância até o final da página
-        if (nextContentY13 + 10 > pageHeight) {
-          doc.addPage();
-          rectY = 10; // Reinicia no topo da nova página
-        } else {
-          rectY += rectHeight + 10; // Incrementar nextContentY para continuar adicionando mais conteúdo
+        if (this.challengeNumbers) {
+          if (this.challengeNumbers.first) {
+            addChapter('Primeiro Desafio: Lição da Juventude (Vibração ' + this.challengeNumbers.first + ')');
+            addText(this.challengeNumbers.firstText);
+          }
+          if (this.challengeNumbers.second) {
+            addChapter('Segundo Desafio: Lição da Maturidade Jovem (Vibração ' + this.challengeNumbers.second + ')');
+            addText(this.challengeNumbers.secondText);
+          }
+          if (this.challengeNumbers.third) {
+            addChapter('Terceiro Desafio: Lição da Meia-Idade (Vibração ' + this.challengeNumbers.third + ')');
+            addText(this.challengeNumbers.thirdText);
+          }
+          if (this.challengeNumbers.main) {
+            addChapter('Desafio Principal: O Grande Mestre da Vida (Vibração ' + this.challengeNumbers.main + ')');
+            addText(this.challengeNumbers.mainText);
+          }
         }
 
-        console.log(nextContentY13);
+        // Conclusão
+        doc.addPage();
+        currentPage++;
+        addHeaderFooter(currentPage);
+        cursorY = topMargin;
+
+        addChapter('7. Ativando os Seus Códigos na Prática', 'Orientações para o Seu Dia a Dia & Bênção Final');
+        addText('Os números que você desvendou neste documento são portais energéticos. Você pode harmonizar-se com eles ao tomar decisões importantes, planejar viagens, assinar contratos e iniciar novos projetos.');
+        addText('Lembre-se sempre: este mapa é a sua bússola divina, mas você é o capitão do seu destino. Caminhe com dignidade, coragem e confiança inabalável.');
+        addText('Estamos sempre aqui para apoiar a sua ascensão. Muita luz, sabedoria e prosperidade em cada passo!');
+
+        cursorY += 6;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.setTextColor(...colPrimary);
+        doc.text('Com carinho e reverência,', margin, cursorY);
+        cursorY += 6;
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(10);
+        doc.setTextColor(...colMuted);
+        doc.text('Equipa Códigos da Alma  •  codigosdaalma.online', margin, cursorY);
 
         return doc;
       },
